@@ -3,10 +3,13 @@ package com.cloudstore.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
+
 
 public abstract class AbstractUserController {
 
-	protected ArrayList<String> listUser() {
+	protected ArrayList<String> listUser(HttpServletRequest request) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -18,8 +21,10 @@ public abstract class AbstractUserController {
 		return null;
 	}
 
-	protected Object deleteUsers() {
+	protected Object deleteUser() {
 		return null;
 	}
+
+
 
 }

@@ -3,13 +3,14 @@ package com.cloudstore.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
+
 
 public class ShopController extends AbstractUserController {
 
-	@Override
-	protected ArrayList<String> listUser() {
+	protected ArrayList<String> listUser(HttpServletRequest request) {
 		// TODO Auto-generated method stub
-		return super.listUser();
+		return super.listUser(request);
 	}
 
 	@Override
@@ -25,9 +26,9 @@ public class ShopController extends AbstractUserController {
 	}
 
 	@Override
-	protected Object deleteUsers() {
+	protected Object deleteUser() {
 		// TODO Auto-generated method stub
-		return super.deleteUsers();
+		return super.deleteUser();
 	}
 
 }

@@ -1,6 +1,6 @@
 package com.cloudstore.service;
 
+public class CustomerService {
 
-public class CustomerService implements UserService {
-
+//TODO How to prevent multiple registration attack. How about using captcha similar to that of binance
 }
