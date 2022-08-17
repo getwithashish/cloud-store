@@ -21,7 +21,7 @@ public class WebSecurityConfig {
 	private static final String[] WHITE_LIST_URLS = { 
 			"/user/register", 
 			"/user/login", 
-			"/user/verifyregistration" };
+			"/user/verifyRegistration" };
 
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

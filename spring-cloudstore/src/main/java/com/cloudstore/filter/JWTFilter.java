@@ -19,7 +19,7 @@ import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.cloudstore.entity.UserAuthenticationEntity;
-import com.cloudstore.service.UserLoginServiceInterface;
+import com.cloudstore.service.authentication.UserLoginServiceInterface;
 import com.cloudstore.utility.JWTUtility;
 
 
@@ -68,7 +68,7 @@ public class JWTFilter extends OncePerRequestFilter {
 		Collection<String> excludeUrlPatterns = new ArrayList<>();
 		excludeUrlPatterns.add("/user/register");
 		excludeUrlPatterns.add("/user/login");
-		excludeUrlPatterns.add("/user/verifyregistration");
+		excludeUrlPatterns.add("/user/verifyRegistration");
 
 		AntPathMatcher pathMatcher = new AntPathMatcher();
 		return excludeUrlPatterns.stream().anyMatch(p -> pathMatcher.match(p, request.getServletPath()));

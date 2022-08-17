@@ -1,4 +1,4 @@
-package com.cloudstore.service;
+package com.cloudstore.service.authentication;
 
 
 import java.util.Calendar;
@@ -7,9 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.cloudstore.entity.CustomerEntity;
+import com.cloudstore.entity.ShopEntity;
 import com.cloudstore.entity.UserAuthenticationEntity;
 import com.cloudstore.entity.VerificationTokenEntity;
 import com.cloudstore.model.UserRegistrationModel;
+import com.cloudstore.repository.CustomerRepository;
+import com.cloudstore.repository.ShopRepository;
 import com.cloudstore.repository.UserAuthenticationRepository;
 import com.cloudstore.repository.VerificationTokenRepository;
 
@@ -25,6 +29,12 @@ public class UserRegistrationServiceImpl implements UserRegistrationServiceInter
 
 	@Autowired
 	private VerificationTokenRepository verificationTokenRepository;
+	
+	@Autowired
+	private CustomerRepository customerRepository;
+	
+	@Autowired
+	private ShopRepository shopRepository;
 
 	@Override
 	public UserAuthenticationEntity registerUser(UserRegistrationModel userRegistrationModel) {
@@ -32,7 +42,7 @@ public class UserRegistrationServiceImpl implements UserRegistrationServiceInter
 		user.setFullName(userRegistrationModel.getFullName());
 		user.setEmail(userRegistrationModel.getEmail());
 		user.setPassword(passwordEncoder.encode(userRegistrationModel.getPassword()));
-		user.setRole("");
+		user.setRole(userRegistrationModel.getRole());
 
 		userAuthenticationRepository.save(user);
 		return user;
@@ -61,8 +71,33 @@ public class UserRegistrationServiceImpl implements UserRegistrationServiceInter
 
 		user.setEnabled(true);
 		userAuthenticationRepository.save(user);
+		verificationTokenRepository.delete(verificationTokenEntity);
 		return "valid";
 
+	}
+
+	@Override
+	public void saveToDB(String token) {
+		VerificationTokenEntity verificationTokenEntity = verificationTokenRepository.findByToken(token);
+		UserAuthenticationEntity user = verificationTokenEntity.getUser();
+		if(user.getRole().equalsIgnoreCase("CUSTOMER")) {
+			CustomerEntity customerEntity = new CustomerEntity();
+			customerEntity.setFullName(user.getFullName());
+			customerEntity.setEmail(user.getEmail());
+			customerEntity.setRole(user.getRole());
+			
+			customerRepository.save(customerEntity);
+		}
+		else if(user.getRole().equalsIgnoreCase("SHOP")) {
+			ShopEntity shopEntity = new ShopEntity();
+			shopEntity.setFullName(user.getFullName());
+			shopEntity.setEmail(user.getEmail());
+			shopEntity.setRole(user.getRole());
+			
+			shopRepository.save(shopEntity);
+		}
+		// TODO Auto-generated method stub
+		
 	}
 
 }

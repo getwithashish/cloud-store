@@ -11,7 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.cloudstore.entity.UserAuthenticationEntity;
-import com.cloudstore.service.UserLoginServiceInterface;
+import com.cloudstore.service.authentication.UserLoginServiceInterface;
 
 
 @Component

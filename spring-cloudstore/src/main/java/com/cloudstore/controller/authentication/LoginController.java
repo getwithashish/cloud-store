@@ -1,4 +1,4 @@
-package com.cloudstore.controller;
+package com.cloudstore.controller.authentication;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cloudstore.entity.UserAuthenticationEntity;
 import com.cloudstore.model.UserLoginModel;
-import com.cloudstore.service.UserLoginServiceInterface;
+import com.cloudstore.service.authentication.UserLoginServiceInterface;
 import com.cloudstore.utility.JWTUtility;
 
 

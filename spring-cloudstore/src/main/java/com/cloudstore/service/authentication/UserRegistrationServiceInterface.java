@@ -1,4 +1,4 @@
-package com.cloudstore.service;
+package com.cloudstore.service.authentication;
 
 
 import com.cloudstore.entity.UserAuthenticationEntity;
@@ -12,5 +12,7 @@ public interface UserRegistrationServiceInterface {
 	void saveVerificationTokenForUser(String token, UserAuthenticationEntity user);
 
 	String validateVerificationToken(String token);
+
+	void saveToDB(String token);
 
 }

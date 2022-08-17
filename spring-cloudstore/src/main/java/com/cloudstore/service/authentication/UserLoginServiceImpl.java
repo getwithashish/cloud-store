@@ -1,4 +1,4 @@
-package com.cloudstore.service;
+package com.cloudstore.service.authentication;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.cloudstore.service;
+package com.cloudstore.service.authentication;
 
 
 import com.cloudstore.entity.UserAuthenticationEntity;
