@@ -2,12 +2,14 @@ package com.cloudstore.service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.cloudstore.entity.CustomerEntity;
 import com.cloudstore.repository.CustomerRepository;
 import com.cloudstore.service.authentication.UserLoginServiceInterface;
 
 
+@Service
 public class CustomerServiceImpl implements CustomerServiceInterface {
 
 	@Autowired

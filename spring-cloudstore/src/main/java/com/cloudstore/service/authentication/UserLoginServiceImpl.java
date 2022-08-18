@@ -31,7 +31,7 @@ public class UserLoginServiceImpl implements UserLoginServiceInterface {
 
 	@Override
 	public void disableUsers(String[] emails) {
-		List<UserAuthenticationEntity> users = userAuthenticationRepository.findAllByEmail(emails);
+		List<UserAuthenticationEntity> users = userAuthenticationRepository.findAllByEmails(emails);
 		for (UserAuthenticationEntity user : users) {
 			user.setEnabled(false);
 		}

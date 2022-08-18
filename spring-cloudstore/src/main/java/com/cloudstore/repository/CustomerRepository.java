@@ -14,7 +14,7 @@ public interface CustomerRepository extends MongoRepository<CustomerEntity, Stri
 	@Query("{email: ?0}")
 	CustomerEntity findByEmail(String email);
 
-	@Query()
+	@Query("{email: {$in: ?0}}")
 	List<CustomerEntity> findAllByEmails(String[] emails);
 
 }

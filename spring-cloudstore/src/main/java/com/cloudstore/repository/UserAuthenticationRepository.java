@@ -14,7 +14,7 @@ public interface UserAuthenticationRepository extends MongoRepository<UserAuthen
 	@Query("{email: ?0}")
 	UserAuthenticationEntity findByEmail(String email);
 
-	@Query()
-	List<UserAuthenticationEntity> findAllByEmail(String[] emails);
+	@Query("{email: {$in: ?0}}")
+	List<UserAuthenticationEntity> findAllByEmails(String[] emails);
 
 }

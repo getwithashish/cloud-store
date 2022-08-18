@@ -81,6 +81,7 @@ public class UserRegistrationServiceImpl implements UserRegistrationServiceInter
 
 	@Override
 	public void saveToDB(String token) {
+		//TODO The below statement won't work as intended because the token is already deleted from the db (as soon as the token is validated)
 		VerificationTokenEntity verificationTokenEntity = verificationTokenRepository.findByToken(token);
 		UserAuthenticationEntity user = verificationTokenEntity.getUser();
 		if (user.getRole().equalsIgnoreCase("CUSTOMER")) {

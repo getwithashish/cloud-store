@@ -14,7 +14,7 @@ public interface ShopRepository extends MongoRepository<ShopEntity, String> {
 	@Query("{email: ?0}")
 	ShopEntity findByEmail(String email);
 
-	@Query()
+	@Query("{email: {$in: ?0}}")
 	List<ShopEntity> findAllByEmails(String[] emails);
 
 }
