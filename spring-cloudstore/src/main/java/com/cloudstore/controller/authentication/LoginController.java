@@ -6,6 +6,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,8 +29,12 @@ public class LoginController {
 	@Autowired
 	private JWTUtility jwtUtility;
 
+	@CrossOrigin("http://localhost:3000")
 	@PostMapping("/user/login")
 	public String loginUser(@RequestBody UserLoginModel userLoginModel) throws Exception {
+
+		// TODO Restructure this code a bit.
+
 		String email = userLoginModel.getEmail();
 		String password = userLoginModel.getPassword();
 		Authentication usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(email, password);
@@ -42,6 +47,6 @@ public class LoginController {
 		final UserAuthenticationEntity user = userLoginService.findByEmail(email);
 		final String token = jwtUtility.generateToken(user);
 		return token;
-		//TODO Check whether enabled or disabled
+		// TODO Check whether enabled or disabled
 	}
 }

@@ -10,7 +10,7 @@ import lombok.Data;
 @Document(collection = "customer_collection")
 @Data
 public class CustomerEntity {
-	
+
 	@Id
 	private String id;
 	private String fullName;
@@ -22,6 +22,5 @@ public class CustomerEntity {
 	private String streetName;
 	private String cityName;
 	private String stateName;
-	
 
 }

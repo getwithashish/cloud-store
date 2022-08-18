@@ -10,7 +10,7 @@ import lombok.Data;
 @Document(collection = "shop_collection")
 @Data
 public class ShopEntity {
-	
+
 	@Id
 	private String id;
 	private String fullName;

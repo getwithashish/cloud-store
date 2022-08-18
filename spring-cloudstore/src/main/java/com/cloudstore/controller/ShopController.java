@@ -1,34 +1,51 @@
 package com.cloudstore.controller;
 
 
-import java.util.ArrayList;
-
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 
-public class ShopController extends AbstractUserController {
+import com.cloudstore.entity.ShopEntity;
+import com.cloudstore.service.ShopServiceInterface;
+import com.cloudstore.utility.JWTExtractor;
+import com.cloudstore.utility.JWTUtility;
 
-	protected ArrayList<String> listUser(HttpServletRequest request) {
-		// TODO Auto-generated method stub
-		return super.listUser(request);
+
+public class ShopController {
+
+	@Autowired
+	private JWTUtility jwtUtility;
+
+	@Autowired
+	private ShopServiceInterface shopService;
+
+	@Autowired
+	private JWTExtractor jwtExtractor;
+
+	@CrossOrigin("http://localhost:3000")
+	@GetMapping("/user/shop")
+	public ShopEntity shopInfo(HttpServletRequest request) {
+		String token = jwtExtractor.extractTokenFromHeader(request);
+		String email = jwtUtility.getUsernameFromToken(token);
+		ShopEntity shop = shopService.shopInfo(email);
+		return shop;
 	}
 
-	@Override
-	protected Object addUser() {
-		// TODO Auto-generated method stub
-		return super.addUser();
-	}
+//	protected Object addUser() {
+//		// TODO Auto-generated method stub
+//		return super.addUser();
+//	}
 
-	@Override
-	protected Object editUser() {
-		// TODO Auto-generated method stub
-		return super.editUser();
-	}
-
-	@Override
-	protected Object deleteUser() {
-		// TODO Auto-generated method stub
-		return super.deleteUser();
+	@CrossOrigin("http://localhost:3000")
+	@DeleteMapping("/user/shop")
+	public ShopEntity disableShop(HttpServletRequest request) {
+		String token = jwtExtractor.extractTokenFromHeader(request);
+		String email = jwtUtility.getUsernameFromToken(token);
+		ShopEntity shop = shopService.disableShop(email);
+		return shop;
 	}
 
 }

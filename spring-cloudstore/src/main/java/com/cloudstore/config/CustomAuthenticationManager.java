@@ -35,10 +35,9 @@ public class CustomAuthenticationManager implements AuthenticationManager {
 						authentication.getCredentials());
 			}
 		} else {
-			throw new BadCredentialsException("Wrong Username");
+			throw new BadCredentialsException("Credentials is wrong");
+			// TODO Debug this
 		}
-
-		// TODO What is the above warning
 		return null;
 	}
 

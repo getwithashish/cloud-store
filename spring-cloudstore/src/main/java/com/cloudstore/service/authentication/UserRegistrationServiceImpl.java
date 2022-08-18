@@ -21,6 +21,9 @@ import com.cloudstore.repository.VerificationTokenRepository;
 @Service
 public class UserRegistrationServiceImpl implements UserRegistrationServiceInterface {
 
+	// TODO How to prevent multiple registration attack. How about using captcha
+	// similar to that of binance
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
@@ -29,10 +32,10 @@ public class UserRegistrationServiceImpl implements UserRegistrationServiceInter
 
 	@Autowired
 	private VerificationTokenRepository verificationTokenRepository;
-	
+
 	@Autowired
 	private CustomerRepository customerRepository;
-	
+
 	@Autowired
 	private ShopRepository shopRepository;
 
@@ -80,24 +83,23 @@ public class UserRegistrationServiceImpl implements UserRegistrationServiceInter
 	public void saveToDB(String token) {
 		VerificationTokenEntity verificationTokenEntity = verificationTokenRepository.findByToken(token);
 		UserAuthenticationEntity user = verificationTokenEntity.getUser();
-		if(user.getRole().equalsIgnoreCase("CUSTOMER")) {
+		if (user.getRole().equalsIgnoreCase("CUSTOMER")) {
 			CustomerEntity customerEntity = new CustomerEntity();
 			customerEntity.setFullName(user.getFullName());
 			customerEntity.setEmail(user.getEmail());
 			customerEntity.setRole(user.getRole());
-			
+
 			customerRepository.save(customerEntity);
-		}
-		else if(user.getRole().equalsIgnoreCase("SHOP")) {
+		} else if (user.getRole().equalsIgnoreCase("SHOP")) {
 			ShopEntity shopEntity = new ShopEntity();
 			shopEntity.setFullName(user.getFullName());
 			shopEntity.setEmail(user.getEmail());
 			shopEntity.setRole(user.getRole());
-			
+
 			shopRepository.save(shopEntity);
 		}
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

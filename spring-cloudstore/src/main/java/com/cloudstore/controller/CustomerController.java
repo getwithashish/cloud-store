@@ -1,53 +1,53 @@
 package com.cloudstore.controller;
 
 
-import java.util.ArrayList;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cloudstore.entity.CustomerEntity;
+import com.cloudstore.service.CustomerServiceInterface;
+import com.cloudstore.utility.JWTExtractor;
 import com.cloudstore.utility.JWTUtility;
 
 
 @RestController
-public class CustomerController extends AbstractUserController {
-	
+public class CustomerController {
+
 	@Autowired
 	private JWTUtility jwtUtility;
 
-	@GetMapping("/user/list")
-	@Override
-	protected ArrayList<String> listUser(HttpServletRequest request) {
-		String authorizationHeader = request.getHeader("Authorization");
-		String token = authorizationHeader.substring(7);
+	@Autowired
+	private CustomerServiceInterface customerService;
+
+	@Autowired
+	private JWTExtractor jwtExtractor;
+
+	@CrossOrigin("http://localhost:3000")
+	@GetMapping("/user/customer")
+	public CustomerEntity customerInfo(HttpServletRequest request) {
+		String token = jwtExtractor.extractTokenFromHeader(request);
 		String email = jwtUtility.getUsernameFromToken(token);
-		
-		
-		// TODO Auto-generated method stub
-		return null;
+		CustomerEntity customer = customerService.customerInfo(email);
+		return customer;
 	}
 
-	@Override
-	protected Object addUser() {
-		// TODO Auto-generated method stub
-		return super.addUser();
-	}
-
-//	@Override
-//	protected Object editUser() {
+//	protected Object addUser() {
 //		// TODO Auto-generated method stub
-//		return super.editUser();
+//		return null;
 //	}
 
-	@Override
-	protected Object deleteUser() {
-		// TODO Auto-generated method stub
-		return super.deleteUser();
+	@CrossOrigin("http://localhost:3000")
+	@DeleteMapping("/user/customer")
+	public CustomerEntity disableCustomer(HttpServletRequest request) {
+		String token = jwtExtractor.extractTokenFromHeader(request);
+		String email = jwtUtility.getUsernameFromToken(token);
+		CustomerEntity customer = customerService.disableCustomer(email);
+		return customer;
 	}
 
 }

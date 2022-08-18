@@ -1,6 +1,8 @@
 package com.cloudstore.service.authentication;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,22 @@ public class UserLoginServiceImpl implements UserLoginServiceInterface {
 	public UserAuthenticationEntity findByEmail(String email) {
 		UserAuthenticationEntity user = userAuthenticationRepository.findByEmail(email);
 		return user;
+	}
+
+	@Override
+	public void disableUser(String email) {
+		UserAuthenticationEntity user = userAuthenticationRepository.findByEmail(email);
+		user.setEnabled(false);
+		userAuthenticationRepository.save(user);
+	}
+
+	@Override
+	public void disableUsers(String[] emails) {
+		List<UserAuthenticationEntity> users = userAuthenticationRepository.findAllByEmail(emails);
+		for (UserAuthenticationEntity user : users) {
+			user.setEnabled(false);
+		}
+		userAuthenticationRepository.saveAll(users);
 	}
 
 }

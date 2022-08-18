@@ -8,4 +8,8 @@ public interface UserLoginServiceInterface {
 
 	UserAuthenticationEntity findByEmail(String email);
 
+	void disableUser(String email);
+
+	void disableUsers(String[] emails);
+
 }

@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,6 +27,7 @@ public class RegistrationController {
 	@Autowired
 	private ApplicationEventPublisher publisher;
 
+	@CrossOrigin("http://localhost:3000")
 	@PostMapping("/user/register")
 	public String registerUser(@RequestBody UserRegistrationModel userRegistrationModel,
 			final HttpServletRequest request) {
@@ -34,13 +36,14 @@ public class RegistrationController {
 		RegistrationCompleteEvent registrationCompleteEvent = new RegistrationCompleteEvent(user, applicationBaseUrl);
 		publisher.publishEvent(registrationCompleteEvent);
 		return "SUCCESS";
-		//TODO Check whether user already exists
+		// TODO Check whether user already exists
 	}
 
 	private String getApplicationUrl(HttpServletRequest request) {
 		return "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
 	}
 
+	@CrossOrigin("http://localhost:3000")
 	@GetMapping("/user/verifyRegistration")
 	private String verifyRegistration(@RequestParam("token") String token) {
 		String verificationStatus = userRegistrationService.validateVerificationToken(token);

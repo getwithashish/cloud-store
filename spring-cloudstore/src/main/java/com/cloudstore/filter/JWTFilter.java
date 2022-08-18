@@ -29,11 +29,16 @@ public class JWTFilter extends OncePerRequestFilter {
 	@Autowired
 	private JWTUtility jwtUtility;
 
+	@Autowired
 	private UserLoginServiceInterface userLoginService;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
+
+		// TODO Check whether the user is enabled or not. If the user account has been
+		// disabled, then the user
+		// should not be able to do any operations until enabled again.
 
 		String authorization = request.getHeader("Authorization");
 		String token = null;

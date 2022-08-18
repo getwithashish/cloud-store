@@ -1,6 +1,8 @@
 package com.cloudstore.repository;
 
 
+import java.util.List;
+
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
@@ -11,5 +13,8 @@ public interface UserAuthenticationRepository extends MongoRepository<UserAuthen
 
 	@Query("{email: ?0}")
 	UserAuthenticationEntity findByEmail(String email);
+
+	@Query()
+	List<UserAuthenticationEntity> findAllByEmail(String[] emails);
 
 }

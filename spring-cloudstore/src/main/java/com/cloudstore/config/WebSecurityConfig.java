@@ -11,6 +11,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.cloudstore.filter.JWTFilter;
 
+//TODO Put a limitation for the number of users that can be added or deleted or so on, in a single request.
+//		Also, include pagination for responses.
+
 
 @EnableWebSecurity
 public class WebSecurityConfig {
@@ -18,27 +21,15 @@ public class WebSecurityConfig {
 	@Autowired
 	private JWTFilter jwtFilter;
 
-	private static final String[] WHITE_LIST_URLS = { 
-			"/user/register", 
-			"/user/login", 
-			"/user/verifyRegistration" };
+	private static final String[] WHITE_LIST_URLS = { "/user/register", "/user/login", "/user/verifyRegistration",
+			"/user/customer", "/user/shop", "/admin/customers", "/admin/shops" };
 
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.addFilterAt(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
-		http.cors()
-		.and()
-		.csrf()
-		.disable()
-		.authorizeHttpRequests()
-		.antMatchers(WHITE_LIST_URLS)
-		.permitAll()
-		.anyRequest()
-		.authenticated()
-		.and()
-		.sessionManagement()
-		.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		http.cors().and().csrf().disable().authorizeHttpRequests().antMatchers(WHITE_LIST_URLS).permitAll().anyRequest()
+				.authenticated().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
 		return http.build();
 	}
