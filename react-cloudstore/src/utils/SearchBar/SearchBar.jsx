@@ -14,7 +14,7 @@ let SearchBar = () => {
         <hr className={css.hr} />
         <div className={css.srch2}>
             <div className={css.iconBox}><img className={css.icon} src={searchIcon} alt="search icon" /></div>
-            <input type="text" placeholder='Search for restaurant, cuisine or a dish' className={css.inpt} />
+            <input type="text" placeholder='Search for products' className={css.inpt} />
         </div>
         <div className={css.dropdownBox} style={{ display: "none" }}>
             <div className={css.dropdown}>

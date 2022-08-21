@@ -1,6 +1,8 @@
 .bodySize {
-    width: 70%;
-    margin: auto;
+    width: 80%;
+    
+    margin-left: 30px;
+    /* margin-left: 10px; */
 }
 
 .chooseTypeCards {
@@ -8,7 +10,7 @@
     /* max-height: 500px; */
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    /* justify-content: center; */
 }
 
 @media all and (max-width: 768px) {

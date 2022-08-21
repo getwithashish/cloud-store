@@ -6,9 +6,15 @@ let SmallCard = ({ imgSrc, text, link }) => {
     return <Link to={link} className={css.card}>
         <div className={css.imgBox} >
             <img src={imgSrc} alt="card image" className={css.img} />
+            
         </div>
         <div className={css.txtBx}>
             <div className={css.txt}>{text}</div>
+        </div>
+
+            <div className={css.btnBx}>
+                <button className={css.btn} >Buy</button>
+
         </div>
     </Link>
 }

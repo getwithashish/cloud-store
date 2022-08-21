@@ -10,16 +10,22 @@
   "dependencies": {
     "@emotion/react": "^11.10.0",
     "@emotion/styled": "^11.10.0",
+    "@material-ui/core": "^4.12.4",
+    "@material-ui/icons": "^4.11.3",
     "@mui/icons-material": "^5.8.4",
-    "@mui/material": "^5.10.0",
+    "@mui/material": "^5.10.1",
+    "@mui/styled-engine-sc": "^5.10.1",
     "@mui/x-data-grid": "^5.15.2",
     "axios": "^0.27.2",
     "formik": "^2.2.9",
-    "react": "^18.0.0",
+    "material-table": "^2.0.3",
+    "material-ui": "^1.0.0-beta.47",
+    "react": "^18.2.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "6",
     "react-slick": "^0.29.0",
     "slick-carousel": "^1.8.1",
+    "styled-components": "^5.3.5",
     "x-data-grid": "^2.1.0",
     "yup": "^0.32.11"
   },
@@ -30,4 +36,3 @@
     "vite": "^2.9.9"
   }
 }
-

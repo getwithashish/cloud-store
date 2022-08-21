@@ -42,12 +42,15 @@ let Login = ({ setAuth, setLoggedIn }) => {
                 {/* <input className={loginCss.phoneInp} type="tel" placeholder='Phone number ...' onChange={(e) => setPhone(e.target.value)} /> */}
                 <input className={loginCss.inpBox} name="email" type="email" placeholder='Email' onChange={emailLoginHandleInput} />
                 <input className={loginCss.inpBox} name="password" type="password" placeholder='Password' onChange={passwordLoginHandleInput} />
+                
+                <div className={loginCss.forgotPass}>Forgot Password</div>
+                
                 {/* <button  className={phone?.length === 10 ? [loginCss.btn, loginCss.Sbtn].join(" ") : loginCss.btn} onClick={()=> phone?.length === 10 ? setOTPModal(true) : ""}>Send OTP</button> */}
                 <button className={loginCss.btn} onClick={() => {
 
                     
                     
-                    const loginUrl = 'http://localhost:8080/login';
+                    const loginUrl = 'http://localhost:8080/user/login';
                     const loginData = {
                         email: loginState.email,
                         password: loginState.password

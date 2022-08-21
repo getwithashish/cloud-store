@@ -87,12 +87,13 @@ let Signup = ({ setAuth }) => {
                     </span>
                 </span> */}
                 <button className={signupCss.btn} onClick={() => {
-                    const registerUrl = 'http://localhost:8080/register';
+                    const registerUrl = 'http://localhost:8080/user/register';
 
                     const registerData = {
                         fullName: registerState.fullName,
                         email: registerState.email,
-                        password: registerState.password
+                        password: registerState.password,
+                        role: "SHOP"
                     };
                     
                     axios

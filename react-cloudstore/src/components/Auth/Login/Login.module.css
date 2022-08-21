@@ -101,6 +101,13 @@
     margin: 0 10px;
 }
 
+.forgotPass {
+    margin: 10px 5px;
+    text-decoration: none;
+    color: rgb(239, 79, 95);
+    cursor: pointer;
+}
+
 .socialSignupBox {
     padding: 10px;
     margin: 10px 0;

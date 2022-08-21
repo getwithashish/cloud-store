@@ -12,6 +12,7 @@ import SkipedPage from './pages/SkipedPage/SkipedPage'
 import UserSettingsPage from './pages/UserSettingsPage/UserSettingsPage'
 
 import AdminPage from './pages/AdminPage/Admin'
+// import CustomerDetails from './pages/CustomerDetails/CustomerDetails'
 
 import UserList from './pages/UserList/UserList'
 
@@ -41,6 +42,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <Route path="*" element={<ErrorPage />} />
 
       <Route path="/admin" element={<AdminPage />} />
+      {/* <Route path="/customerDetails" element={<CustomerDetails />} /> */}
+
     </Routes>
   </BrowserRouter>
 )

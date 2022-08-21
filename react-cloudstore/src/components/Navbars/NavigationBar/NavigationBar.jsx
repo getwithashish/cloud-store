@@ -29,11 +29,11 @@ let NavigationBar = ({ toogleMenu, setToggleMenu, page }) => {
         <img className={css.menuBar} src={menuBar} alt='menu bar' onClick={() => setToggleMenu(val => !val)} />
         <div className={css.navbarInner}>
             <div className={css.leftSide}>
-                <img src={mobileHand} alt="mobile in hand icon" className={css.img} />
-                <Link to='/get-the-app' className={css.appTxt}>Get The App</Link>
+                {/* <img src={mobileHand} alt="mobile in hand icon" className={css.img} /> */}
+                {/* <Link to='/get-the-app' className={css.appTxt}>Get The App</Link> */}
             </div>
             <div className={css.rightSide}>
-                {page !== 'add-restaurant' ? <Link to='/add-restaurant' className={css.menuItem} >Add restuarant</Link> : ''}
+                {/* {page !== 'add-restaurant' ? <Link to='/add-restaurant' className={css.menuItem} >Add restuarant</Link> : ''} */}
                 {loggedIn ? (<div className={css.menuItem}>
                     <div className={css.profile} onClick={() => setMenuDisplay(val => !val)}>
                         <img src={profilePic} alt="profile pic" className={css.profilePic} />
@@ -46,6 +46,13 @@ let NavigationBar = ({ toogleMenu, setToggleMenu, page }) => {
                                 Profile
                             </div>
                         </Link>
+
+                        <Link to='/admin' className={css.menuItemLinkTxt}>
+                            <div className={css.menuItemLink}>
+                                Admin
+                            </div>
+                        </Link>
+
                         <Link to='/user/ll/notifications' className={css.menuItemLinkTxt}>
                             <div className={css.menuItemLink}>
                                 Notifications
