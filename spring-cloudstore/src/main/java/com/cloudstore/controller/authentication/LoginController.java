@@ -17,6 +17,7 @@ import com.cloudstore.service.authentication.UserLoginServiceInterface;
 import com.cloudstore.utility.JWTUtility;
 
 
+@CrossOrigin("http://localhost:3000")
 @RestController
 public class LoginController {
 

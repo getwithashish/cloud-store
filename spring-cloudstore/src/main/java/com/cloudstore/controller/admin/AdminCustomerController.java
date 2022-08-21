@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cloudstore.entity.CustomerEntity;
+import com.cloudstore.model.DeleteModel;
 import com.cloudstore.service.admin.AdminCustomerServiceInterface;
 
 
@@ -40,7 +41,8 @@ public class AdminCustomerController {
 
 	@CrossOrigin("http://localhost:3000")
 	@DeleteMapping("/admin/customers")
-	public String disableCustomers(@RequestBody String[] emails) {
+	public String disableCustomers(@RequestBody DeleteModel deleteModel) {
+		String emails[] = deleteModel.getEmails();
 		adminCustomerService.disableCustomers(emails);
 
 		return "SUCCESSFULLY DISABLED: \n" + emails;

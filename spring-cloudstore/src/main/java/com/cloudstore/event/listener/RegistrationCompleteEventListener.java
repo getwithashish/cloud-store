@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import com.cloudstore.entity.UserAuthenticationEntity;
 import com.cloudstore.event.RegistrationCompleteEvent;
 import com.cloudstore.service.authentication.UserRegistrationServiceInterface;
+import com.cloudstore.service.authentication.VerifyRegistrationServiceInterface;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,13 +20,13 @@ import lombok.extern.slf4j.Slf4j;
 public class RegistrationCompleteEventListener implements ApplicationListener<RegistrationCompleteEvent> {
 
 	@Autowired
-	private UserRegistrationServiceInterface userRegistrationServiceInterface;
+	private VerifyRegistrationServiceInterface verifyRegistrationService;
 
 	@Override
 	public void onApplicationEvent(RegistrationCompleteEvent event) {
 		UserAuthenticationEntity user = event.getUser();
 		String token = UUID.randomUUID().toString();
-		userRegistrationServiceInterface.saveVerificationTokenForUser(token, user);
+		verifyRegistrationService.saveVerificationTokenForUser(token, user);
 		String url = event.getApplicationUrl() + "/user/verifyRegistration?token=" + token;
 		log.info("Click the link to verify: {}", url);
 	}

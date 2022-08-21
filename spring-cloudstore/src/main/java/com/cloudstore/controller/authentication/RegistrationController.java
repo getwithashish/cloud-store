@@ -18,6 +18,7 @@ import com.cloudstore.model.UserRegistrationModel;
 import com.cloudstore.service.authentication.UserRegistrationServiceInterface;
 
 
+@CrossOrigin("http://localhost:3000")
 @RestController
 public class RegistrationController {
 
@@ -42,17 +43,4 @@ public class RegistrationController {
 	private String getApplicationUrl(HttpServletRequest request) {
 		return "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
 	}
-
-	@CrossOrigin("http://localhost:3000")
-	@GetMapping("/user/verifyRegistration")
-	private String verifyRegistration(@RequestParam("token") String token) {
-		String verificationStatus = userRegistrationService.validateVerificationToken(token);
-		if (verificationStatus.equalsIgnoreCase("valid")) {
-			userRegistrationService.saveToDB(token);
-			return "User Verification Successful";
-		} else {
-			return "User Verification failed";
-		}
-	}
-
 }
