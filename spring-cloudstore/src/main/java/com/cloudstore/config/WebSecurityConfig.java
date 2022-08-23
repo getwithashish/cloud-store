@@ -21,15 +21,31 @@ public class WebSecurityConfig {
 	@Autowired
 	private JWTFilter jwtFilter;
 
+//	private static final String[] WHITE_LIST_URLS = { "/user/register", "/user/login", "/user/verifyRegistration",
+//			"/user/customer", "/user/shop", "/admin/customers", "/admin/shops" };
+	
 	private static final String[] WHITE_LIST_URLS = { "/user/register", "/user/login", "/user/verifyRegistration",
-			"/user/customer", "/user/shop", "/admin/customers", "/admin/shops" };
+			"/user/customer", "/user/shop"};
 
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.addFilterAt(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-		
-		http.cors().and().csrf().disable().authorizeHttpRequests().antMatchers(WHITE_LIST_URLS).permitAll().anyRequest()
-				.authenticated().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+		http.cors()
+				.and()
+				.csrf()
+				.disable()
+				.authorizeHttpRequests()
+				.antMatchers(WHITE_LIST_URLS)
+				.permitAll()
+				.antMatchers("/admin/**").hasAuthority("ADMIN")
+				.antMatchers("/user/customer/**").hasAuthority("CUSTOMER")
+				.antMatchers("/user/shop/**").hasAuthority("SHOP")
+				.anyRequest()
+				.authenticated()
+				.and()
+				.sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
 		return http.build();
 	}

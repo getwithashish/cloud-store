@@ -1,6 +1,8 @@
 package com.cloudstore.config;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -31,8 +33,11 @@ public class CustomAuthenticationManager implements AuthenticationManager {
 		String password = user.getPassword();
 		if (user != null) {
 			if (passwordEncoder.matches(rawPassword, password)) {
-				return new UsernamePasswordAuthenticationToken(authentication.getPrincipal(),
-						authentication.getCredentials());
+//				return new UsernamePasswordAuthenticationToken(authentication.getPrincipal(),
+//						authentication.getCredentials());
+				return new UsernamePasswordAuthenticationToken(user, 
+						null, 
+						user.getAuthorities(List.of(user.getRole())));
 			}
 		} else {
 			throw new BadCredentialsException("Credentials is wrong");

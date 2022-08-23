@@ -36,16 +36,19 @@ public class LoginController {
 
 		// TODO Restructure this code a bit.
 
+		Authentication authenticatedUsernamePasswordAuthenticationToken = null;
 		String email = userLoginModel.getEmail();
 		String password = userLoginModel.getPassword();
 		Authentication usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(email, password);
 		try {
-			authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+			authenticatedUsernamePasswordAuthenticationToken = 
+					authenticationManager.authenticate(usernamePasswordAuthenticationToken);
 		} catch (BadCredentialsException e) {
 			throw new Exception("INVALID CREDENTIALS ", e);
 		}
 
-		final UserAuthenticationEntity user = userLoginService.findByEmail(email);
+//		final UserAuthenticationEntity user = userLoginService.findByEmail(email);
+		final UserAuthenticationEntity user = (UserAuthenticationEntity)authenticatedUsernamePasswordAuthenticationToken.getPrincipal();
 		final String token = jwtUtility.generateToken(user);
 		return token;
 		// TODO Check whether enabled or disabled

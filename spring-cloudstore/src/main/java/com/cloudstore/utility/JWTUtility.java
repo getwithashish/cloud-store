@@ -6,6 +6,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -35,7 +36,9 @@ public class JWTUtility implements Serializable {
 
 	public String generateToken(UserAuthenticationEntity user) {
 		Map<String, Object> claims = new HashMap<>();
-		return doGenerateToken(claims, user.getEmail());
+//		return doGenerateToken(claims, user.getEmail());
+		
+		return doGenerateToken(user, user.getEmail());
 	}
 
 	private Key generateSecretKey() {
@@ -44,12 +47,28 @@ public class JWTUtility implements Serializable {
 		return signatureSecretKey;
 	}
 
-	private String doGenerateToken(Map<String, Object> claims, String subject) {
+//	private String doGenerateToken(Map<String, Object> claims, String subject) {
+//		return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
+//				.setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
+//				.signWith(signatureSecretKey).compact();
+////				.signWith(signatureSecretKey, SignatureAlgorithm.HS512).compact();
+//	}
+	
+	private String doGenerateToken(UserAuthenticationEntity user, String subject) {
+		Map<String, Object> claimsMap = new HashMap<>();
+		claimsMap.put("authorities", user.getAuthorities(List.of(user.getRole())));
+		Claims claims = Jwts.claims(claimsMap);
 		return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
 				.setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
 				.signWith(signatureSecretKey).compact();
-//				.signWith(signatureSecretKey, SignatureAlgorithm.HS512).compact();
 	}
+	
+	
+	public Claims getBody(String token) {
+		return Jwts.parserBuilder().setSigningKey(signatureSecretKey).build().parseClaimsJws(token).getBody();
+	}
+	
+	
 
 	public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
 		final Claims claims = getAllClaimsFromToken(token);
