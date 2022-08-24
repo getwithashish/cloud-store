@@ -38,4 +38,15 @@ public class UserLoginServiceImpl implements UserLoginServiceInterface {
 		userAuthenticationRepository.saveAll(users);
 	}
 
+	@Override
+	public void enableUsers(String[] emails) {
+		List<UserAuthenticationEntity> users = userAuthenticationRepository.findAllByEmails(emails);
+		for (UserAuthenticationEntity user : users) {
+			user.setEnabled(true);
+		}
+		userAuthenticationRepository.saveAll(users);
+		
+	}
+
+
 }

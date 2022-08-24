@@ -7,11 +7,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cloudstore.entity.CustomerEntity;
 import com.cloudstore.entity.ShopEntity;
 import com.cloudstore.model.DeleteModel;
+import com.cloudstore.model.EditModel;
+import com.cloudstore.model.EnableModel;
 import com.cloudstore.service.admin.AdminShopServiceInterface;
 
 
@@ -32,8 +37,11 @@ public class AdminShopController {
 		return null;
 	}
 
-	protected Object editShopUser() {
-		return null;
+	@CrossOrigin("http://localhost:3000")
+	@PutMapping("/admin/shops")
+	protected ShopEntity editCustomers(@RequestBody EditModel editModel) {
+		ShopEntity shop = adminShopService.editCustomers(editModel);
+		return shop;
 	}
 
 	@CrossOrigin("http://localhost:3000")
@@ -41,6 +49,15 @@ public class AdminShopController {
 	public String disableShops(@RequestBody DeleteModel deleteModel) {
 		String[] emails = deleteModel.getEmails();
 		adminShopService.disableShops(emails);
+
+		return "SUCCESSFULLY DISABLED: \n" + emails;
+	}
+	
+	@CrossOrigin("http://localhost:3000")
+	@PatchMapping("/admin/shops")
+	public String enableShops(@RequestBody EnableModel enableModel) {
+		String[] emails = enableModel.getEmails();
+		adminShopService.enableShops(emails);
 
 		return "SUCCESSFULLY DISABLED: \n" + emails;
 	}

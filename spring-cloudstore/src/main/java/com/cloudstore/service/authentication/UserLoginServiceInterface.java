@@ -12,4 +12,6 @@ public interface UserLoginServiceInterface {
 
 	void disableUsers(String[] emails);
 
+	void enableUsers(String[] emails);
+
 }

@@ -28,7 +28,7 @@ public class RegistrationController {
 	@Autowired
 	private ApplicationEventPublisher publisher;
 
-	@CrossOrigin("http://localhost:3000")
+//	@CrossOrigin("http://localhost:3000")
 	@PostMapping("/user/register")
 	public String registerUser(@RequestBody UserRegistrationModel userRegistrationModel,
 			final HttpServletRequest request) {
