@@ -82,8 +82,9 @@
 <script>
 import axios from "axios";
 import { toast } from "bulma-toast";
+// import { toast } from "@import 'bulma/css/bulma.css'"
 
-import useValidate from "@vuelidate/core";
+import useVuelidate from "@vuelidate/core";
 import {
   required,
   email,
@@ -129,7 +130,7 @@ export default {
       };
     });
 
-    const v$ = useValidate(rules, state);
+    const v$ = useVuelidate(rules, state);
 
     return {
       state,
