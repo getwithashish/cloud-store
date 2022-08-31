@@ -90,7 +90,9 @@
       <div class="lds-dual-ring"></div>
     </div>
 
-    <section class="section">
+    <!-- I added 'style-section' class below in order to edit it's properties in other templates, if I want.
+        But, when I changed the style properties, it reflects in every other page as well. That's a problem. -->
+    <section class="section style-section">
       <router-view />
     </section>
 

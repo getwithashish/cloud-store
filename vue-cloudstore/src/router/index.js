@@ -14,85 +14,87 @@ import MyAccount from '../views/MyAccount.vue'
 import Checkout from '../views/Checkout.vue'
 import Success from '../views/Success.vue'
 
-import AdminCustomer from '../views/AdminCustomers.vue'
+import AdminCustomer from '../modules/Admin/views/AdminCustomers/ViewAdminCustomers.vue'
 import Admin from '../views/AdminPanel.vue'
-import AdminEditCustomers from '../views/AdminEditCustomers.vue'
-import AdminAddCustomers from '../views/AdminAddCustomers.vue'
-import AdminDisableCustomers from '../views/AdminDisableCustomers.vue'
-import AdminEnableCustomers from '../views/AdminEnableCustomers.vue'
-import AdminShop from '../views/AdminShops.vue'
-import AdminAddShops from '../views/AdminAddShops.vue'
-import AdminEnableShops from '../views/AdminEnableShops.vue'
-import AdminDisableShops from '../views/AdminDisableShops.vue'
-import AdminEditShops from '../views/AdminEditShops.vue'
+import AdminEditCustomers from '../modules/Admin/views/AdminCustomers/EditAdminCustomers.vue'
+import AdminAddCustomers from '../modules/Admin/views/AdminCustomers/AddAdminCustomers.vue'
+import AdminDisableCustomers from '../modules/Admin/views/AdminCustomers/DisableAdminCustomers.vue'
+import AdminEnableCustomers from '../modules/Admin/views/AdminCustomers/EnableAdminCustomers.vue'
+import AdminShop from '../modules/Admin/views/AdminShops/ViewAdminShops.vue'
+import AdminAddShops from '../modules/Admin/views/AdminShops/AddAdminShops.vue'
+import AdminEnableShops from '../modules/Admin/views/AdminShops/EnableAdminShops.vue'
+import AdminDisableShops from '../modules/Admin/views/AdminShops/DisableAdminShops.vue'
+import AdminEditShops from '../modules/Admin/views/AdminShops/EditAdminShops.vue'
+
+import { adminRoutes } from "@/modules/Admin/router/AdminRoutes"
 
 const routes = [
 
-  {
-    path: '/admin',
-    name: 'AdminPanel',
-    component: Admin
-  },
+  // {
+  //   path: '/adminpanel',
+  //   name: 'AdminPanel',
+  //   component: Admin
+  // },
 
-  {
-    path: '/admin/view/customers',
-    name: 'AdminCustomer',
-    component: AdminCustomer
-  },
+  // {
+  //   path: '/admin/view/customers',
+  //   name: 'AdminCustomer',
+  //   component: AdminCustomer
+  // },
 
-  {
-    path: '/admin/add/customers',
-    name: 'AdminAddCustomers',
-    component: AdminAddCustomers
-  },
+  // {
+  //   path: '/admin/add/customers',
+  //   name: 'AdminAddCustomers',
+  //   component: AdminAddCustomers
+  // },
 
-  {
-    path: '/admin/edit/customers',
-    name: 'AdminEditCustomers',
-    component: AdminEditCustomers
-  },
+  // {
+  //   path: '/admin/edit/customers',
+  //   name: 'AdminEditCustomers',
+  //   component: AdminEditCustomers
+  // },
 
-  {
-    path: '/admin/disable/customers',
-    name: 'AdminDisableCustomers',
-    component: AdminDisableCustomers
-  },
+  // {
+  //   path: '/admin/disable/customers',
+  //   name: 'AdminDisableCustomers',
+  //   component: AdminDisableCustomers
+  // },
 
-  {
-    path: '/admin/enable/customers',
-    name: 'AdminEnableCustomers',
-    component: AdminEnableCustomers
-  },
+  // {
+  //   path: '/admin/enable/customers',
+  //   name: 'AdminEnableCustomers',
+  //   component: AdminEnableCustomers
+  // },
 
-  {
-    path: '/admin/view/shops',
-    name: 'AdminShop',
-    component: AdminShop
-  },
+  // {
+  //   path: '/admin/view/shops',
+  //   name: 'AdminShop',
+  //   component: AdminShop
+  // },
 
-  {
-    path: '/admin/add/shops',
-    name: 'AdminAddShops',
-    component: AdminAddShops
-  },
+  // {
+  //   path: '/admin/add/shops',
+  //   name: 'AdminAddShops',
+  //   component: AdminAddShops
+  // },
 
-  {
-    path: '/admin/disable/shops',
-    name: 'AdminDisableShops',
-    component: AdminDisableShops
-  },
+  // {
+  //   path: '/admin/disable/shops',
+  //   name: 'AdminDisableShops',
+  //   component: AdminDisableShops
+  // },
 
-  {
-    path: '/admin/enable/shops',
-    name: 'AdminEnableShops',
-    component: AdminEnableShops
-  },
+  // {
+  //   path: '/admin/enable/shops',
+  //   name: 'AdminEnableShops',
+  //   component: AdminEnableShops
+  // },
 
-  {
-    path: '/admin/edit/shops',
-    name: 'AdminEditShops',
-    component: AdminEditShops
-  },
+  // {
+  //   path: '/admin/edit/shops',
+  //   name: 'AdminEditShops',
+  //   component: AdminEditShops
+  // },
 
   {
     path: '/',
@@ -157,7 +159,11 @@ const routes = [
     path: '/:category_slug',
     name: 'Category',
     component: Category
-  }
+  },
+
+  ...adminRoutes
+  
+
 ]
 
 const router = createRouter({
