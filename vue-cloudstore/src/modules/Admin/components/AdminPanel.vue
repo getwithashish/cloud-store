@@ -1,48 +1,180 @@
 <template>
-    <aside class="menu left-panel">
+  <aside class="menu left-panel">
     <ul class="menu-list">
-      <li><a>Dashboard</a></li>
-      <li><a>Profile</a></li>
+      <li>
+        <router-link
+          to="/admin"
+          v-bind:class="{
+            'is-active': 'admin-dashboard' == this.$route.name,
+          }"
+          >Dashboard</router-link
+        >
+      </li>
+      <li>
+        <router-link
+          to="/admin/profile"
+          v-bind:class="{
+            'is-active': 'admin-profile' == this.$route.name,
+          }"
+          >Profile</router-link
+        >
+      </li>
     </ul>
 
     <p class="menu-label">Products</p>
     <ul class="menu-list">
       <!-- What about adding a functionality to search for shops having a particular product -->
-      <li><a>Search Product</a></li>
-      <li><a>Search for all Shops</a></li>
-      <li><a>Add Product</a></li>
-      <li><a>Edit Product</a></li>
-      <li><a>Disable Product</a></li>
-      <li><a>Enable Product</a></li>
-      <li><a>View Product Log</a></li>
+      <li>
+        <router-link
+          to="/admin/products/view"
+          v-bind:class="{
+            'is-active': 'admin-product-view' == this.$route.name,
+          }"
+          >Search Product</router-link
+        >
+      </li>
+      <!-- <li><a v-bind:class="{'is-active': ('shop-view' == this.$route.name)}">Search for all Shops</a></li> -->
+      <li>
+        <router-link
+          to="/admin/products/add"
+          v-bind:class="{
+            'is-active': 'admin-product-add' == this.$route.name,
+          }"
+          >Add Product</router-link
+        >
+      </li>
+      <li>
+        <router-link
+          to="/admin/products/edit"
+          v-bind:class="{
+            'is-active': 'admin-product-edit' == this.$route.name,
+          }"
+          >Edit Product</router-link
+        >
+      </li>
+      <li>
+        <router-link
+          to="/admin/products/disable"
+          v-bind:class="{
+            'is-active': 'admin-product-disable' == this.$route.name,
+          }"
+          >Disable Product</router-link
+        >
+      </li>
+      <li>
+        <router-link
+          to="/admin/products/enable"
+          v-bind:class="{
+            'is-active': 'admin-product-enable' == this.$route.name,
+          }"
+          >Enable Product</router-link
+        >
+      </li>
+      <!-- <li><a v-bind:class="{'is-active': ('shop-view' == this.$route.name)}">View Product Log</a></li> -->
     </ul>
 
     <p class="menu-label">Shops</p>
     <ul class="menu-list">
-      <li><a>Search Shop</a></li>
-      <li><a>Search for all Products</a></li>
-      <li><a>Add Shop</a></li>
-      <li><a>Edit Shop</a></li>
-      <li><a>Disable Shop</a></li>
-      <li><a>Enable Shop</a></li>
-      <li><a>View Shop Log</a></li>
+      <li>
+        <router-link
+          to="/admin/shops/view"
+          v-bind:class="{
+            'is-active': 'admin-shop-view' == this.$route.name,
+          }"
+          >Search Shop</router-link
+        >
+      </li>
+      <li>
+        <router-link
+          to="/admin/shops/add"
+          v-bind:class="{
+            'is-active': 'admin-shop-add' == this.$route.name,
+          }"
+          >Add Shop</router-link
+        >
+      </li>
+      <li>
+        <router-link
+          to="/admin/shops/edit"
+          v-bind:class="{
+            'is-active': 'admin-shop-edit' == this.$route.name,
+          }"
+          >Edit Shop</router-link
+        >
+      </li>
+      <li>
+        <router-link
+          to="/admin/shops/disable"
+          v-bind:class="{
+            'is-active': 'admin-shop-disable' == this.$route.name,
+          }"
+          >Disable Shop</router-link
+        >
+      </li>
+      <li>
+        <router-link
+          to="/admin/shops/enable"
+          v-bind:class="{
+            'is-active': 'admin-shop-enable' == this.$route.name,
+          }"
+          >Enable Shop</router-link
+        >
+      </li>
     </ul>
 
     <p class="menu-label">Customers</p>
     <ul class="menu-list">
-      <li><a>Search Customer</a></li>
-      <li><a>Add Customer</a></li>
-      <li><a>Edit Customer</a></li>
-      <li><a>Disable Customer</a></li>
-      <li><a>Enable Customer</a></li>
-      <li><a>View Customer Log</a></li>
+      <li>
+        <router-link
+          to="/admin/customers/view"
+          v-bind:class="{
+            'is-active': 'admin-customer-view' == this.$route.name,
+          }"
+          >Search Customer</router-link
+        >
+      </li>
+      <li>
+        <router-link
+          to="/admin/customers/add"
+          v-bind:class="{
+            'is-active': 'admin-customer-add' == this.$route.name,
+          }"
+          >Add Customer</router-link
+        >
+      </li>
+      <li>
+        <router-link
+          to="/admin/customers/edit"
+          v-bind:class="{
+            'is-active': 'admin-customer-edit' == this.$route.name,
+          }"
+          >Edit Customer</router-link
+        >
+      </li>
+      <li>
+        <router-link
+          to="/admin/customers/disable"
+          v-bind:class="{
+            'is-active': 'admin-customer-disable' == this.$route.name,
+          }"
+          >Disable Customer</router-link
+        >
+      </li>
+      <li>
+        <router-link
+          to="/admin/customers/enable"
+          v-bind:class="{
+            'is-active': 'admin-customer-enable' == this.$route.name,
+          }"
+          >Enable Customer</router-link
+        >
+      </li>
     </ul>
 
     <p class="menu-label">Transactions</p>
     <ul class="menu-list">
       <li><a>Search Transaction</a></li>
     </ul>
-
 
     <!-- <p class="menu-label">Administration</p>
     <ul class="menu-list">
@@ -71,15 +203,15 @@
 
 <style>
 .section-contents {
-    display: inline-flex;
-    padding-block-start: inherit;
+  display: inline-flex;
+  padding-block-start: inherit;
 }
 .left-panel {
   width: fit-content;
   margin-left: 0px;
 }
 .section-main-contents {
-    margin-left: 30px;
+  margin-left: 30px;
 }
 /* .style-section{
         padding: 0px;

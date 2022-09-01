@@ -12,31 +12,43 @@ export const customerRoutes = [
     component: Customer,
     children: [
       {
-        path: "dashboard",
+        path: "",
+        name: "customer-dashboard",
         components: {
           customerPage: CustomerDashboard,
         },
       },
+      // {
+      //   path: "dashboard",
+      //   name: "customer-dashboard",
+      //   components: {
+      //     customerPage: CustomerDashboard,
+      //   },
+      // },
       {
         path: "profile",
+        name: "customer-profile",
         components: {
           customerPage: CustomerProfile,
         },
       },
       {
         path: "transactions",
+        name: "customer-transactions",
         components: {
           customerPage: CustomerTransactions,
         },
       },
       {
         path: "log",
+        name: "customer-log",
         components: {
           customerPage: CustomerLog,
         },
       },
       {
         path: "settings",
+        name: "customer-settings",
         components: {
           customerPage: CustomerSettings,
         },

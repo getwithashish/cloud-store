@@ -1,12 +1,52 @@
 <template>
   <aside class="menu left-panel">
     <ul class="menu-list">
-      <li><a>Dashboard</a></li>
-      <li><a>Profile</a></li>
-      <li><a>Transactions</a></li>
-      <li><a>Log</a></li>
-      <li><a>Settings</a></li>
-      <li><a>Disable Account</a></li>
+
+      <li>
+        <router-link
+          to="/shop"
+          v-bind:class="{
+            'is-active': 'shop-dashboard' == this.$route.name,
+          }"
+          >Dashboard</router-link
+        >
+      </li>
+      <li>
+        <router-link
+          to="/shop/profile"
+          v-bind:class="{
+            'is-active': 'shop-profile' == this.$route.name,
+          }"
+          >Profile</router-link
+        >
+      </li>
+      <li>
+        <router-link
+          to="/shop/transactions"
+          v-bind:class="{
+            'is-active': 'shop-transactions' == this.$route.name,
+          }"
+          >Transactions</router-link
+        >
+      </li>
+      <li>
+        <router-link
+          to="/shop/log"
+          v-bind:class="{
+            'is-active': 'shop-log' == this.$route.name,
+          }"
+          >Log</router-link
+        >
+      </li>
+      <li>
+        <router-link
+          to="/shop/settings"
+          v-bind:class="{
+            'is-active': 'shop-settings' == this.$route.name,
+          }"
+          >Settings</router-link
+        >
+      </li>
     </ul>
   </aside>
 </template>

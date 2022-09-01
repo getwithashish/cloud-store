@@ -11,31 +11,36 @@ export const shopRoutes = [
     component: Shop,
     children: [
       {
-        path: "dashboard",
+        path: "",
+        name: "shop-dashboard",
         components: {
           customerPage: ShopDashboard,
         },
       },
       {
         path: "profile",
+        name: "shop-profile",
         components: {
           customerPage: ShopProfile,
         },
       },
       {
         path: "transactions",
+        name: "shop-transactions",
         components: {
           customerPage: ShopTransactions,
         },
       },
       {
         path: "log",
+        name: "shop-log",
         components: {
           customerPage: ShopLog,
         },
       },
       {
         path: "settings",
+        name: "shop-settings",
         components: {
           customerPage: ShopSettings,
         },

@@ -10,30 +10,35 @@ export const adminShopRoutes = [
     children: [
       {
         path: "view",
+        name: "admin-shop-view",
         components: {
           adminPage: ViewAdminShops,
         },
       },
       {
         path: "add",
+        name: "admin-shop-add",
         components: {
           adminPage: AddAdminShops,
         },
       },
       {
         path: "edit",
+        name: "admin-shop-edit",
         components: {
           adminPage: EditAdminShops,
         },
       },
       {
         path: "disable",
+        name: "admin-shop-disable",
         components: {
           adminPage: DisableAdminShops,
         },
       },
       {
         path: "enable",
+        name: "admin-shop-enable",
         components: {
           adminPage: EnableAdminShops,
         },

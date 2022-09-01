@@ -4,42 +4,48 @@ import EditAdminCustomers from "@/modules/Admin/views/AdminCustomers/EditAdminCu
 import DisableAdminCustomers from "@/modules/Admin/views/AdminCustomers/DisableAdminCustomers.vue";
 import EnableAdminCustomers from "@/modules/Admin/views/AdminCustomers/EnableAdminCustomers.vue";
 
-export const adminCustomerRoutes = [{
-    path: "customer",
+export const adminCustomerRoutes = [
+  {
+    path: "customers",
     // components: {
     //     adminPage: ViewAdminCustomers
     // },
     children: [
-        {
-            path: "view",
-            components: {
-                adminPage: ViewAdminCustomers
-            }
+      {
+        path: "view",
+        name: "admin-customer-view",
+        components: {
+          adminPage: ViewAdminCustomers,
         },
-        {
-            path: "add",
-            components: {
-                adminPage: AddAdminCustomers
-            }
+      },
+      {
+        path: "add",
+        name: "admin-customer-add",
+        components: {
+          adminPage: AddAdminCustomers,
         },
-        {
-            path: "edit",
-            components: {
-                adminPage: EditAdminCustomers
-            }
+      },
+      {
+        path: "edit",
+        name: "admin-customer-edit",
+        components: {
+          adminPage: EditAdminCustomers,
         },
-        {
-            path: "disable",
-            components: {
-                adminPage: DisableAdminCustomers
-            }
+      },
+      {
+        path: "disable",
+        name: "admin-customer-disable",
+        components: {
+          adminPage: DisableAdminCustomers,
         },
-        {
-            path: "enable",
-            components: {
-                adminPage: EnableAdminCustomers
-            }
-        }
-    ]
-}
-]
+      },
+      {
+        path: "enable",
+        name: "admin-customer-enable",
+        components: {
+          adminPage: EnableAdminCustomers,
+        },
+      },
+    ],
+  },
+];
