@@ -72,7 +72,7 @@
 
           <hr />
 
-          Or <router-link to="/log-in">click here</router-link> to log in!
+          Already have an Account? <router-link to="/log-in">Log in</router-link>
         </form>
       </div>
     </div>

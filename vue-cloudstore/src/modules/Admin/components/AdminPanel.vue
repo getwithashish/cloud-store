@@ -1,8 +1,8 @@
 <template>
     <aside class="menu left-panel">
     <ul class="menu-list">
-      <li><a>Profile</a></li>
       <li><a>Dashboard</a></li>
+      <li><a>Profile</a></li>
     </ul>
 
     <p class="menu-label">Products</p>

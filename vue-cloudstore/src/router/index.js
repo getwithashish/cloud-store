@@ -8,93 +8,16 @@ import Product from '../views/Product.vue'
 import Category from '../views/Category.vue'
 import Search from '../views/Search.vue'
 import Cart from '../views/Cart.vue'
-import SignUp from '../views/SignUp.vue'
-import LogIn from '../views/LogIn.vue'
 import MyAccount from '../views/MyAccount.vue'
 import Checkout from '../views/Checkout.vue'
 import Success from '../views/Success.vue'
 
-import AdminCustomer from '../modules/Admin/views/AdminCustomers/ViewAdminCustomers.vue'
-import Admin from '../views/AdminPanel.vue'
-import AdminEditCustomers from '../modules/Admin/views/AdminCustomers/EditAdminCustomers.vue'
-import AdminAddCustomers from '../modules/Admin/views/AdminCustomers/AddAdminCustomers.vue'
-import AdminDisableCustomers from '../modules/Admin/views/AdminCustomers/DisableAdminCustomers.vue'
-import AdminEnableCustomers from '../modules/Admin/views/AdminCustomers/EnableAdminCustomers.vue'
-import AdminShop from '../modules/Admin/views/AdminShops/ViewAdminShops.vue'
-import AdminAddShops from '../modules/Admin/views/AdminShops/AddAdminShops.vue'
-import AdminEnableShops from '../modules/Admin/views/AdminShops/EnableAdminShops.vue'
-import AdminDisableShops from '../modules/Admin/views/AdminShops/DisableAdminShops.vue'
-import AdminEditShops from '../modules/Admin/views/AdminShops/EditAdminShops.vue'
-
+import { authenticationRoutes } from '@/modules/Authentication/router/authenticationRoutes'
 import { adminRoutes } from "@/modules/Admin/router/AdminRoutes"
+import { customerRoutes } from '@/modules/Customer/router/CustomerRoutes'
+import { shopRoutes } from '@/modules/Shop/router/ShopRoutes'
 
 const routes = [
-
-  // {
-  //   path: '/adminpanel',
-  //   name: 'AdminPanel',
-  //   component: Admin
-  // },
-
-  // {
-  //   path: '/admin/view/customers',
-  //   name: 'AdminCustomer',
-  //   component: AdminCustomer
-  // },
-
-  // {
-  //   path: '/admin/add/customers',
-  //   name: 'AdminAddCustomers',
-  //   component: AdminAddCustomers
-  // },
-
-  // {
-  //   path: '/admin/edit/customers',
-  //   name: 'AdminEditCustomers',
-  //   component: AdminEditCustomers
-  // },
-
-  // {
-  //   path: '/admin/disable/customers',
-  //   name: 'AdminDisableCustomers',
-  //   component: AdminDisableCustomers
-  // },
-
-  // {
-  //   path: '/admin/enable/customers',
-  //   name: 'AdminEnableCustomers',
-  //   component: AdminEnableCustomers
-  // },
-
-  // {
-  //   path: '/admin/view/shops',
-  //   name: 'AdminShop',
-  //   component: AdminShop
-  // },
-
-  // {
-  //   path: '/admin/add/shops',
-  //   name: 'AdminAddShops',
-  //   component: AdminAddShops
-  // },
-
-  // {
-  //   path: '/admin/disable/shops',
-  //   name: 'AdminDisableShops',
-  //   component: AdminDisableShops
-  // },
-
-  // {
-  //   path: '/admin/enable/shops',
-  //   name: 'AdminEnableShops',
-  //   component: AdminEnableShops
-  // },
-
-  // {
-  //   path: '/admin/edit/shops',
-  //   name: 'AdminEditShops',
-  //   component: AdminEditShops
-  // },
 
   {
     path: '/',
@@ -109,16 +32,7 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
-  {
-    path: '/sign-up',
-    name: 'SignUp',
-    component: SignUp
-  },
-  {
-    path: '/log-in',
-    name: 'LogIn',
-    component: LogIn
-  },
+  
   {
     path: '/my-account',
     name: 'MyAccount',
@@ -161,7 +75,17 @@ const routes = [
     component: Category
   },
 
-  ...adminRoutes
+  // Routes for authentication module
+  ...authenticationRoutes,
+
+  // Routes for admin module
+  ...adminRoutes,
+
+  // Routes for customer module
+  ...customerRoutes,
+
+  // Routes for shop module
+  ...shopRoutes
   
 
 ]
