@@ -1,5 +1,5 @@
 <template>
-  <table class="table is-fullwidth">
+  <table class="table is-fullwidth is-bordered is-striped is-hoverable">
     <thead>
       <tr>
         <th>Name</th>

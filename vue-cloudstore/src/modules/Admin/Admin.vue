@@ -19,3 +19,15 @@ export default {
 }
 </script>
 
+
+<style>
+.section-contents {
+  /* display: inline-flex; */
+  padding-block-start: inherit;
+  width: 100%;
+}
+.section-main-contents {
+  margin-left: 30px;
+  width: 80%;
+}
+</style>

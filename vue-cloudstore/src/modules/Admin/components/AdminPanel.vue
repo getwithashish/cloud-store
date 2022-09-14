@@ -202,17 +202,12 @@
 </template>
 
 <style>
-.section-contents {
-  display: inline-flex;
-  padding-block-start: inherit;
-}
+
 .left-panel {
   width: fit-content;
   margin-left: 0px;
 }
-.section-main-contents {
-  margin-left: 30px;
-}
+
 /* .style-section{
         padding: 0px;
     } */
