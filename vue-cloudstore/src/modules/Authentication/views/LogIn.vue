@@ -37,7 +37,7 @@
 
           <hr />
 
-          Or <router-link to="/sign-up">click here</router-link> to sign up!
+          Don't have an Account? <router-link to="/signup">Sign Up</router-link>
         </form>
       </div>
     </div>

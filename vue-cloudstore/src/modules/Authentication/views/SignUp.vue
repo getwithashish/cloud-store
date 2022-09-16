@@ -72,7 +72,7 @@
 
           <hr />
 
-          Already have an Account? <router-link to="/log-in">Log in</router-link>
+          Already have an Account? <router-link to="/login">Log in</router-link>
         </form>
       </div>
     </div>
@@ -203,7 +203,7 @@ export default {
               position: "bottom-right",
             });
 
-            this.$router.push("/log-in");
+            this.$router.push("/login");
           })
           .catch((error) => {
             toast({

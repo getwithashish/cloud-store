@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <section class="hero is-medium is-dark mb-6">
+    <!-- <section class="hero is-medium is-dark mb-6">
         <div class="hero-body has-text-centered">
             <p class="title mb-6">
                 Welcome to Cloud Store
@@ -9,7 +9,7 @@
                 The best Store for buying anything
             </p>
         </div>
-    </section>
+    </section> -->
 
     <div class="columns is-multiline">
       <div class="column is-12">
@@ -48,8 +48,8 @@ export default {
     async getLatestProducts() {
       this.$store.commit('setIsLoading', true)
 
-      await axios
-        .get('/api/v1/latest-products/')
+      axios
+        .get('/products')
         .then(response => {
           this.latestProducts = response.data
         })

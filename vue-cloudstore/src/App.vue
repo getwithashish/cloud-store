@@ -56,12 +56,27 @@
           <div class="navbar-item">
             <div class="buttons">
               <template v-if="$store.state.isAuthenticated">
-                <router-link to="/admin" class="button is-light" v-if="$store.state.userRole == 'ADMIN'"
-                  >Admin</router-link
-                >
-                <router-link to="/my-account" class="button is-light"
+                <router-link to="/admin" class="button is-light"
+                 v-if="$store.state.userRole == 'ADMIN'"
                   >My account</router-link
                 >
+
+                <router-link class="button is-light"
+                v-if="$store.state.userRole == 'SHOP'"
+                to="/shop"
+                  >My account</router-link
+                >
+
+                <router-link class="button is-light"
+                v-if="$store.state.userRole == 'CUSTOMER'"
+                to="/customer"
+                  >My account</router-link
+                >
+
+                <button @click="logout()" class="button is-danger">Log out</button>
+              
+                
+
               </template>
 
               <template v-else>
@@ -71,12 +86,23 @@
                 <router-link to="/signup" class="button is-light"
                   >Sign up</router-link
                 >
+
               </template>
 
               <router-link to="/cart" class="button is-success">
                 <span class="icon"><i class="fas fa-shopping-cart"></i></span>
                 <span>Cart ({{ cartTotalLength }})</span>
               </router-link>
+
+              <template v-if="$store.state.isAuthenticated">
+                  <div class="profile-dp-div">
+              <img
+                class="profile-dp"
+                src="http://www.thegurughantal.com/uploads/7/5/8/2/75825867/delhinightclubs-5-bwxyimsnzqm_orig.jpg"
+              />
+            </div>
+              </template>
+
             </div>
           </div>
         </div>
@@ -139,11 +165,32 @@ export default {
       return totalLength;
     },
   },
+
+  methods: {
+    logout() {
+            axios.defaults.headers.common["Authorization"] = ""
+
+            localStorage.removeItem("token")
+            localStorage.removeItem("username")
+            localStorage.removeItem("userid")
+
+            this.$store.commit('removeToken')
+
+            this.$router.push('/')
+        },
+  }
+
 };
 </script>
 
 <style lang="scss">
 @import "../node_modules/bulma";
+
+.profile-dp {
+  width: max-width;
+  height: max-width;
+  border-radius: 50%;
+}
 
 .lds-dual-ring {
   display: inline-block;
