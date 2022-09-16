@@ -4,6 +4,8 @@ package com.cloudstore.controller;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,8 +33,9 @@ public class CustomerController {
 	@CrossOrigin("http://localhost:3000")
 	@GetMapping("/user/customer")
 	public CustomerEntity customerInfo(HttpServletRequest request) {
-		String token = jwtExtractor.extractTokenFromHeader(request);
-		String email = jwtUtility.getUsernameFromToken(token);
+		Authentication usernamePasswordAuthenticationToken =
+				SecurityContextHolder.getContext().getAuthentication();
+		String email = usernamePasswordAuthenticationToken.getName();
 		CustomerEntity customer = customerService.customerInfo(email);
 		return customer;
 	}
