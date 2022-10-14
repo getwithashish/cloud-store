@@ -2,6 +2,7 @@ package com.cloudstore.service;
 
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -73,6 +74,12 @@ public class ShopServiceImpl implements ShopServiceInterface {
 			}
 		productRepository.saveAll(products);
 		
+	}
+
+	@Override
+	public ProductEntity findProductById(String prodId) {
+		Optional<ProductEntity> product = productRepository.findById(prodId);
+		return product.get();
 	}
 
 }

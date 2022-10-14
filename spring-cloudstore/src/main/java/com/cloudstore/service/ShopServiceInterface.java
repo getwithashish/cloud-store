@@ -20,4 +20,6 @@ public interface ShopServiceInterface {
 
 	public void disableProducts(String[] prodNames);
 
+	public ProductEntity findProductById(String prodId);
+
 }

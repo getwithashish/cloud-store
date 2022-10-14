@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cloudstore.entity.ProductEntity;
@@ -24,6 +25,13 @@ public class ProductController {
 	public List<ProductEntity> listProducts() {
 		List<ProductEntity> products = shopService.findAllProducts();
 		return products;
+	}
+	
+	@CrossOrigin("http://localhost:3000")
+	@GetMapping("/product")
+	public ProductEntity listProducts(@RequestParam String prodId) {
+		ProductEntity product = shopService.findProductById(prodId);
+		return product;
 	}
 	
 	@CrossOrigin("http://localhost:3000")
