@@ -3,18 +3,18 @@
         <div class="columns is-multiline">
             <div class="column is-9">
                 <figure class="image mb-6">
-                    <img v-bind:src="product.get_image">
+                    <img class="product-image" style="width:500px; height:500px" v-bind:src="product.image">
                 </figure>
 
-                <h1 class="title">{{ product.name }}</h1>
+                <h1 class="title">{{ product.prodName }}</h1>
 
-                <p>{{ product.description }}</p>
+                <p>{{ product.category }}</p>
             </div>
 
             <div class="column is-3">
                 <h2 class="subtitle">Information</h2>
 
-                <p><strong>Price: </strong>${{ product.price }}</p>
+                <p><strong>Price: </strong>₹{{ product.price }}</p>
 
                 <div class="field has-addons mt-6">
                     <div class="control">
@@ -30,6 +30,7 @@
     </div>
 </template>
 
+
 <script>
 import axios from 'axios'
 import { toast } from 'bulma-toast'
@@ -39,7 +40,8 @@ export default {
     data() {
         return {
             product: {},
-            quantity: 1
+            quantity: 1,
+            prodId: this.$route.query.id
         }
     },
     mounted() {
@@ -49,15 +51,15 @@ export default {
         async getProduct() {
             this.$store.commit('setIsLoading', true)
 
-            const category_slug = this.$route.params.category_slug
-            const product_slug = this.$route.params.product_slug
+            // const category_slug = this.$route.params.category_slug
+            // const product_slug = this.$route.params.product_slug
 
             await axios
-                .get(`/api/v1/products/${category_slug}/${product_slug}`)
+                .get(`/product?prodId=${this.prodId}`)
                 .then(response => {
                     this.product = response.data
 
-                    document.title = this.product.name + ' | Djackets'
+                    document.title = this.product.prodName + ' | CloudStore'
                 })
                 .catch(error => {
                     console.log(error)

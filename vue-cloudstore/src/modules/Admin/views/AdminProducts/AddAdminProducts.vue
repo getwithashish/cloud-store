@@ -4,93 +4,85 @@
       <div class="column is-4 is-offset-4">
         <h1 class="title">Add New Product</h1>
 
-        <form @submit.prevent="submitForm">
+        <form @submit.prevent="validateForm">
           <div class="field">
             <label>Product Name</label>
             <div class="control">
-              <input type="text" class="input" v-model="prodName" />
+              <input type="text" class="input" v-model="state.prodName" />
+              <span v-if="v$.prodName.$error" class="has-text-danger">
+                  {{ v$.prodName.$errors[0].$message }}
+                </span>
             </div>
           </div>
 
           <div class="field">
             <label>Category</label>
             <div class="control">
-              <input type="text" class="input" v-model="category" />
+              <input type="text" class="input" v-model="state.category" />
+              <span v-if="v$.category.$error" class="has-text-danger">
+                  {{ v$.category.$errors[0].$message }}
+                </span>
             </div>
           </div>
 
           <div class="field">
             <label>Image</label>
             <div class="control">
-              <input type="text" class="input" v-model="image" />
+              <input type="text" class="input" v-model="state.image" />
+              <!-- <span v-if="v$.image.$error" class="has-text-danger">
+                  {{ v$.image.$errors[0].$message }}
+                </span> -->
             </div>
           </div>
 
           <div class="field">
             <label>Main Unit of Measurement</label>
             <div class="control">
-              <input type="text" class="input" v-model="mainUnit" />
+              <input type="text" class="input" v-model="state.mainUnit" />
+              <span v-if="v$.mainUnit.$error" class="has-text-danger">
+                  {{ v$.mainUnit.$errors[0].$message }}
+                </span>
             </div>
           </div>
 
           <div class="field">
             <label>Sale Unit of Measurement</label>
             <div class="control">
-              <input type="text" class="input" v-model="saleUnit" />
+              <input type="text" class="input" v-model="state.saleUnit" />
+              <span v-if="v$.saleUnit.$error" class="has-text-danger">
+                  {{ v$.saleUnit.$errors[0].$message }}
+                </span>
             </div>
           </div>
 
           <div class="field">
             <label>Weight per unit</label>
             <div class="control">
-              <input type="text" class="input" v-model="weight" />
+              <input type="text" class="input" v-model="state.weight" />
+              <span v-if="v$.weight.$error" class="has-text-danger">
+                  {{ v$.weight.$errors[0].$message }}
+                </span>
             </div>
           </div>
 
           <div class="field">
             <label>Price per unit</label>
             <div class="control">
-              <input type="text" class="input" v-model="price" />
+              <input type="text" class="input" v-model="state.price" />
+              <span v-if="v$.price.$error" class="has-text-danger">
+                  {{ v$.price.$errors[0].$message }}
+                </span>
             </div>
           </div>
 
           <div class="field">
             <label>Range of Increment</label>
             <div class="control">
-              <input type="text" class="input" v-model="increment" />
+              <input type="text" class="input" v-model="state.increment" />
+              <span v-if="v$.increment.$error" class="has-text-danger">
+                  {{ v$.increment.$errors[0].$message }}
+                </span>
             </div>
-          </div>
-
-          <!-- <div class="field">
-            <label>User House Name</label>
-            <div class="control">
-              <input type="text" class="input" v-model="houseName" />
-            </div>
-          </div>
-
-          <div class="field">
-            <label>User Residing Street</label>
-            <div class="control">
-              <input type="text" class="input" v-model="streetName" />
-            </div>
-          </div>
-
-          <div class="field">
-            <label>User Residing City</label>
-            <div class="control">
-              <input type="text" class="input" v-model="cityName" />
-            </div>
-          </div>
-
-          <div class="field">
-            <label>User Residing State</label>
-            <div class="control">
-              <input type="text" class="input" v-model="stateName" />
-            </div>
-          </div> -->
-
-          <div class="notification is-danger" v-if="errors.length">
-            <p v-for="error in errors" v-bind:key="error">{{ error }}</p>
           </div>
 
           <div class="field">
@@ -109,10 +101,19 @@
 <script>
 import axios from "axios";
 
+import { toast } from "bulma-toast";
+import useVuelidate from "@vuelidate/core";
+import {
+  required,
+  numeric
+  
+} from "@vuelidate/validators";
+import { reactive, computed } from "vue";
+
 export default {
   name: "AddShopDetails",
-  data() {
-    return {
+  setup() {
+    const state = reactive({
       prodName: "",
       category: "",
       image: "",
@@ -120,22 +121,47 @@ export default {
       saleUnit: "",
       weight: "",
       price: "",
-      increment: "",
-      errors: [],
+      increment: ""
+    });
+
+    const rules = computed(() => {
+      return {
+        prodName: { required },
+        category: { required },
+        mainUnit: { required },
+        saleUnit: { required },
+        weight: { required, numeric },
+        price: { required, numeric },
+        increment: { required, numeric },
+        
+      };
+    });
+
+    const v$ = useVuelidate(rules, state);
+
+    return {
+      state,
+      v$,
     };
   },
   mounted() {},
   methods: {
+    validateForm() {
+      this.v$.$validate();
+      if(!this.v$.$error){
+        this.submitForm()
+      }
+    },
     async submitForm() {
       const formData = {
-        prodName: this.prodName,
-        category: this.category,
-        image: this.image,
-        mainUnit: this.mainUnit,
-        saleUnit: this.saleUnit,
-        weight: this.weight,
-        price: this.price,
-        increment: this.increment,
+        prodName: this.state.prodName,
+        category: this.state.category,
+        image: this.state.image,
+        mainUnit: this.state.mainUnit,
+        saleUnit: this.state.saleUnit,
+        weight: this.state.weight,
+        price: this.state.price,
+        increment: this.state.increment,
       };
 
       await axios
@@ -155,15 +181,14 @@ export default {
           //   this.$router.push(toPath);
         })
         .catch((error) => {
-          if (error.response) {
-            for (const property in error.response.data) {
-              this.errors.push(`${property}: ${error.response.data[property]}`);
-            }
-          } else {
-            this.errors.push("Something went wrong. Please try again");
-
-            console.log(JSON.stringify(error));
-          }
+          toast({
+              message: "Product not added, Try again",
+              type: "is-success",
+              dismissible: true,
+              pauseOnHover: true,
+              duration: 2000,
+              position: "bottom-right",
+            });
         });
     },
   },

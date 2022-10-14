@@ -1,13 +1,13 @@
 <template>
   <div class="tile is-ancestor">
-    <ShopDashboardCard data="Jerin" />
-    <ShopDashboardCard data="John" />
-    <ShopDashboardCard data="Kaavumkal" />
+    <ShopDashboardCard data="Stock" />
+    <ShopDashboardCard data="Sales" />
+    <ShopDashboardCard data="Trend" />
   </div>
 
   <div class="tile is-ancestor">
-    <ShopDashboardCard data="Oolampara" />
-    <ShopDashboardCard data="Village" />
+    <ShopDashboardCard data="Log" />
+    <ShopDashboardCard data="" />
     <ShopDashboardCard data="" />
   </div>
 </template>

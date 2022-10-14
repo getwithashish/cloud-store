@@ -1,8 +1,8 @@
 <template>
-    <div class="column is-3">
-        <router-link to="">
+    <div class="column is-3 product-box">
+        <router-link v-bind:to="{path: '/product', query: {id: product.id}}">
         <div class="box">
-            <figure class="image mb-4">
+            <figure class="image">
                 <img v-bind:src="product.image">
             </figure>
 
@@ -29,5 +29,13 @@ export default {
     margin-top: -1.25rem;
     margin-left: -1.25rem;
     margin-right: -1.25rem;
+  }
+  .image img {
+      width: 256px;
+      height: 256px;
+  }
+  .product-box{
+      width: 300px;
+
   }
 </style>

@@ -1,12 +1,12 @@
 <template>
   <div class="tile is-ancestor">
-    <CustomerDashboardCard data="Ashish" />
-    <CustomerDashboardCard data="Sam" />
-    <CustomerDashboardCard data="T" />
+    <CustomerDashboardCard data="Stock" />
+    <CustomerDashboardCard data="Sales" />
+    <CustomerDashboardCard data="Trend" />
   </div>
 
   <div class="tile is-ancestor">
-    <CustomerDashboardCard data="George" />
+    <CustomerDashboardCard data="Log" />
     <CustomerDashboardCard data="" />
     <CustomerDashboardCard data="" />
   </div>
