@@ -32,7 +32,7 @@
             <div class="column is-12 box">
                 <h2 class="subtitle">Summary</h2>
 
-                <strong>${{ cartTotalPrice.toFixed(2) }}</strong>, {{ cartTotalLength }} items
+                <strong>₹{{ cartTotalPrice.toFixed(2) }}</strong>, {{ cartTotalLength }} items
 
                 <hr>
 
@@ -59,7 +59,7 @@ export default {
         }
     },
     mounted() {
-        this.cart = this.$store.state.cart
+        this.cart = this.$store.state.cart;
     },
     methods: {
         removeFromCart(item) {
@@ -72,6 +72,7 @@ export default {
                 return acc += curVal.quantity
             }, 0)
         },
+        // return 10},
         cartTotalPrice() {
             return this.cart.items.reduce((acc, curVal) => {
                 return acc += curVal.product.price * curVal.quantity

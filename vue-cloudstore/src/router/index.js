@@ -61,7 +61,7 @@ const routes = [
     name: "Checkout",
     component: Checkout,
     meta: {
-      requireLogin: true,
+      // requireLogin: true,
     },
   },
   // {
