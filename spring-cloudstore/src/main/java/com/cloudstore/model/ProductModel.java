@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ProductModel {
 	
+	private String[] shopId;
+	private String latString;
+	private String longString;
 	private String prodName;
 	private String category;
 	private String image;

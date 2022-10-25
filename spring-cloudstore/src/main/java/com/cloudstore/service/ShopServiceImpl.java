@@ -47,6 +47,11 @@ public class ShopServiceImpl implements ShopServiceInterface {
 	@Override
 	public ProductEntity addProduct(ProductModel productModel) {
 		ProductEntity product = new ProductEntity();
+		
+		product.setShopId(productModel.getShopId());
+		product.setLatString(productModel.getLatString());
+		product.setLongString(productModel.getLongString());
+		
 		product.setProdName(productModel.getProdName());
 		product.setImage(productModel.getImage());
 		product.setCategory(productModel.getCategory());

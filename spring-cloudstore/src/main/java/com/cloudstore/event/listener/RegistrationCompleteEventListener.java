@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.cloudstore.entity.UserAuthenticationEntity;
 import com.cloudstore.event.RegistrationCompleteEvent;
+import com.cloudstore.service.EmailSenderService;
 import com.cloudstore.service.authentication.UserRegistrationServiceInterface;
 import com.cloudstore.service.authentication.VerifyRegistrationServiceInterface;
 
@@ -21,6 +22,9 @@ public class RegistrationCompleteEventListener implements ApplicationListener<Re
 
 	@Autowired
 	private VerifyRegistrationServiceInterface verifyRegistrationService;
+	
+	@Autowired
+	private EmailSenderService senderService;
 
 	@Override
 	public void onApplicationEvent(RegistrationCompleteEvent event) {
@@ -28,6 +32,9 @@ public class RegistrationCompleteEventListener implements ApplicationListener<Re
 		String token = UUID.randomUUID().toString();
 		verifyRegistrationService.saveVerificationTokenForUser(token, user);
 		String url = event.getApplicationUrl() + "/user/verifyRegistration?token=" + token;
+		String subjectString = "Cloud Store Verify User Registration";
+		String bodyString = "Verify your registration by clicking this link: "+ url;
+		senderService.sendEmail(user.getEmail(), subjectString, bodyString);
 		log.info("Click the link to verify: {}", url);
 	}
 

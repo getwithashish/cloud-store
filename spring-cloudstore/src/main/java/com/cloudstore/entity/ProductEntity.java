@@ -11,6 +11,9 @@ public class ProductEntity {
 	
 	@Id
 	private String id;
+	private String[] shopId;
+	private String latString;
+	private String longString;
 	private String prodName;
 	private String category;
 	private String image;

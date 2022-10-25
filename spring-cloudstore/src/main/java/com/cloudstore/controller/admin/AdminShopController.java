@@ -62,7 +62,7 @@ public class AdminShopController {
 		String[] emails = enableModel.getEmails();
 		adminShopService.enableShops(emails);
 
-		return "SUCCESSFULLY DISABLED: \n" + emails;
+		return "SUCCESSFULLY ENABLED: \n" + emails;
 	}
 
 }
