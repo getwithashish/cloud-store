@@ -126,10 +126,15 @@
       <p class="has-text-centered">CloudStore</p>
     </footer>
   </div>
+  
 </template>
 
 <script>
 import axios from "axios";
+
+/* eslint-disable no-undef */
+// import { computed, ref, onMounted, onUnmounted, watch } from 'vue'
+// import { useGeolocation } from './useGeoLocation'
 
 export default {
   data() {
@@ -138,8 +143,16 @@ export default {
       cart: {
         items: [],
       },
+      userLoc: {
+        city: '',
+        region: '',
+        country: '',
+        latitude: '',
+        longitude: ''
+      }
     };
   },
+
   beforeCreate() {
     this.$store.commit("initializeStore");
 
@@ -153,6 +166,8 @@ export default {
   },
   mounted() {
     this.cart = this.$store.state.cart;
+    this.getGeolocationInformation();
+
   },
   computed: {
     cartTotalLength() {
@@ -178,6 +193,21 @@ export default {
 
             this.$router.push('/')
         },
+    
+    async getGeolocationInformation() {
+     const API_KEY = 'ab5a99eb2c834bd5846f191401c2cfab';
+     const API_URL = 'https://ipgeolocation.abstractapi.com/v1/?api_key=' + API_KEY;
+     const apiResponse = await fetch(API_URL);
+     const data = await apiResponse.json();
+     const {city, country, region, latitude, longitude} = data;
+     this.city = city;
+     this.region = region;
+     this.country = country;
+     this.latitude = latitude;
+     this.longitude = longitude;
+     console.log(data);
+     console.log("City: "+this.city + " Latitude: "+this.latitude+ " Longitude: "+this.longitude);
+    }
   }
 
 };

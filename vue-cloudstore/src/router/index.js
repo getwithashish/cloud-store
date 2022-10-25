@@ -12,6 +12,8 @@ import MyAccount from '../views/MyAccount.vue'
 import Checkout from '../views/Checkout.vue'
 import Success from '../views/Success.vue'
 
+import Location from '../LocationTest.vue'
+
 import { authenticationRoutes } from '@/modules/Authentication/router/authenticationRoutes'
 import { adminRoutes } from "@/modules/Admin/router/AdminRoutes"
 import { customerRoutes } from '@/modules/Customer/router/CustomerRoutes'
@@ -79,6 +81,12 @@ const routes = [
     path: "/product",
     name: "Product",
     component: Product,
+  },
+
+  {
+    path: "/location",
+    name: "LocationGeo",
+    component: Location,
   },
 
   // Routes for authentication module
