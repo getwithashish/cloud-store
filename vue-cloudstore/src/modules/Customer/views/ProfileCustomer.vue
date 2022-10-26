@@ -1,3 +1,5 @@
+// v-model has a two-way binding while v-bind can only communicate one-way.
+
 <template>
   <div class="tile is-ancestor">
     <div class="tile is-vertical is-9">
@@ -26,6 +28,7 @@
                         type="email"
                         v-bind:value="email"
                         placeholder="Email"
+                        disabled
                       />
                     </div>
                   </div>
@@ -42,7 +45,7 @@
                       <input
                         class="input"
                         type="number"
-                        v-bind:value="mobile"
+                        v-model="mobile"
                         placeholder="Mobile Number"
                       />
                     </div>
@@ -71,6 +74,25 @@
 
               <div class="field is-horizontal">
                 <div class="field-label is-normal">
+                  <label class="label">Image</label>
+                </div>
+                <div class="field-body">
+                  <div class="file is-medium">
+                    <label class="file-label">
+                      <input class="file-input" type="file" name="resume" @change="imageFileSelect" />
+                      <span class="file-cta">
+                        <span class="file-icon">
+                          <i class="fas fa-upload"></i>
+                        </span>
+                        <span class="file-label"> Upload Profile Picture </span>
+                      </span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="field is-horizontal">
+                <div class="field-label is-normal">
                   <label class="label">House Name</label>
                 </div>
                 <div class="field-body">
@@ -79,7 +101,7 @@
                       <input
                         class="input"
                         type="text"
-                        v-bind:value="house"
+                        v-model="houseName"
                         placeholder="House Name"
                       />
                     </div>
@@ -97,7 +119,7 @@
                       <input
                         class="input"
                         type="text"
-                        v-bind:value="street"
+                        v-model="streetName"
                         placeholder="Street Name"
                       />
                     </div>
@@ -115,7 +137,7 @@
                       <input
                         class="input"
                         type="text"
-                        v-bind:value="city"
+                        v-model="cityName"
                         placeholder="City"
                       />
                     </div>
@@ -133,7 +155,7 @@
                       <input
                         class="input"
                         type="number"
-                        v-bind:value="pincode"
+                        v-model="pincode"
                         placeholder="Pincode"
                       />
                     </div>
@@ -151,7 +173,7 @@
                       <input
                         class="input"
                         type="text"
-                        v-bind:value="accStatus"
+                        v-bind:value="enableStatus"
                         placeholder="Account Status"
                         disabled
                       />
@@ -172,12 +194,12 @@
             <div>
               <img
                 class="profile-pic"
-                src="http://www.thegurughantal.com/uploads/7/5/8/2/75825867/delhinightclubs-5-bwxyimsnzqm_orig.jpg"
+                v-bind:src="imageUrl"
               />
             </div>
 
             <div>
-              <h1 class="title is-2">Jen Mathew</h1>
+              <h1 class="title is-2">{{ fullName }}</h1>
             </div>
           </div>
         </div>
@@ -212,7 +234,7 @@
 </style>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 
 export default {
   data() {
@@ -223,16 +245,18 @@ export default {
       email: "",
       mobile: "",
       role: "",
-      house: "",
-      street: "",
-      city: "",
+      houseName: "",
+      streetName: "",
+      cityName: "",
       pincode: "",
-      accStatus: "",
-      image: "",
+      enableStatus: "",
+      imageUrl: "",
+
+      image: ""
     };
   },
 
-  mounted(){
+  mounted() {
     this.getProfile();
   },
 
@@ -244,28 +268,101 @@ export default {
       } else {
         this.formMode = "disabled";
         this.formModeButton = "Edit";
+        this.setProfile();
       }
     },
 
-    async getProfile(){
-      axios.get("/user/customer")
-      .then(response => {
-        var profileData = response.data;
-        this.fullName = profileData.fullName
+    imageFileSelect(event){
+      this.$store.commit('setIsLoading', true)
+      console.log(event)
+      var imageFile = event.target.files[0];
+      this.createBase64Image(imageFile)
+    },
+
+    createBase64Image(fileObject){
+      var reader = new FileReader();
+      reader.onload = (e) => {
+        var imageFileData = e.target.result;
+        this.image = imageFileData.slice(imageFileData.indexOf(",")+1);
+        console.log(this.image)
+        this.uploadImage();
+      };
+      reader.readAsDataURL(fileObject);
+    },
+
+    async uploadImage(){
+      var formData = new FormData();
+      formData.append("image", this.image)
+
+      const client = axios.create({
+        transformRequest: [(data, headers) => {
+        // add required "Content-Type" whenever body is defined
+        delete headers.common.Authorization
+        return data
+      }],
+      })
+      
+      await client
+      .post("https://api.imgbb.com/1/upload?key=0f6650dbe5d582897945e5dd899204bd", formData)
+      .then((response) => {
+        console.log(response)
+        var imageData = response.data.data;
+        this.imageUrl = imageData.url;
+      })
+      this.$store.commit('setIsLoading', false)
+    },
+
+    async getProfile() {
+      axios
+        .get("/user/customer")
+        .then((response) => {
+          var profileData = response.data;
+          this.fullName = profileData.fullName;
           this.email = profileData.email;
           this.mobile = profileData.mobile;
           this.role = profileData.role;
-          // this.house = profileData.house
-          this.street = profileData.streetName;
-          this.city = profileData.cityName
-          this.pincode = profileData.pincode
-          this.accStatus = profileData.enabled
-          this.image = profileData.image
-      })
-      .catch(error => {
-        console.log(error);
-      })
-    }
+          this.houseName = profileData.houseName;
+          this.streetName = profileData.streetName;
+          this.cityName = profileData.cityName;
+          this.pincode = profileData.pincode;
+          this.enableStatus = profileData.enableStatus;
+          this.imageUrl = profileData.imageUrl;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+
+    async setProfile() {
+      var profileData = {
+        email: this.email,
+        mobile: this.mobile,
+        imageUrl: this.imageUrl,
+        houseName: this.houseName,
+        streetName: this.streetName,
+        cityName: this.cityName,
+        pincode: this.pincode
+      };
+
+        axios
+        .put("/user/customer", profileData)
+        .then((response) => {
+          var profileData = response.data;
+          this.fullName = profileData.fullName;
+          this.email = profileData.email;
+          this.mobile = profileData.mobile;
+          this.role = profileData.role;
+          this.houseName = profileData.houseName
+          this.streetName = profileData.streetName;
+          this.cityName = profileData.cityName;
+          this.pincode = profileData.pincode;
+          this.enableStatus = profileData.enableStatus;
+          this.imageUrl = profileData.imageUrl;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
 
   },
 };
