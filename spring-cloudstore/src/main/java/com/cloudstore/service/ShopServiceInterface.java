@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.cloudstore.entity.ProductEntity;
 import com.cloudstore.entity.ShopEntity;
+import com.cloudstore.model.EditShopModel;
 import com.cloudstore.model.ProductModel;
 
 
@@ -21,5 +22,7 @@ public interface ShopServiceInterface {
 	public void disableProducts(String[] prodNames);
 
 	public ProductEntity findProductById(String prodId);
+
+	public ShopEntity editShop(EditShopModel editModel);
 
 }

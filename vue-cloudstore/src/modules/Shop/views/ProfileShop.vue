@@ -24,7 +24,7 @@
                       <input
                         class="input"
                         type="email"
-                        v-bind:value="email"
+                        v-model="email"
                         placeholder="Email"
                       />
                     </div>
@@ -42,8 +42,26 @@
                       <input
                         class="input"
                         type="number"
-                        v-bind:value="mobile"
+                        v-model="mobile"
                         placeholder="Mobile Number"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                  <label class="label">Owner Name</label>
+                </div>
+                <div class="field-body">
+                  <div class="field">
+                    <div class="control">
+                      <input
+                        class="input"
+                        type="text"
+                        v-model="ownerFullName"
+                        placeholder="Owner Full Name"
                       />
                     </div>
                   </div>
@@ -71,18 +89,43 @@
 
               <div class="field is-horizontal">
                 <div class="field-label is-normal">
-                  <label class="label">House Name</label>
+                  <label class="label">Image</label>
                 </div>
                 <div class="field-body">
-                  <div class="field">
-                    <div class="control">
-                      <input
-                        class="input"
-                        type="text"
-                        v-bind:value="house"
-                        placeholder="House Name"
-                      />
-                    </div>
+                  <div class="file is-medium">
+                    <label class="file-label">
+                      <input class="file-input" type="file" name="resume" @change="imageFileSelect" />
+                      <span class="file-cta">
+                        <span class="file-icon">
+                          <i class="fas fa-upload"></i>
+                        </span>
+                        <span class="file-label"> Upload Shop Picture </span>
+                      </span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                  <label class="label">Document</label>
+                </div>
+                <div class="field-body">
+                  <div class="file is-medium">
+                    <label class="file-label">
+                      <input class="file-input" type="file" name="document" @change="documentFileSelect" />
+                      <span class="file-cta">
+                        <span class="file-icon">
+                          <i class="fas fa-upload"></i>
+                        </span>
+                        <span class="file-label"> Upload Shop Document </span>
+                      </span>
+                    </label>
+                      <span v-if="documentUrl != ''">
+                        <a class="ml-4 mt-1" v-bind:href="documentUrl" target="_blank">
+                         View Document 
+                         </a>
+                         </span>
                   </div>
                 </div>
               </div>
@@ -97,7 +140,7 @@
                       <input
                         class="input"
                         type="text"
-                        v-bind:value="street"
+                        v-model="streetName"
                         placeholder="Street Name"
                       />
                     </div>
@@ -115,7 +158,7 @@
                       <input
                         class="input"
                         type="text"
-                        v-bind:value="city"
+                        v-model="cityName"
                         placeholder="City"
                       />
                     </div>
@@ -133,7 +176,7 @@
                       <input
                         class="input"
                         type="number"
-                        v-bind:value="pincode"
+                        v-model="pincode"
                         placeholder="Pincode"
                       />
                     </div>
@@ -151,7 +194,7 @@
                       <input
                         class="input"
                         type="text"
-                        v-bind:value="accStatus"
+                        v-bind:value="enableStatus"
                         placeholder="Account Status"
                         disabled
                       />
@@ -159,6 +202,26 @@
                   </div>
                 </div>
               </div>
+
+              <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                  <label class="label">Verification Status</label>
+                </div>
+                <div class="field-body">
+                  <div class="field">
+                    <div class="control">
+                      <input
+                        class="input"
+                        type="text"
+                        v-bind:value="verifyStatus"
+                        placeholder="Verification Status"
+                        disabled
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
             </fieldset>
           </div>
         </article>
@@ -172,12 +235,12 @@
             <div>
               <img
                 class="profile-pic"
-                src="http://www.thegurughantal.com/uploads/7/5/8/2/75825867/delhinightclubs-5-bwxyimsnzqm_orig.jpg"
+                v-bind:src="imageUrl"
               />
             </div>
 
             <div>
-              <h1 class="title is-2">{{fullName}}</h1>
+              <h1 class="title is-2">{{ shopName }}</h1>
             </div>
           </div>
         </div>
@@ -219,16 +282,20 @@ export default {
     return {
       formMode: "disabled",
       formModeButton: "Edit",
-      fullName: "",
+      shopName: "",
       email: "",
+      ownerFullName: "",
       mobile: "",
       role: "",
-      house: "",
-      street: "",
-      city: "",
+      streetName: "",
+      cityName: "",
       pincode: "",
-      accStatus: "",
-      image: "",
+      enableStatus: "",
+      verifyStatus: "",
+      imageUrl: "",
+      documentUrl: "",
+
+      image: ""
     };
   },
   mounted() {
@@ -243,30 +310,148 @@ export default {
       } else {
         this.formMode = "disabled";
         this.formModeButton = "Edit";
+        this.setProfile();
       }
+    },
+
+    imageFileSelect(event){
+      this.$store.commit('setIsLoading', true)
+      console.log(event)
+      var imageFile = event.target.files[0];
+      this.createBase64Image(imageFile)
+    },
+
+    createBase64Image(fileObject){
+      var reader = new FileReader();
+      reader.onload = (e) => {
+        var imageFileData = e.target.result;
+        this.image = imageFileData.slice(imageFileData.indexOf(",")+1);
+        console.log(this.image)
+        this.uploadImage();
+      };
+      reader.readAsDataURL(fileObject);
+    },
+
+    async uploadImage(){
+      var formData = new FormData();
+      formData.append("image", this.image)
+
+      const client = axios.create({
+        transformRequest: [(data, headers) => {
+        // add required "Content-Type" whenever body is defined
+        delete headers.common.Authorization
+        return data
+      }],
+      })
+      
+      await client
+      .post("https://api.imgbb.com/1/upload?key=0f6650dbe5d582897945e5dd899204bd", formData)
+      .then((response) => {
+        console.log(response)
+        var imageData = response.data.data;
+        this.imageUrl = imageData.url;
+      })
+      this.$store.commit('setIsLoading', false)
+    },
+
+    documentFileSelect(event){
+      this.$store.commit('setIsLoading', true)
+      console.log(event)
+      var documentFile = event.target.files[0];
+      this.createBase64Document(documentFile)
+    },
+
+    createBase64Document(fileObject){
+      var reader = new FileReader();
+      reader.onload = (e) => {
+        var documentFileData = e.target.result;
+        this.image = documentFileData.slice(documentFileData.indexOf(",")+1);
+        console.log(this.image)
+        this.uploadDocument();
+      };
+      reader.readAsDataURL(fileObject);
+    },
+
+    async uploadDocument(){
+      var formData = new FormData();
+      formData.append("image", this.image)
+
+      const client = axios.create({
+        transformRequest: [(data, headers) => {
+        // add required "Content-Type" whenever body is defined
+        delete headers.common.Authorization
+        return data
+      }],
+      })
+      
+      await client
+      .post("https://api.imgbb.com/1/upload?key=0f6650dbe5d582897945e5dd899204bd", formData)
+      .then((response) => {
+        console.log(response)
+        var documentData = response.data.data;
+        this.documentUrl = documentData.url;
+      })
+      this.$store.commit('setIsLoading', false)
     },
 
     async getProfile() {
       axios
         .get("/user/shop")
         .then((response) => {
-          var profileData = response.data;
-          this.fullName = profileData.fullName
-          this.email = profileData.email;
-          this.mobile = profileData.mobile;
-          this.role = profileData.role;
-          // this.house = profileData.house
-          this.street = profileData.streetName;
-          this.city = profileData.cityName
-          this.pincode = profileData.pincode
-          this.accStatus = profileData.enabled
-          this.image = profileData.image
+          var shopData = response.data;
+          this.shopName = shopData.shopName
+          this.email = shopData.email;
+          this.ownerFullName = shopData.ownerFullName;
+          this.mobile = shopData.mobile;
+          this.role = shopData.role;
+          this.streetName = shopData.streetName;
+          this.cityName = shopData.cityName
+          this.pincode = shopData.pincode
+          this.enableStatus = shopData.enableStatus
+          this.verifyStatus = shopData.verifyStatus
+          this.imageUrl = shopData.imageUrl
+          this.documentUrl = shopData.documentUrl;
 
         })
         .catch((error) => {
           console.log(error);
         });
     },
+
+    async setProfile() {
+      var profileData = {
+        email: this.email,
+        mobile: this.mobile,
+        imageUrl: this.imageUrl,
+        documentUrl: this.documentUrl,
+        ownerFullName: this.ownerFullName,
+        streetName: this.streetName,
+        cityName: this.cityName,
+        pincode: this.pincode
+      };
+
+        axios
+        .put("/user/shop", profileData)
+        .then((response) => {
+          var shopData = response.data;
+          this.shopName = shopData.shopName;
+          this.email = shopData.email;
+          this.mobile = shopData.mobile;
+          this.role = shopData.role;
+          this.ownerFullName = shopData.ownerFullName;
+          this.streetName = profileData.streetName;
+          this.cityName = shopData.cityName;
+          this.pincode = shopData.pincode;
+          this.enableStatus = shopData.enableStatus;
+          this.verifyStatus = shopData.verifyStatus;
+          this.imageUrl = shopData.imageUrl;
+          this.documentUrl = shopData.documentUrl;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+
   },
 };
 </script>

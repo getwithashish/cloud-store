@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cloudstore.entity.EnableStatusEnum;
 import com.cloudstore.entity.UserAuthenticationEntity;
 import com.cloudstore.repository.UserAuthenticationRepository;
 
@@ -25,15 +26,17 @@ public class UserLoginServiceImpl implements UserLoginServiceInterface {
 	@Override
 	public void disableUser(String email) {
 		UserAuthenticationEntity user = userAuthenticationRepository.findByEmail(email);
-		user.setEnabled(false);
+		// By customer and shop
+		user.setEnableStatus(EnableStatusEnum.USER_DISABLED);
 		userAuthenticationRepository.save(user);
 	}
 
 	@Override
 	public void disableUsers(String[] emails) {
 		List<UserAuthenticationEntity> users = userAuthenticationRepository.findAllByEmails(emails);
+		// By admin
 		for (UserAuthenticationEntity user : users) {
-			user.setEnabled(false);
+			user.setEnableStatus(EnableStatusEnum.ADMIN_DISABLED);
 		}
 		userAuthenticationRepository.saveAll(users);
 	}
@@ -42,7 +45,7 @@ public class UserLoginServiceImpl implements UserLoginServiceInterface {
 	public void enableUsers(String[] emails) {
 		List<UserAuthenticationEntity> users = userAuthenticationRepository.findAllByEmails(emails);
 		for (UserAuthenticationEntity user : users) {
-			user.setEnabled(true);
+			user.setEnableStatus(EnableStatusEnum.ENABLED);
 		}
 		userAuthenticationRepository.saveAll(users);
 		

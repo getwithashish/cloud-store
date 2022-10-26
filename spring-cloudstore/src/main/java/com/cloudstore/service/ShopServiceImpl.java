@@ -7,8 +7,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cloudstore.entity.EnableStatusEnum;
 import com.cloudstore.entity.ProductEntity;
 import com.cloudstore.entity.ShopEntity;
+import com.cloudstore.model.EditShopModel;
 import com.cloudstore.model.ProductModel;
 import com.cloudstore.repository.ProductRepository;
 import com.cloudstore.repository.ShopRepository;
@@ -36,12 +38,16 @@ public class ShopServiceImpl implements ShopServiceInterface {
 	@Override
 	public ShopEntity disableShop(String email) {
 		ShopEntity shop = shopRepository.findByEmail(email);
-		shop.setEnabled(false);
-		shopRepository.save(shop);
+		if(shop != null) {
+			shop.setEnableStatus(EnableStatusEnum.USER_DISABLED);
+			shopRepository.save(shop);
 
-		userLoginService.disableUser(email);
-
-		return shop;
+			userLoginService.disableUser(email);
+			return shop;
+		}
+		else {
+			return null;
+		}
 	}
 
 	@Override
@@ -49,11 +55,11 @@ public class ShopServiceImpl implements ShopServiceInterface {
 		ProductEntity product = new ProductEntity();
 		
 		product.setShopId(productModel.getShopId());
-		product.setLatString(productModel.getLatString());
-		product.setLongString(productModel.getLongString());
-		
-		product.setProdName(productModel.getProdName());
-		product.setImage(productModel.getImage());
+//		product.setLatString(productModel.getLatString());
+//		product.setLongString(productModel.getLongString());
+//		
+//		product.setProdName(productModel.getProdName());
+//		product.setImage(productModel.getImage());
 		product.setCategory(productModel.getCategory());
 		product.setMainUnit(productModel.getMainUnit());
 		product.setSaleUnit(productModel.getSaleUnit());
@@ -85,6 +91,21 @@ public class ShopServiceImpl implements ShopServiceInterface {
 	public ProductEntity findProductById(String prodId) {
 		Optional<ProductEntity> product = productRepository.findById(prodId);
 		return product.get();
+	}
+
+	@Override
+	public ShopEntity editShop(EditShopModel editModel) {
+		ShopEntity shop = shopRepository.findByEmail(editModel.getEmail());
+		shop.setOwnerFullName(editModel.getOwnerFullName());
+		shop.setMobile(editModel.getMobile());
+		shop.setImageUrl(editModel.getImageUrl());
+		shop.setDocumentUrl(editModel.getDocumentUrl());
+		shop.setStreetName(editModel.getStreetName());
+		shop.setCityName(editModel.getCityName());
+		shop.setPincode(editModel.getPincode());
+		
+		shop = shopRepository.save(shop);
+		return shop;
 	}
 
 }

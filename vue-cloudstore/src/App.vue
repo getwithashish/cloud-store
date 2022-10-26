@@ -40,7 +40,7 @@
                 <div class="control">
                   <button class="button is-success">
                     <span class="icon">
-                      <i class="fas fa-search"></i>
+                      <i class="fa fa-search" aria-hidden="true"></i>
                     </span>
                   </button>
                 </div>

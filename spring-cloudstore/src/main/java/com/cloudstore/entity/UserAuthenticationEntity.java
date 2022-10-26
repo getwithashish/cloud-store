@@ -23,7 +23,7 @@ public class UserAuthenticationEntity {
 	private String email;
 	private String password;
 	private String role;
-	private boolean enabled = false;
+	private EnableStatusEnum enableStatus = EnableStatusEnum.DISABLED;
 	
 	public Collection<? extends GrantedAuthority> getAuthorities(List<String> role){
 		List<GrantedAuthority> authorities = new ArrayList<>();

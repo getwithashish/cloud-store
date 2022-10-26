@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cloudstore.entity.CustomerEntity;
 import com.cloudstore.model.DeleteModel;
-import com.cloudstore.model.EditModel;
+import com.cloudstore.model.EditCustomerModel;
 import com.cloudstore.model.EnableModel;
 import com.cloudstore.service.admin.AdminCustomerServiceInterface;
 
@@ -41,7 +41,7 @@ public class AdminCustomerController {
 
 	@CrossOrigin("http://localhost:3000")
 	@PutMapping("/admin/customers")
-	protected CustomerEntity editCustomers(@RequestBody EditModel editModel) {
+	protected CustomerEntity editCustomers(@RequestBody EditCustomerModel editModel) {
 		CustomerEntity customer = adminCustomerService.editCustomers(editModel);
 		return customer;
 	}

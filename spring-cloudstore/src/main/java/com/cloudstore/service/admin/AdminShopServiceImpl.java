@@ -8,9 +8,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.cloudstore.entity.CustomerEntity;
+import com.cloudstore.entity.EnableStatusEnum;
 import com.cloudstore.entity.ShopEntity;
 import com.cloudstore.entity.UserAuthenticationEntity;
-import com.cloudstore.model.EditModel;
+import com.cloudstore.model.EditShopModel;
 import com.cloudstore.repository.ShopRepository;
 import com.cloudstore.repository.UserAuthenticationRepository;
 import com.cloudstore.service.authentication.UserLoginServiceInterface;
@@ -38,7 +39,7 @@ public class AdminShopServiceImpl implements AdminShopServiceInterface {
 	public void disableShops(String[] emails) {
 		List<ShopEntity> shops = shopRepository.findAllByEmails(emails);
 		for (ShopEntity shop : shops) {
-			shop.setEnabled(false);
+			shop.setEnableStatus(EnableStatusEnum.ADMIN_DISABLED);
 		}
 		shopRepository.saveAll(shops);
 
@@ -49,7 +50,7 @@ public class AdminShopServiceImpl implements AdminShopServiceInterface {
 	public void enableShops(String[] emails) {
 		List<ShopEntity> shops = shopRepository.findAllByEmails(emails);
 		for (ShopEntity shop : shops) {
-			shop.setEnabled(true);
+			shop.setEnableStatus(EnableStatusEnum.ENABLED);
 		}
 		shopRepository.saveAll(shops);
 
@@ -58,24 +59,28 @@ public class AdminShopServiceImpl implements AdminShopServiceInterface {
 	}
 
 	@Override
-	public ShopEntity editCustomers(EditModel editModel) {
+	public ShopEntity editShops(EditShopModel editModel) {
 		ShopEntity shop = shopRepository.findByEmail(editModel.getEmail());
 		if(shop != null) {
 			
-			shop.setFullName(editModel.getFullName());
-			shop.setRole(editModel.getRole());
+//			shop.setFullName(editModel.getFullName());
+//			shop.setRole(editModel.getRole());
 //			shop.setHouseName(editModel.getHouseName());
+			shop.setOwnerFullName(editModel.getOwnerFullName());
+			shop.setMobile(editModel.getMobile());
+			shop.setImageUrl(editModel.getImageUrl());
+			shop.setDocumentUrl(editModel.getDocumentUrl());
 			shop.setStreetName(editModel.getStreetName());
 			shop.setCityName(editModel.getCityName());
-			shop.setStateName(editModel.getStateName());
+			shop.setPincode(editModel.getPincode());
 			
 			shopRepository.save(shop);
 			
-			UserAuthenticationEntity user = userAuthenticationRepository.findByEmail(editModel.getEmail());
-			user.setFullName(editModel.getFullName());
-			user.setRole(editModel.getRole());
-			
-			userAuthenticationRepository.save(user);
+//			UserAuthenticationEntity user = userAuthenticationRepository.findByEmail(editModel.getEmail());
+//			user.setFullName(editModel.getFullName());
+//			user.setRole(editModel.getRole());
+//			
+//			userAuthenticationRepository.save(user);
 		}
 		else {
 			throw new UsernameNotFoundException("Customer with that email does not exist");

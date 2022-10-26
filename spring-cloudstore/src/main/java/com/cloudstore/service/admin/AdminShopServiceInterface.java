@@ -4,7 +4,7 @@ package com.cloudstore.service.admin;
 import java.util.List;
 
 import com.cloudstore.entity.ShopEntity;
-import com.cloudstore.model.EditModel;
+import com.cloudstore.model.EditShopModel;
 
 
 public interface AdminShopServiceInterface {
@@ -15,6 +15,6 @@ public interface AdminShopServiceInterface {
 
 	void enableShops(String[] emails);
 
-	ShopEntity editCustomers(EditModel editModel);
+	ShopEntity editShops(EditShopModel editModel);
 
 }
