@@ -86,7 +86,7 @@ public class VerifyRegistrationServiceImpl implements VerifyRegistrationServiceI
 			ShopEntity shop = shopRepository.findByEmail(user.getEmail());
 			if(shop == null) {
 				ShopEntity shopEntity = new ShopEntity();
-				shopEntity.setFullName(user.getFullName());
+				shopEntity.setShopName(user.getFullName());
 				shopEntity.setEmail(user.getEmail());
 				shopEntity.setRole(user.getRole());
 

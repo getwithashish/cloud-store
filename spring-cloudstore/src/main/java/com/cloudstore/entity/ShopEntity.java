@@ -13,13 +13,17 @@ public class ShopEntity {
 
 	@Id
 	private String id;
-	private String fullName;
+	private String shopName;
 	private String email;
 	private String ownerFullName;
 	private String role;
+	private String mobile;
+	private String imageUrl;
 	private EnableStatusEnum enableStatus = EnableStatusEnum.ENABLED;
+	private boolean verifyStatus = false;
+	private String documentUrl;
 	private String streetName;
 	private String cityName;
-	private String stateName;
+	private String pincode;
 
 }

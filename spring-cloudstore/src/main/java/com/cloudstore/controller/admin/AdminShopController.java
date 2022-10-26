@@ -17,7 +17,8 @@ import com.cloudstore.entity.CustomerEntity;
 import com.cloudstore.entity.ProductEntity;
 import com.cloudstore.entity.ShopEntity;
 import com.cloudstore.model.DeleteModel;
-import com.cloudstore.model.EditModel;
+import com.cloudstore.model.EditCustomerModel;
+import com.cloudstore.model.EditShopModel;
 import com.cloudstore.model.EnableModel;
 import com.cloudstore.model.ProductModel;
 import com.cloudstore.service.admin.AdminShopServiceInterface;
@@ -42,8 +43,8 @@ public class AdminShopController {
 
 	@CrossOrigin("http://localhost:3000")
 	@PutMapping("/admin/shops")
-	protected ShopEntity editCustomers(@RequestBody EditModel editModel) {
-		ShopEntity shop = adminShopService.editCustomers(editModel);
+	protected ShopEntity editShops(@RequestBody EditShopModel editModel) {
+		ShopEntity shop = adminShopService.editShops(editModel);
 		return shop;
 	}
 

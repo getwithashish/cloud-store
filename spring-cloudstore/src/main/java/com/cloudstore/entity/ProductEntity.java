@@ -12,11 +12,10 @@ public class ProductEntity {
 	@Id
 	private String id;
 	private String[] shopId;
-	private String latString;
-	private String longString;
+	private String pincode;
 	private String prodName;
 	private String category;
-	private String image;
+	private String imageUrl;
 	private String mainUnit;
 	private String saleUnit;
 	private double weight;

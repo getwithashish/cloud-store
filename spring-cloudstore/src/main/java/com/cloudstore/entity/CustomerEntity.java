@@ -17,10 +17,12 @@ public class CustomerEntity {
 	private String email;
 //	private String password;
 	private String role;
+	private String mobile;
+	private String imageUrl;
 	private EnableStatusEnum enableStatus = EnableStatusEnum.ENABLED;
 	private String houseName;
 	private String streetName;
 	private String cityName;
-	private String stateName;
+	private String pincode;
 
 }
