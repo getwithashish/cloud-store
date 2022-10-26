@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cloudstore.entity.CustomerEntity;
+import com.cloudstore.entity.EnableStatusEnum;
 import com.cloudstore.entity.ShopEntity;
 import com.cloudstore.entity.UserAuthenticationEntity;
 import com.cloudstore.entity.VerificationTokenEntity;
@@ -42,6 +43,9 @@ public class VerifyRegistrationServiceImpl implements VerifyRegistrationServiceI
 			return null;
 		}
 		UserAuthenticationEntity user = verificationTokenEntity.getUser();
+		if(user == null) {
+			return null;
+		}
 		Calendar calendar = Calendar.getInstance();
 
 		if (verificationTokenEntity.getExpirationTime().getTime() - calendar.getTime().getTime() <= 0) {
@@ -49,30 +53,50 @@ public class VerifyRegistrationServiceImpl implements VerifyRegistrationServiceI
 			verificationTokenRepository.delete(verificationTokenEntity);
 			return null;
 		}
-
-		user.setEnabled(true);
-		userAuthenticationRepository.save(user);
-		verificationTokenRepository.delete(verificationTokenEntity);
-		return user;
+		EnableStatusEnum userEnableStatusEnum = user.getEnableStatus();
+		if(userEnableStatusEnum == EnableStatusEnum.DISABLED || userEnableStatusEnum == EnableStatusEnum.USER_DISABLED) {
+			user.setEnableStatus(EnableStatusEnum.ENABLED);
+			userAuthenticationRepository.save(user);
+			verificationTokenRepository.delete(verificationTokenEntity);
+			return user;
+		}
+		else {
+			return null;
+		}
 	}
 
 	@Override
 	public void saveToDB(UserAuthenticationEntity user) {
 		if (user.getRole().equalsIgnoreCase("CUSTOMER")) {
-			CustomerEntity customerEntity = new CustomerEntity();
-			customerEntity.setFullName(user.getFullName());
-			customerEntity.setEmail(user.getEmail());
-			customerEntity.setRole(user.getRole());
-
-			customerRepository.save(customerEntity);
+			CustomerEntity customer = customerRepository.findByEmail(user.getEmail());
+			if(customer == null) {
+				CustomerEntity customerEntity = new CustomerEntity();
+				customerEntity.setFullName(user.getFullName());
+				customerEntity.setEmail(user.getEmail());
+				customerEntity.setRole(user.getRole());
+	
+				customerRepository.save(customerEntity);
+			}
+			else {
+				customer.setEnableStatus(EnableStatusEnum.ENABLED);
+				customerRepository.save(customer);
+			}
 		} 
 		else if (user.getRole().equalsIgnoreCase("SHOP")) {
-			ShopEntity shopEntity = new ShopEntity();
-			shopEntity.setFullName(user.getFullName());
-			shopEntity.setEmail(user.getEmail());
-			shopEntity.setRole(user.getRole());
+			ShopEntity shop = shopRepository.findByEmail(user.getEmail());
+			if(shop == null) {
+				ShopEntity shopEntity = new ShopEntity();
+				shopEntity.setFullName(user.getFullName());
+				shopEntity.setEmail(user.getEmail());
+				shopEntity.setRole(user.getRole());
 
-			shopRepository.save(shopEntity);
+				shopRepository.save(shopEntity);
+			}
+			else {
+				shop.setEnableStatus(EnableStatusEnum.ENABLED);
+				shopRepository.save(shop);
+			}
+			
 		}
 	}
 }

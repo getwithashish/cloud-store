@@ -17,7 +17,7 @@ public class ShopEntity {
 	private String email;
 	private String ownerFullName;
 	private String role;
-	private boolean enabled = true;
+	private EnableStatusEnum enableStatus = EnableStatusEnum.ENABLED;
 	private String streetName;
 	private String cityName;
 	private String stateName;

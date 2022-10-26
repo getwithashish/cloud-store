@@ -17,7 +17,7 @@ public class CustomerEntity {
 	private String email;
 //	private String password;
 	private String role;
-	private boolean enabled = true;
+	private EnableStatusEnum enableStatus = EnableStatusEnum.ENABLED;
 	private String houseName;
 	private String streetName;
 	private String cityName;

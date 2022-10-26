@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cloudstore.entity.EnableStatusEnum;
 import com.cloudstore.entity.ProductEntity;
 import com.cloudstore.entity.ShopEntity;
 import com.cloudstore.model.ProductModel;
@@ -36,12 +37,16 @@ public class ShopServiceImpl implements ShopServiceInterface {
 	@Override
 	public ShopEntity disableShop(String email) {
 		ShopEntity shop = shopRepository.findByEmail(email);
-		shop.setEnabled(false);
-		shopRepository.save(shop);
+		if(shop != null) {
+			shop.setEnableStatus(EnableStatusEnum.USER_DISABLED);
+			shopRepository.save(shop);
 
-		userLoginService.disableUser(email);
-
-		return shop;
+			userLoginService.disableUser(email);
+			return shop;
+		}
+		else {
+			return null;
+		}
 	}
 
 	@Override

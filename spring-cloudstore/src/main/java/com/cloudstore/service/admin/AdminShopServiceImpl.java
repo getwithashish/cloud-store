@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.cloudstore.entity.CustomerEntity;
+import com.cloudstore.entity.EnableStatusEnum;
 import com.cloudstore.entity.ShopEntity;
 import com.cloudstore.entity.UserAuthenticationEntity;
 import com.cloudstore.model.EditModel;
@@ -38,7 +39,7 @@ public class AdminShopServiceImpl implements AdminShopServiceInterface {
 	public void disableShops(String[] emails) {
 		List<ShopEntity> shops = shopRepository.findAllByEmails(emails);
 		for (ShopEntity shop : shops) {
-			shop.setEnabled(false);
+			shop.setEnableStatus(EnableStatusEnum.ADMIN_DISABLED);
 		}
 		shopRepository.saveAll(shops);
 
@@ -49,7 +50,7 @@ public class AdminShopServiceImpl implements AdminShopServiceInterface {
 	public void enableShops(String[] emails) {
 		List<ShopEntity> shops = shopRepository.findAllByEmails(emails);
 		for (ShopEntity shop : shops) {
-			shop.setEnabled(true);
+			shop.setEnableStatus(EnableStatusEnum.ENABLED);
 		}
 		shopRepository.saveAll(shops);
 

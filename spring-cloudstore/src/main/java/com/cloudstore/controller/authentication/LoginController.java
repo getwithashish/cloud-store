@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cloudstore.entity.EnableStatusEnum;
 import com.cloudstore.entity.UserAuthenticationEntity;
 import com.cloudstore.model.UserLoginModel;
 import com.cloudstore.service.authentication.UserLoginServiceInterface;
@@ -49,8 +50,28 @@ public class LoginController {
 
 //		final UserAuthenticationEntity user = userLoginService.findByEmail(email);
 		final UserAuthenticationEntity user = (UserAuthenticationEntity)authenticatedUsernamePasswordAuthenticationToken.getPrincipal();
-		final String token = jwtUtility.generateToken(user);
-		return token;
+		EnableStatusEnum userEnableStatus = user.getEnableStatus();
+		if(userEnableStatus == EnableStatusEnum.ENABLED) {
+			final String token = jwtUtility.generateToken(user);
+			return token;
+		}
+		else if(userEnableStatus == EnableStatusEnum.DISABLED) {
+			String messageString = "D";
+			return messageString;
+		}
+		else if(userEnableStatus == EnableStatusEnum.USER_DISABLED) {
+			String messageString = "UD";
+			return messageString;
+		}
+		else if(userEnableStatus == EnableStatusEnum.ADMIN_DISABLED) {
+			String messageString = "AD";
+			return messageString;
+		}
+		else {
+			String messageString = null;
+			return messageString;
+		}
+		
 		// TODO Check whether enabled or disabled
 	}
 }

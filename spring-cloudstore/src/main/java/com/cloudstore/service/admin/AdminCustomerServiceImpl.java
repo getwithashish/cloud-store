@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.cloudstore.entity.CustomerEntity;
+import com.cloudstore.entity.EnableStatusEnum;
 import com.cloudstore.entity.UserAuthenticationEntity;
 import com.cloudstore.model.EditModel;
 import com.cloudstore.repository.CustomerRepository;
@@ -37,7 +38,7 @@ public class AdminCustomerServiceImpl implements AdminCustomerServiceInterface {
 	public void disableCustomers(String[] emails) {
 		List<CustomerEntity> customers = customerRepository.findAllByEmails(emails);
 		for (CustomerEntity customer : customers) {
-			customer.setEnabled(false);
+			customer.setEnableStatus(EnableStatusEnum.ADMIN_DISABLED);;
 		}
 		customerRepository.saveAll(customers);
 
@@ -49,7 +50,7 @@ public class AdminCustomerServiceImpl implements AdminCustomerServiceInterface {
 	public void enableCustomers(String[] emails) {
 		List<CustomerEntity> customers = customerRepository.findAllByEmails(emails);
 		for (CustomerEntity customer : customers) {
-			customer.setEnabled(true);
+			customer.setEnableStatus(EnableStatusEnum.ENABLED);;
 		}
 		customerRepository.saveAll(customers);
 

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cloudstore.entity.CustomerEntity;
+import com.cloudstore.entity.EnableStatusEnum;
 import com.cloudstore.repository.CustomerRepository;
 import com.cloudstore.service.authentication.UserLoginServiceInterface;
 
@@ -27,7 +28,7 @@ public class CustomerServiceImpl implements CustomerServiceInterface {
 	@Override
 	public CustomerEntity disableCustomer(String email) {
 		CustomerEntity customer = customerRepository.findByEmail(email);
-		customer.setEnabled(false);
+		customer.setEnableStatus(EnableStatusEnum.USER_DISABLED);
 		customerRepository.save(customer);
 
 		userLoginService.disableUser(email);

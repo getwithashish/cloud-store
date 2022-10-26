@@ -22,7 +22,7 @@ public class VerifyRegistrationController {
 		UserAuthenticationEntity user = verifyRegistrationService.validateVerificationToken(token);
 		if (user != null) {
 			verifyRegistrationService.saveToDB(user);
-			return "User Verification Successful";
+			return "User Verification Successful. Account is now enabled.";
 		} else {
 			return "User Verification failed";
 		}
