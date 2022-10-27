@@ -8,10 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cloudstore.entity.EnableStatusEnum;
+import com.cloudstore.entity.ProductCategoryEntity;
 import com.cloudstore.entity.ProductEntity;
 import com.cloudstore.entity.ShopEntity;
 import com.cloudstore.model.EditShopModel;
 import com.cloudstore.model.ProductModel;
+import com.cloudstore.repository.CategoryRepository;
 import com.cloudstore.repository.ProductRepository;
 import com.cloudstore.repository.ShopRepository;
 import com.cloudstore.service.authentication.UserLoginServiceInterface;
@@ -25,6 +27,9 @@ public class ShopServiceImpl implements ShopServiceInterface {
 	
 	@Autowired
 	private ProductRepository productRepository;
+	
+	@Autowired
+	private CategoryRepository categoryRepository;
 
 	@Autowired
 	private UserLoginServiceInterface userLoginService;
@@ -106,6 +111,15 @@ public class ShopServiceImpl implements ShopServiceInterface {
 		
 		shop = shopRepository.save(shop);
 		return shop;
+	}
+
+	@Override
+	public ProductCategoryEntity addCategory(String category) {
+		ProductCategoryEntity productCategory = new ProductCategoryEntity();
+		productCategory.setCategory(category);
+		
+		ProductCategoryEntity savedCategory = categoryRepository.save(productCategory);
+		return savedCategory;
 	}
 
 }

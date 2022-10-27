@@ -3,6 +3,7 @@ import AddAdminProducts from "@/modules/Admin/views/AdminProducts/AddAdminProduc
 import EditAdminProducts from "@/modules/Admin/views/AdminProducts/EditAdminProducts.vue";
 import EnableAdminProducts from "@/modules/Admin/views/AdminProducts/EnableAdminProducts.vue";
 import DisableAdminProducts from "@/modules/Admin/views/AdminProducts/DisableAdminProducts.vue";
+import AddAdminProductCategory from "@/modules/Admin/views/AdminProducts/AddAdminProductCategory.vue";
 
 export const adminProductRoutes = [
   {
@@ -41,6 +42,13 @@ export const adminProductRoutes = [
         name: "admin-product-enable",
         components: {
           adminPage: EnableAdminProducts,
+        },
+      },
+      {
+        path: "category",
+        name: "shop-product-category-add",
+        components: {
+          adminPage: AddAdminProductCategory,
         },
       },
     ],

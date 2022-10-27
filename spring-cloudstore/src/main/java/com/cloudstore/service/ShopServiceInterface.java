@@ -3,6 +3,7 @@ package com.cloudstore.service;
 
 import java.util.List;
 
+import com.cloudstore.entity.ProductCategoryEntity;
 import com.cloudstore.entity.ProductEntity;
 import com.cloudstore.entity.ShopEntity;
 import com.cloudstore.model.EditShopModel;
@@ -24,5 +25,7 @@ public interface ShopServiceInterface {
 	public ProductEntity findProductById(String prodId);
 
 	public ShopEntity editShop(EditShopModel editModel);
+
+	public ProductCategoryEntity addCategory(String category);
 
 }

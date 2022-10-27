@@ -70,6 +70,15 @@
           >Enable Product</router-link
         >
       </li>
+      <li>
+        <router-link
+          to="/admin/products/category"
+          v-bind:class="{
+            'is-active': 'shop-product-category-add' == this.$route.name,
+          }"
+          >Add Category</router-link
+        >
+      </li>
       <!-- <li><a v-bind:class="{'is-active': ('shop-view' == this.$route.name)}">View Product Log</a></li> -->
     </ul>
 

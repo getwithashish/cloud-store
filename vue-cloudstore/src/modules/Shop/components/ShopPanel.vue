@@ -61,6 +61,17 @@
               >Delete Product</router-link
             >
           </li>
+
+          <li>
+            <router-link
+              to="/shop/category/add"
+              v-bind:class="{
+                'is-active': 'shop-product-add' == this.$route.name,
+              }"
+              >Add Product</router-link
+            >
+          </li>
+
         </ul>
       </li>
 
