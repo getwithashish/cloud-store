@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cloudstore.Model.ProductStockUpdateModel;
@@ -111,6 +112,20 @@ public class ShopController {
 				SecurityContextHolder.getContext().getAuthentication();
 		String shopEmail = usernamePasswordAuthenticationToken.getName();
 		ProductEntity product = shopService.updateStock(shopEmail, productStock);
+		return product;
+	}
+	
+	@CrossOrigin("http://localhost:3000")
+	@GetMapping("/user/shop/product/similar")
+	public List<ProductEntity> similarProducts(@RequestParam String prodName){
+		List<ProductEntity> products = shopService.similarProducts(prodName);
+		return products;
+	}
+	
+	@CrossOrigin("http://localhost:3000")
+	@PostMapping("/user/shop/product/similar")
+	public ProductEntity addSimilarProducts(@RequestParam String prodId){
+		ProductEntity product = shopService.addSimilarProducts(prodId);
 		return product;
 	}
 

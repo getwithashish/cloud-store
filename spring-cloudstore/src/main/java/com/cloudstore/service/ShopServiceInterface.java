@@ -37,4 +37,8 @@ public interface ShopServiceInterface {
 
 	public ProductEntity updateStock(String shopEmail, ProductStockUpdateModel productStock);
 
+	public List<ProductEntity> similarProducts(String prodName);
+
+	public ProductEntity addSimilarProducts(String prodId);
+
 }

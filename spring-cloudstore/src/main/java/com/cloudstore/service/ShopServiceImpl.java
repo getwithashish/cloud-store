@@ -204,4 +204,30 @@ public class ShopServiceImpl implements ShopServiceInterface {
 		return updatedProduct;
 	}
 
+	@Override
+	public List<ProductEntity> similarProducts(String prodName) {
+		List<ProductEntity> products = productRepository.findSimilarProducts(prodName);
+		return products;
+	}
+
+	@Override
+	public ProductEntity addSimilarProducts(String prodId) {
+		Authentication usernamePasswordAuthenticationToken = 
+				SecurityContextHolder.getContext().getAuthentication();
+		String email = usernamePasswordAuthenticationToken.getName();
+		ShopEntity shop = shopInfo(email);
+		shop.getProductId().add(prodId);
+		shopRepository.save(shop);
+		
+		ProductShopEntryEntity productShop = new ProductShopEntryEntity();
+		productShop.setShopId(shop.getId());
+		
+		ProductEntity product = findProductById(prodId);
+		product.getShops().add(productShop);
+		productRepository.save(product);
+		
+		return product;
+		
+	}
+
 }
