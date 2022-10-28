@@ -61,6 +61,17 @@ public class ShopController {
 	}
 	
 	@CrossOrigin("http://localhost:3000")
+	@GetMapping("/user/shop/products")
+	public List<ProductEntity> getShopProducts(){
+		Authentication usernamePasswordAuthenticationToken = 
+				SecurityContextHolder.getContext().getAuthentication();
+		String email = usernamePasswordAuthenticationToken.getName();
+		ShopEntity shop = shopService.shopInfo(email);
+		List<ProductEntity> products = shopService.findProductsByShop(shop);
+		return products;
+	}
+	
+	@CrossOrigin("http://localhost:3000")
 	@DeleteMapping("/user/shop/product")
 	public String disableProduct(@RequestBody ProductDeleteModel productDeleteModel) {
 		String[] prodNames = productDeleteModel.getProdNames();

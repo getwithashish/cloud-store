@@ -174,4 +174,11 @@ public class ShopServiceImpl implements ShopServiceInterface {
 		return categories;
 	}
 
+	@Override
+	public List<ProductEntity> findProductsByShop(ShopEntity shop) {
+		List<String> productIdList = shop.getProductId();
+		List<ProductEntity> products = (List<ProductEntity>) productRepository.findAllById(productIdList);
+		return products;
+	}
+
 }

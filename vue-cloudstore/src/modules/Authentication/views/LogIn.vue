@@ -157,8 +157,10 @@ export default {
 
             let decoded = JSON.parse(jsonPayload);
             let decodedRole = decoded.authorities[0].authority;
+            let decodedId = decoded.id
 
             this.$store.commit("setUserRole", decodedRole);
+            this.$store.commit("setUserId", decodedId)
 
             const toPath = this.$route.query.to || "/";
 

@@ -216,6 +216,7 @@ export default {
     },
 
     async submitForm() {
+      this.$store.commit('setIsLoading', true)
       const formData = {
         prodName: this.prodName,
         category: this.category,
@@ -253,6 +254,7 @@ export default {
 
             console.log(JSON.stringify(error));
           }
+          this.$store.commit('setIsLoading', false)
         });
     },
   },

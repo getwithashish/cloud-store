@@ -32,4 +32,6 @@ public interface ShopServiceInterface {
 
 	ProductEntity findProductByName(String prodName);
 
+	public List<ProductEntity> findProductsByShop(ShopEntity shop);
+
 }
