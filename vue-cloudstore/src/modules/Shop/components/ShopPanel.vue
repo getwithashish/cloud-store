@@ -62,15 +62,15 @@
             >
           </li>
 
-          <li>
+          <!-- <li>
             <router-link
               to="/shop/category/add"
               v-bind:class="{
                 'is-active': 'shop-product-add' == this.$route.name,
               }"
-              >Add Product</router-link
+              >Add Category</router-link
             >
-          </li>
+          </li> -->
 
         </ul>
       </li>

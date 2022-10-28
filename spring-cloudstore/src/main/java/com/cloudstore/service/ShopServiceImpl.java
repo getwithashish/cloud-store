@@ -1,15 +1,19 @@
 package com.cloudstore.service;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.cloudstore.entity.EnableStatusEnum;
 import com.cloudstore.entity.ProductCategoryEntity;
 import com.cloudstore.entity.ProductEntity;
+import com.cloudstore.entity.ProductShopEntryEntity;
 import com.cloudstore.entity.ShopEntity;
 import com.cloudstore.model.EditShopModel;
 import com.cloudstore.model.ProductModel;
@@ -57,22 +61,53 @@ public class ShopServiceImpl implements ShopServiceInterface {
 
 	@Override
 	public ProductEntity addProduct(ProductModel productModel) {
-		ProductEntity product = new ProductEntity();
+		ProductEntity product;
 		
-		product.setShopId(productModel.getShopId());
-//		product.setLatString(productModel.getLatString());
-//		product.setLongString(productModel.getLongString());
-//		
-//		product.setProdName(productModel.getProdName());
-//		product.setImage(productModel.getImage());
-		product.setCategory(productModel.getCategory());
-		product.setMainUnit(productModel.getMainUnit());
-		product.setSaleUnit(productModel.getSaleUnit());
-		product.setWeight(productModel.getWeight());
-		product.setPrice(productModel.getPrice());
-		product.setIncrement(productModel.getIncrement());
+		Authentication usernamePasswordAuthenticationToken = 
+				SecurityContextHolder.getContext().getAuthentication();
+		String email = usernamePasswordAuthenticationToken.getName();
+		ShopEntity shop = shopInfo(email);
 		
-		productRepository.save(product);
+		ProductShopEntryEntity productShop = new ProductShopEntryEntity();
+		productShop.setShopId(shop.getId());
+		productShop.setStock(productModel.getStock());
+		
+		ProductEntity productCheck = findProductByName(productModel.getProdName());
+		if(productCheck != null) {
+			productCheck.getShops().add(productShop);
+			productCheck.getPincode().add(shop.getPincode());
+			product = productCheck;
+		}
+		else {
+			product = new ProductEntity();
+			List<ProductShopEntryEntity> listProductShop = new ArrayList<ProductShopEntryEntity>();
+			listProductShop.add(productShop);
+			
+			List<String> listPincode = new ArrayList<String>();
+			listPincode.add(shop.getPincode());
+			
+			product.setShops(listProductShop);
+			product.setPincode(listPincode);
+			product.setProdName(productModel.getProdName());
+			product.setImageUrl(productModel.getImageUrl());
+			product.setCategory(productModel.getCategory());
+			product.setMainUnit(productModel.getMainUnit());
+			product.setSaleUnit(productModel.getSaleUnit());
+			product.setWeight(productModel.getWeight());
+			product.setPrice(productModel.getPrice());
+			product.setIncrement(productModel.getIncrement());
+		}
+
+		product = productRepository.save(product);
+		if(shop.getProductId() != null) {
+			shop.getProductId().add(product.getId());
+		}
+		else {
+			List<String> productIdList = new ArrayList<String>();
+			productIdList.add(product.getId());
+			shop.setProductId(productIdList);
+		}
+		shopRepository.save(shop);
 		return product;
 	}
 
@@ -97,6 +132,17 @@ public class ShopServiceImpl implements ShopServiceInterface {
 		Optional<ProductEntity> product = productRepository.findById(prodId);
 		return product.get();
 	}
+	
+	@Override
+	public ProductEntity findProductByName(String prodName) {
+		Optional<ProductEntity> product = productRepository.findByName(prodName);
+		if(product.isPresent()) {
+			return product.get();
+		}
+		else {
+			return null;
+		}
+	}
 
 	@Override
 	public ShopEntity editShop(EditShopModel editModel) {
@@ -120,6 +166,12 @@ public class ShopServiceImpl implements ShopServiceInterface {
 		
 		ProductCategoryEntity savedCategory = categoryRepository.save(productCategory);
 		return savedCategory;
+	}
+
+	@Override
+	public List<ProductCategoryEntity> viewCategories() {
+		List<ProductCategoryEntity> categories = categoryRepository.findAll();
+		return categories;
 	}
 
 }

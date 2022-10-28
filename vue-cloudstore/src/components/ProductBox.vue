@@ -3,7 +3,7 @@
         <router-link v-bind:to="{path: '/product', query: {id: product.id}}">
         <div class="box">
             <figure class="image">
-                <img v-bind:src="product.image">
+                <img v-bind:src="product.imageUrl">
             </figure>
 
             <h3 class="is-size-4">{{ product.prodName }}</h3>

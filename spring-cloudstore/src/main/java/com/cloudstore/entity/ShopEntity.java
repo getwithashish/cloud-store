@@ -1,6 +1,8 @@
 package com.cloudstore.entity;
 
 
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -25,5 +27,6 @@ public class ShopEntity {
 	private String streetName;
 	private String cityName;
 	private String pincode;
+	private List<String> productId;
 
 }

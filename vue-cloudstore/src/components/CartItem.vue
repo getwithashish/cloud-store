@@ -1,6 +1,6 @@
 <template>
     <tr>
-        <td><router-link :to="item.product.image">{{ item.product.prodName }}</router-link></td>
+        <td><router-link :to="item.product.imageUrl">{{ item.product.prodName }}</router-link></td>
         <td>₹{{ item.product.price }}</td>
         <td>
             {{ item.quantity }}
