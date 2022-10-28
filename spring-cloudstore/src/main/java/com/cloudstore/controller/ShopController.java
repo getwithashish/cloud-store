@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cloudstore.Model.ProductStockUpdateModel;
 import com.cloudstore.entity.ProductCategoryEntity;
 import com.cloudstore.entity.ProductEntity;
+import com.cloudstore.entity.ProductShopEntryEntity;
 import com.cloudstore.entity.ShopEntity;
 import com.cloudstore.model.EditShopModel;
 import com.cloudstore.model.ProductDeleteModel;
@@ -100,6 +102,16 @@ public class ShopController {
 	public List<ProductCategoryEntity> viewCategories(){
 		List<ProductCategoryEntity> categories = shopService.viewCategories();
 		return categories;
+	}
+	
+	@CrossOrigin("http://localhost:3000")
+	@PostMapping("/user/shop/product/stock")
+	public ProductEntity updateStock(@RequestBody ProductStockUpdateModel productStock) {
+		Authentication usernamePasswordAuthenticationToken = 
+				SecurityContextHolder.getContext().getAuthentication();
+		String shopEmail = usernamePasswordAuthenticationToken.getName();
+		ProductEntity product = shopService.updateStock(shopEmail, productStock);
+		return product;
 	}
 
 }

@@ -83,6 +83,13 @@
           </div>
 
           <div class="field">
+            <label>Stock</label>
+            <div class="control">
+              <input type="text" class="input" v-model="stock" />
+            </div>
+          </div>
+
+          <div class="field">
             <label>Range of Increment</label>
             <div class="control">
               <input type="text" class="input" v-model="increment" />
@@ -145,7 +152,7 @@ export default {
       category: "",
       imageUrl: "",
       stock: "",
-      pincode: "",
+      // pincode: "",
       mainUnit: "",
       saleUnit: "",
       weight: "",
@@ -226,6 +233,7 @@ export default {
         weight: this.weight,
         price: this.price,
         increment: this.increment,
+        stock: this.stock,
       };
 
       await axios

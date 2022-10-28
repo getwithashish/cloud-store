@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.cloudstore.Model.ProductStockUpdateModel;
 import com.cloudstore.entity.EnableStatusEnum;
 import com.cloudstore.entity.ProductCategoryEntity;
 import com.cloudstore.entity.ProductEntity;
@@ -179,6 +180,28 @@ public class ShopServiceImpl implements ShopServiceInterface {
 		List<String> productIdList = shop.getProductId();
 		List<ProductEntity> products = (List<ProductEntity>) productRepository.findAllById(productIdList);
 		return products;
+	}
+
+	@Override
+	public ProductEntity updateStock(String shopEmail, ProductStockUpdateModel productStock) {
+		ShopEntity shop = shopInfo(shopEmail);
+		ProductEntity product = findProductById(productStock.getProdId());
+		List<ProductShopEntryEntity> updatedShopStock = new ArrayList<ProductShopEntryEntity>();
+		List<ProductShopEntryEntity> shopStock = product.getShops();
+		for (ProductShopEntryEntity item : shopStock) {
+			System.out.println("Item Shop Id: " + item.getShopId());
+			System.out.println("Shop Id: " + shop.getId());
+			if(item.getShopId().equals(shop.getId())) {
+				item.setStock(productStock.getStock());
+			}
+			updatedShopStock.add(item);
+		}
+		product.setShops(updatedShopStock);
+		
+		System.out.println("Product Output: "+ product);
+
+		ProductEntity updatedProduct = productRepository.save(product);
+		return updatedProduct;
 	}
 
 }
