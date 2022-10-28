@@ -28,4 +28,8 @@ public interface ShopServiceInterface {
 
 	public ProductCategoryEntity addCategory(String category);
 
+	public List<ProductCategoryEntity> viewCategories();
+
+	ProductEntity findProductByName(String prodName);
+
 }

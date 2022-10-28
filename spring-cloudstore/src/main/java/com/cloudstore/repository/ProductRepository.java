@@ -1,6 +1,7 @@
 package com.cloudstore.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
@@ -11,5 +12,8 @@ public interface ProductRepository extends MongoRepository<ProductEntity, String
 
 	@Query("{prodName: {$in: ?0}}")
 	List<ProductEntity> findAllByNames(String[] prodNames);
+	
+	@Query("{prodName: ?0}")
+	Optional<ProductEntity> findByName(String prodName);
 
 }

@@ -12,18 +12,46 @@
             </div>
           </div>
 
-          <div class="field">
+          <!-- <div class="field">
             <label>Category</label>
             <div class="control">
               <input type="text" class="input" v-model="category" />
+            </div>
+          </div> -->
+
+          <div class="field">
+            <label>Category</label>
+            <div class="control">
+              <div class="select">
+                <select v-model="category">
+                  <!-- <option selected>None</option> -->
+                  <option
+                    v-for="item in categories"
+                    v-bind:key="item.id"
+                  >
+                    {{ item.category }}
+                  </option>
+                </select>
+              </div>
             </div>
           </div>
 
           <div class="field">
             <label>Image</label>
-            <div class="control">
+            <!-- <div class="control">
               <input type="text" class="input" v-model="image" />
-            </div>
+            </div> -->
+            <div class="file ">
+                    <label class="file-label">
+                      <input class="file-input" type="file" name="resume" @change="imageFileSelect" />
+                      <span class="file-cta">
+                        <span class="file-icon">
+                          <i class="fas fa-upload"></i>
+                        </span>
+                        <span class="file-label"> Upload Product Picture </span>
+                      </span>
+                    </label>
+                  </div>
           </div>
 
           <div class="field">
@@ -115,22 +143,83 @@ export default {
     return {
       prodName: "",
       category: "",
-      image: "",
+      imageUrl: "",
+      stock: "",
+      pincode: "",
       mainUnit: "",
       saleUnit: "",
       weight: "",
       price: "",
       increment: "",
+
+      productImage: "",
       errors: [],
+      categories: []
     };
   },
-  mounted() {},
+  mounted() {
+    this.getCategories();
+  },
   methods: {
+    getCategories() {
+      axios.get("/user/shop/product/category").then((response) => {
+        console.log(response);
+        var tempData = response.data
+        // console.log(tempData[0].category)
+        var responseData = response.data
+        for(let item in responseData){
+          console.log(responseData[item].category)
+          this.categories.push(responseData[item]);
+        }
+        // console.log(this.categories)
+      });
+    },
+
+    imageFileSelect(event){
+      this.$store.commit('setIsLoading', true)
+      console.log(event)
+      var imageFile = event.target.files[0];
+      this.createBase64Image(imageFile)
+    },
+
+    createBase64Image(fileObject){
+      var reader = new FileReader();
+      reader.onload = (e) => {
+        var imageFileData = e.target.result;
+        this.productImage = imageFileData.slice(imageFileData.indexOf(",")+1);
+        console.log(this.productImage)
+        this.uploadImage();
+      };
+      reader.readAsDataURL(fileObject);
+    },
+
+    async uploadImage(){
+      var formData = new FormData();
+      formData.append("image", this.productImage)
+
+      const client = axios.create({
+        transformRequest: [(data, headers) => {
+        // add required "Content-Type" whenever body is defined
+        delete headers.common.Authorization
+        return data
+      }],
+      })
+      
+      await client
+      .post("https://api.imgbb.com/1/upload?key=0f6650dbe5d582897945e5dd899204bd", formData)
+      .then((response) => {
+        console.log(response)
+        var imageData = response.data.data;
+        this.imageUrl = imageData.url;
+      })
+      this.$store.commit('setIsLoading', false)
+    },
+
     async submitForm() {
       const formData = {
         prodName: this.prodName,
         category: this.category,
-        image: this.image,
+        imageUrl: this.imageUrl,
         mainUnit: this.mainUnit,
         saleUnit: this.saleUnit,
         weight: this.weight,
@@ -139,7 +228,7 @@ export default {
       };
 
       await axios
-        .post("/user/shop/product/add", formData)
+        .post("/user/shop/product", formData)
         .then((response) => {
           toast({
             message: "New product successfully added",
@@ -160,7 +249,7 @@ export default {
               this.errors.push(`${property}: ${error.response.data[property]}`);
             }
           } else {
-            this.errors.push("Something went wrong. Please try again");
+            // this.errors.push("Something went wrong. Please try again");
 
             console.log(JSON.stringify(error));
           }

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cloudstore.entity.ProductCategoryEntity;
 import com.cloudstore.entity.ProductEntity;
 import com.cloudstore.entity.ShopEntity;
 import com.cloudstore.model.EditShopModel;
@@ -81,6 +82,13 @@ public class ShopController {
 		String email = jwtUtility.getUsernameFromToken(token);
 		ShopEntity shop = shopService.disableShop(email);
 		return shop;
+	}
+	
+	@CrossOrigin("http://localhost:3000")
+	@GetMapping("/user/shop/product/category")
+	public List<ProductCategoryEntity> viewCategories(){
+		List<ProductCategoryEntity> categories = shopService.viewCategories();
+		return categories;
 	}
 
 }
