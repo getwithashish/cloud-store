@@ -18,6 +18,7 @@ import com.cloudstore.entity.ProductShopEntryEntity;
 import com.cloudstore.entity.ShopEntity;
 import com.cloudstore.model.EditShopModel;
 import com.cloudstore.model.ProductModel;
+import com.cloudstore.model.ShopIdsModel;
 import com.cloudstore.repository.CategoryRepository;
 import com.cloudstore.repository.ProductRepository;
 import com.cloudstore.repository.ShopRepository;
@@ -119,13 +120,14 @@ public class ShopServiceImpl implements ShopServiceInterface {
 	}
 
 	@Override
-	public void disableProducts(String[] prodNames) {
-		List<ProductEntity> products = productRepository.findAllByNames(prodNames);
-		for (ProductEntity product : products) {
-			product.setEnabled(false);
-			}
-		productRepository.saveAll(products);
-		
+	public void disableProducts(String prodNames) {
+		Optional<ProductEntity> products = productRepository.findByName(prodNames);
+//		for (ProductEntity product : products) {
+//			product.setEnabled(false);
+//			productRepository.delete(product);
+//			}
+//		productRepository.saveAll(products);
+		productRepository.delete(products.get());		
 	}
 
 	@Override
@@ -228,6 +230,23 @@ public class ShopServiceImpl implements ShopServiceInterface {
 		
 		return product;
 		
+	}
+
+	@Override
+	public List<ShopEntity> getShopList(ShopIdsModel shopIds) {
+		List<ShopEntity> shops = (List<ShopEntity>) shopRepository.findAllById(shopIds.getShopIds());
+		return shops;
+	}
+
+	@Override
+	public void deleteProduct(String prodId) {
+		productRepository.deleteById(prodId);
+	}
+
+	@Override
+	public List<ProductEntity> findAllProductsByPincode(String pincode) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

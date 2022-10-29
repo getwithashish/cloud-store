@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cloudstore.entity.CustomerEntity;
@@ -48,20 +49,22 @@ public class AdminCustomerController {
 
 	@CrossOrigin("http://localhost:3000")
 	@DeleteMapping("/admin/customers")
-	public String disableCustomers(@RequestBody DeleteModel deleteModel) {
-		String emails[] = deleteModel.getEmails();
-		adminCustomerService.disableCustomers(emails);
+//	public String disableCustomers(@RequestBody DeleteModel deleteModel) {
+	public String disableCustomers(@RequestParam String deleteModel) {
+//		String emails[] = deleteModel.getEmails();
+		adminCustomerService.disableCustomers(deleteModel);
 
-		return "SUCCESSFULLY DISABLED: \n" + emails;
+		return "SUCCESSFULLY DISABLED: \n" + deleteModel;
 	}
 	
 	@CrossOrigin("http://localhost:3000")
 	@PatchMapping("/admin/customers")
-	public String enableCustomers(@RequestBody EnableModel enableModel) {
-		String emails[] = enableModel.getEmails();
-		adminCustomerService.enableCustomers(emails);
+//	public String enableCustomers(@RequestBody EnableModel enableModel) {
+	public String enableCustomers(@RequestParam String enableModel) {
+//		String emails[] = enableModel.getEmails();
+		adminCustomerService.enableCustomers(enableModel);
 
-		return "SUCCESSFULLY DISABLED: \n" + emails;
+		return "SUCCESSFULLY DISABLED: \n" + enableModel;
 	}
 
 }

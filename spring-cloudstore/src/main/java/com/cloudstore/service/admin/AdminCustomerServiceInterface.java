@@ -11,9 +11,9 @@ public interface AdminCustomerServiceInterface {
 
 	List<CustomerEntity> findAllCustomers();
 
-	void disableCustomers(String[] emails);
+	void disableCustomers(String deleteModel);
 
-	void enableCustomers(String[] emails);
+	void enableCustomers(String enableModel);
 
 	CustomerEntity editCustomers(EditCustomerModel editModel);
 

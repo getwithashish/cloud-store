@@ -1,77 +1,78 @@
 <template>
-  <div class="page-log-in">
+  <div class="page-sign-up">
     <div class="columns">
       <div class="column is-4 is-offset-4">
         <h1 class="title">Add New Shop</h1>
 
         <form @submit.prevent="submitForm">
           <div class="field">
-            <label>User Email</label>
+            <label class="is-size-5">Full Name</label>
             <div class="control">
-              <input type="text" class="input" v-model="email" />
+              <input type="text" class="input" v-model="state.fullName" />
+              <span v-if="v$.fullName.$error" class="has-text-danger">
+                {{ v$.fullName.$errors[0].$message }}
+              </span>
             </div>
           </div>
 
           <div class="field">
-            <label>User Full Name</label>
+            <label class="is-size-5">Email</label>
             <div class="control">
-              <input type="text" class="input" v-model="fullName" />
+              <input type="text" class="input" v-model="state.email" />
+              <span v-if="v$.email.$error" class="has-text-danger">
+                {{ v$.email.$errors[0].$message }}
+              </span>
             </div>
           </div>
 
           <div class="field">
-            <label>User Role</label>
+            <label class="is-size-5">Password</label>
             <div class="control">
-              <input type="text" class="input" v-model="role" />
+              <input type="password" class="input" v-model="state.password" />
+              <span v-if="v$.password.$error" class="has-text-danger">
+                {{ v$.password.$errors[0].$message }}
+              </span>
             </div>
           </div>
 
           <div class="field">
-            <label>User Password</label>
+            <label class="is-size-5">Confirm password</label>
             <div class="control">
-              <input type="text" class="input" v-model="password" />
-            </div>
-          </div>
-
-          <!-- <div class="field">
-            <label>User House Name</label>
-            <div class="control">
-              <input type="text" class="input" v-model="houseName" />
+              <input type="password" class="input" v-model="state.password2" />
+              <span v-if="v$.password2.$error" class="has-text-danger">
+                {{ v$.password2.$errors[0].$message }}
+              </span>
             </div>
           </div>
 
           <div class="field">
-            <label>User Residing Street</label>
+            <label class="is-size-5">Role</label>
             <div class="control">
-              <input type="text" class="input" v-model="streetName" />
+              <div class="select">
+                <select class="is-hovered" v-model="state.role">
+                  <!-- <option selected value="CUSTOMER">Customer</option> -->
+                  <option value="SHOP">Shop</option>
+                </select>
+                <span v-if="v$.role.$error" class="has-text-danger">
+                  {{ v$.role.$errors[0].$message }}
+                </span>
+              </div>
             </div>
           </div>
 
-          <div class="field">
-            <label>User Residing City</label>
-            <div class="control">
-              <input type="text" class="input" v-model="cityName" />
-            </div>
-          </div>
-
-          <div class="field">
-            <label>User Residing State</label>
-            <div class="control">
-              <input type="text" class="input" v-model="stateName" />
-            </div>
+          <!-- <div class="notification is-danger" v-if="errors.length">
+            <p v-for="error in errors" v-bind:key="error">{{ error }}</p>
           </div> -->
 
-          <div class="notification is-danger" v-if="errors.length">
-            <p v-for="error in errors" v-bind:key="error">{{ error }}</p>
-          </div>
-
-          <div class="field">
+          <div class="field mt-6">
             <div class="control">
-              <button class="button is-dark">Submit</button>
+              <button class="button is-dark">Add</button>
             </div>
           </div>
 
           <hr />
+
+          <!-- Already have an Account? <router-link to="/login">Log in</router-link> -->
         </form>
       </div>
     </div>
@@ -80,55 +81,141 @@
 
 <script>
 import axios from "axios";
+import { toast } from "bulma-toast";
+// import { toast } from "@import 'bulma/css/bulma.css'"
+
+import useVuelidate from "@vuelidate/core";
+import {
+  required,
+  email,
+  sameAs,
+  minLength,
+  maxLength,
+  helpers,
+  
+} from "@vuelidate/validators";
+import { reactive, computed } from "vue";
 
 export default {
-  name: "AddShopDetails",
-  data() {
-    return {
-      email: "",
+  name: "SignUp",
+
+
+  
+  setup() {
+    const state = reactive({
       fullName: "",
-      role: "",
+      email: "",
       password: "",
-      errors: [],
+      password2: "",
+      role: "",
+    });
+
+    const rules = computed(() => {
+      return {
+        fullName: { required },
+        email: { required, email },
+        password: {
+          required,
+          minLength: minLength(8),
+          maxLength: maxLength(131),
+          containsPasswordRequirement: helpers.withMessage(
+            () =>
+              `The password requires an uppercase, lowercase, number and special character`,
+            (value) =>
+              /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])/.test(value)
+          ),
+        },
+        password2: { required, sameAs: sameAs(state.password) },
+        role: { required },
+      };
+    });
+
+    const v$ = useVuelidate(rules, state);
+
+    return {
+      state,
+      v$,
     };
   },
-  mounted() {},
+
+  // data() {
+  //   return {
+  //     v$: useValidate(),
+  //     fullName: "",
+  //     email: "",
+  //     password: "",
+  //     password2: "",
+  //     role: "",
+  //     errors: [],
+  //   };
+  // },
+  // validations() {
+  //   return {
+  //     fullName: { required },
+  //     email: { required },
+  //     password: "",
+  //     password2: "",
+  //     role: "",
+  //   };
+  // },
+  mounted() {
+    document.title = "Sign Up | CloudStore";
+  },
   methods: {
-    async submitForm() {
-      const formData = {
-        email: this.email,
-        fullName: this.fullName,
-        role: this.role,
-        password: this.password,
-      };
+    submitForm() {
+      this.v$.$validate();
 
-      await axios
-        .post("/user/register", formData)
-        .then((response) => {
-          toast({
-            message: "New Shop successfully added",
-            type: "is-success",
-            dismissible: true,
-            pauseOnHover: true,
-            duration: 2000,
-            position: "bottom-right",
+      // this.errors = [];
+
+      // if (this.username === "") {
+      //   this.errors.push("The username is missing");
+      // }
+
+      // if (this.password === "") {
+      //   this.errors.push("The password is too short");
+      // }
+
+      // if (this.password !== this.password2) {
+      //   this.errors.push("The passwords doesn't match");
+      // }
+
+      if (!this.v$.$error) {
+        const formData = {
+          // fullName: this.fullName,
+          // email: this.email,
+          // password: this.password,
+          // role: this.role,
+          fullName: this.state.fullName,
+          email: this.state.email,
+          password: this.state.password,
+          role: this.state.role,
+        };
+
+        axios
+          .post("/user/register", formData)
+          .then((response) => {
+            toast({
+              message: "Account created, please log in!",
+              type: "is-success",
+              dismissible: true,
+              pauseOnHover: true,
+              duration: 2000,
+              position: "bottom-right",
+            });
+
+            // this.$router.push("/login");
+          })
+          .catch((error) => {
+            toast({
+              message: "Account not created, Try again",
+              type: "is-success",
+              dismissible: true,
+              pauseOnHover: true,
+              duration: 2000,
+              position: "bottom-right",
+            });
           });
-
-          //   const toPath = this.$route.query.to || "/cart";
-
-          //   this.$router.push(toPath);
-        })
-        .catch((error) => {
-          if (error.response) {
-            for (const property in error.response.data) {
-              this.errors.push(`${property}: ${error.response.data[property]}`);
-            }
-          } else {
-            this.errors.push("Something went wrong. Please try again");
-
-            console.log(JSON.stringify(error));
-          }
-        });
+      }
     },
   },
 };

@@ -86,7 +86,7 @@
           >Transactions</router-link
         >
       </li> -->
-      <li>
+      <!-- <li>
         <router-link
           to="/shop/log"
           v-bind:class="{
@@ -94,7 +94,7 @@
           }"
           >Log</router-link
         >
-      </li>
+      </li> -->
       <!-- <li>
         <router-link
           to="/shop/settings"
@@ -104,9 +104,27 @@
           >Settings</router-link
         >
       </li> -->
+      <li><a @click="disableAccount()">Disable Account</a>
+      </li>
     </ul>
   </aside>
 </template>
+
+<script>
+import axios from 'axios';
+export default {
+  
+  methods: {
+    disableAccount(){
+      axios
+      .delete("/user/shop")
+      .then((response) => {
+        console.log(response)
+      })
+    }
+  }
+}
+</script>
 
 <style>
 .section-contents {

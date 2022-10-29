@@ -9,6 +9,7 @@ import com.cloudstore.entity.ProductEntity;
 import com.cloudstore.entity.ShopEntity;
 import com.cloudstore.model.EditShopModel;
 import com.cloudstore.model.ProductModel;
+import com.cloudstore.model.ShopIdsModel;
 
 
 public interface ShopServiceInterface {
@@ -21,7 +22,7 @@ public interface ShopServiceInterface {
 
 	public List<ProductEntity> findAllProducts();
 
-	public void disableProducts(String[] prodNames);
+	public void disableProducts(String prodNames);
 
 	public ProductEntity findProductById(String prodId);
 
@@ -40,5 +41,11 @@ public interface ShopServiceInterface {
 	public List<ProductEntity> similarProducts(String prodName);
 
 	public ProductEntity addSimilarProducts(String prodId);
+
+	public List<ShopEntity> getShopList(ShopIdsModel shopIds);
+
+	public void deleteProduct(String prodId);
+
+	public List<ProductEntity> findAllProductsByPincode(String pincode);
 
 }

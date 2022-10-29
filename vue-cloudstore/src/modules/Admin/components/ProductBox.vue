@@ -10,17 +10,17 @@
       <h3 class="is-size-4">{{ product.prodName }}</h3>
       <div class="field is-horizontal">
       <p class="is-size-6 has-text-grey">₹{{ product.price }}</p>
-      <p class="is-size-6 has-text-grey ml-6">Stock: {{ stock }}</p>
+      <!-- <p class="is-size-6 has-text-grey ml-6">Stock: {{ stock }}</p> -->
       </div>
 
-      <div class="field has-addons">
+      <!-- <div class="field has-addons">
         <div class="control">
           <input class="input" type="text" placeholder="Enter Stock" v-model="stockInput" />
         </div>
         <div class="control">
           <a class="button is-info" @click="updateStock"> Update </a>
         </div>
-      </div>
+      </div> -->
 
       <!-- <router-link v-bind:to="product.image" class="button is-dark mt-4">View details</router-link> -->
     </div>
@@ -79,12 +79,12 @@ export default {
 
       removeProduct(item){
         console.log(item.prodName)
-        var tmpName = item.prodName;
-        var prodData = {
-          prodNames: tmpName
-        }
+        var tmpId = item.id;
+        // var prodData = {
+        //   prodNames: tmpName
+        // }
         axios
-        .delete(`/user/shop/product?productName=${tmpName}`)
+        .delete(`/product?prodId=${tmpId}`)
         .then((response) => {
           console.log(response)
         })

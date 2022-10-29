@@ -36,23 +36,25 @@ public class AdminShopServiceImpl implements AdminShopServiceInterface {
 	}
 
 	@Override
-	public void disableShops(String[] emails) {
-		List<ShopEntity> shops = shopRepository.findAllByEmails(emails);
-		for (ShopEntity shop : shops) {
-			shop.setEnableStatus(EnableStatusEnum.ADMIN_DISABLED);
-		}
-		shopRepository.saveAll(shops);
+	public void disableShops(String emails) {
+		ShopEntity shops = shopRepository.findByEmail(emails);
+//		for (ShopEntity shop : shops) {
+//			shop.setEnableStatus(EnableStatusEnum.ADMIN_DISABLED);
+//		}
+		shops.setEnableStatus(EnableStatusEnum.ADMIN_DISABLED);
+		shopRepository.save(shops);
 
 		userLoginService.disableUsers(emails);
 	}
 
 	@Override
-	public void enableShops(String[] emails) {
-		List<ShopEntity> shops = shopRepository.findAllByEmails(emails);
-		for (ShopEntity shop : shops) {
-			shop.setEnableStatus(EnableStatusEnum.ENABLED);
-		}
-		shopRepository.saveAll(shops);
+	public void enableShops(String emails) {
+		ShopEntity shops = shopRepository.findByEmail(emails);
+//		for (ShopEntity shop : shops) {
+//			shop.setEnableStatus(EnableStatusEnum.ENABLED);
+//		}
+		shops.setEnableStatus(EnableStatusEnum.ENABLED);
+		shopRepository.save(shops);
 
 		userLoginService.enableUsers(emails);
 		

@@ -19,7 +19,7 @@
           >Profile</router-link
         >
       </li>
-      <li>
+      <!-- <li>
         <router-link
           to="/customer/transactions"
           v-bind:class="{
@@ -27,8 +27,8 @@
           }"
           >Transactions</router-link
         >
-      </li>
-      <li>
+      </li> -->
+      <!-- <li>
         <router-link
           to="/customer/log"
           v-bind:class="{
@@ -36,8 +36,8 @@
           }"
           >Log</router-link
         >
-      </li>
-      <li>
+      </li> -->
+      <!-- <li>
         <router-link
           to="/customer/settings"
           v-bind:class="{
@@ -45,12 +45,28 @@
           }"
           >Settings</router-link
         >
-      </li>
-      <li><a>Disable Account</a>
+      </li> -->
+      <li><a @click="disableAccount()">Disable Account</a>
       </li>
     </ul>
   </aside>
 </template>
+
+<script>
+import axios from 'axios';
+export default {
+  
+  methods: {
+    disableAccount(){
+      axios
+      .delete("/user/customer")
+      .then((response) => {
+        console.log(response)
+      })
+    }
+  }
+}
+</script>
 
 <style>
 .section-contents {

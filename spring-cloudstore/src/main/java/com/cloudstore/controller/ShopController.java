@@ -26,6 +26,7 @@ import com.cloudstore.entity.ShopEntity;
 import com.cloudstore.model.EditShopModel;
 import com.cloudstore.model.ProductDeleteModel;
 import com.cloudstore.model.ProductModel;
+import com.cloudstore.model.ShopIdsModel;
 import com.cloudstore.repository.ProductRepository;
 import com.cloudstore.service.ShopServiceInterface;
 import com.cloudstore.utility.JWTExtractor;
@@ -54,6 +55,13 @@ public class ShopController {
 		return shop;
 	}
 	
+	@CrossOrigin("http://localhost:3000")
+	@PutMapping("/user/shops")
+	public List<ShopEntity> getShopList(@RequestBody ShopIdsModel shopIds){
+		List<ShopEntity> shops = shopService.getShopList(shopIds);
+		return shops;
+	}
+	
 	
 //	TODO Later, maybe add API for adding multiple products at the same time
 	@CrossOrigin("http://localhost:3000")
@@ -76,10 +84,11 @@ public class ShopController {
 	
 	@CrossOrigin("http://localhost:3000")
 	@DeleteMapping("/user/shop/product")
-	public String disableProduct(@RequestBody ProductDeleteModel productDeleteModel) {
-		String[] prodNames = productDeleteModel.getProdNames();
-		shopService.disableProducts(prodNames);
-		return "SUCCESSFULLY DISABLED: \n" + prodNames;
+//	public String disableProduct(@RequestBody ProductDeleteModel productDeleteModel) {
+	public String disableProduct(@RequestParam String productName) {
+//		String[] prodNames = productDeleteModel.getProdNames();
+		shopService.disableProducts(productName);
+		return "SUCCESSFULLY DISABLED: \n" + productName;
 	}
 
 	@CrossOrigin("http://localhost:3000")
