@@ -119,19 +119,21 @@ export default {
           password: this.state.password,
         };
 
+        this.$store.commit("setIsLoading", true);
+
         await axios
           .post("/user/login", formData)
           .then((response) => {
             // const token = response.data.auth_token
 
-            toast({
-              message: "Account created, please log in!",
-              type: "is-success",
-              dismissible: true,
-              pauseOnHover: true,
-              duration: 2000,
-              position: "bottom-right",
-            });
+            // toast({
+            //   message: "Account created, please log in!",
+            //   type: "is-success",
+            //   dismissible: true,
+            //   pauseOnHover: true,
+            //   duration: 2000,
+            //   position: "bottom-right",
+            // });
 
             const token = response.data;
 
@@ -155,6 +157,7 @@ export default {
                 .join("")
             );
 
+
             let decoded = JSON.parse(jsonPayload);
             let decodedRole = decoded.authorities[0].authority;
             let decodedId = decoded.id
@@ -176,6 +179,8 @@ export default {
               position: "bottom-right",
             });
           });
+
+          this.$store.commit("setIsLoading", false);
       }
     },
   },

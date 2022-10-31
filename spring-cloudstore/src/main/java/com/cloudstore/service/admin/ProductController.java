@@ -31,6 +31,13 @@ public class ProductController {
 	}
 	
 	@CrossOrigin("http://localhost:3000")
+	@GetMapping("/productsbypin")
+	public List<ProductEntity> listProductsByPincode(@RequestParam String pincode){
+		List<ProductEntity> products = shopService.findAllProductsByPincode(pincode);
+		return products;
+	}
+	
+	@CrossOrigin("http://localhost:3000")
 	@GetMapping("/product")
 	public ProductEntity listProducts(@RequestParam String prodId) {
 		ProductEntity product = shopService.findProductById(prodId);

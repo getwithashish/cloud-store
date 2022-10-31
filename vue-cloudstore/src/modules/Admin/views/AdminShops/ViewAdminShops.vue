@@ -5,6 +5,7 @@
         <th>Name</th>
         <th>Email</th>
         <th>Role</th>
+        <th>Document</th>
         <th>Enabled</th>
         <!-- <th>Address</th> -->
         <th>Mobile Number</th>
@@ -18,6 +19,7 @@
         <td>{{ shop.shopName }}</td>
         <td>{{ shop.email }}</td>
         <td>{{ shop.role }}</td>
+        <td> <a v-bind:href="shop.documentUrl" target="_blank">View Document</a> </td>
         <td>{{ shop.enableStatus }}</td>
         <!-- <td>{{ shop.houseName }}</td> -->
         <td>{{ shop.mobile }}</td>
@@ -47,6 +49,7 @@ export default {
       .delete(`/admin/shops?deleteModel=${item.email}`)
       .then((response) => {
         console.log(response);
+        window.location.reload();
       })
     },
     enableAccount(item){
@@ -54,6 +57,7 @@ export default {
       .patch(`/admin/shops?enableModel=${item.email}`)
       .then((response) => {
         console.log(response);
+        window.location.reload();
       })
     }
   },

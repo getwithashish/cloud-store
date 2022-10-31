@@ -11,15 +11,21 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.cloudstore.Model.ProductStockUpdateModel;
+import com.cloudstore.entity.CustomerEntity;
 import com.cloudstore.entity.EnableStatusEnum;
+import com.cloudstore.entity.OrderEntity;
+import com.cloudstore.entity.OrderProductList;
 import com.cloudstore.entity.ProductCategoryEntity;
 import com.cloudstore.entity.ProductEntity;
 import com.cloudstore.entity.ProductShopEntryEntity;
 import com.cloudstore.entity.ShopEntity;
 import com.cloudstore.model.EditShopModel;
+import com.cloudstore.model.OrderModel;
+import com.cloudstore.model.OrderProductListModel;
 import com.cloudstore.model.ProductModel;
 import com.cloudstore.model.ShopIdsModel;
 import com.cloudstore.repository.CategoryRepository;
+import com.cloudstore.repository.OrderRepository;
 import com.cloudstore.repository.ProductRepository;
 import com.cloudstore.repository.ShopRepository;
 import com.cloudstore.service.authentication.UserLoginServiceInterface;
@@ -36,6 +42,9 @@ public class ShopServiceImpl implements ShopServiceInterface {
 	
 	@Autowired
 	private CategoryRepository categoryRepository;
+	
+	@Autowired
+	private OrderRepository orderRepository;
 
 	@Autowired
 	private UserLoginServiceInterface userLoginService;
@@ -245,8 +254,43 @@ public class ShopServiceImpl implements ShopServiceInterface {
 
 	@Override
 	public List<ProductEntity> findAllProductsByPincode(String pincode) {
-		// TODO Auto-generated method stub
-		return null;
+		List<ProductEntity> products = productRepository.findAllByPincode(pincode);
+		return products;
+	}
+
+	@Override
+	public String[] createOrder(CustomerEntity customer, OrderModel orderModel) {
+		
+		List<OrderProductListModel> orderProduct = orderModel.getOrderProductList();
+		
+		List<OrderProductList> orderedProducts = new ArrayList<OrderProductList>();
+		double totalAmt = 0.00;
+		
+		for (OrderProductListModel item : orderProduct) {
+			ProductEntity prod = findProductById(item.getProdId());
+			OrderProductList odl = new OrderProductList();		
+			odl.setProdId(prod.getId());
+			odl.setShopId(item.getShopId());
+			odl.setQuantity(item.getQuantity());
+			odl.setPrice(prod.getPrice());
+			orderedProducts.add(odl);
+			
+			totalAmt += (prod.getPrice() * item.getQuantity());
+		}
+		
+		long time = System.currentTimeMillis();
+		 
+		 OrderEntity order = new OrderEntity();
+		 order.setCustId(customer.getId());
+		 order.setProducts(orderedProducts);
+		 order.setTotalAmt(totalAmt);
+		 order.setTime(time);
+		 order.setAddressId(orderModel.getAddressId());		 
+		 
+		 OrderEntity savedOrder = orderRepository.save(order);
+		 String[] orderIdAndAmount = {savedOrder.getId(), totalAmt + ""};
+		 
+		 return orderIdAndAmount;
 	}
 
 }

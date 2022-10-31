@@ -2,6 +2,7 @@ package com.cloudstore.service;
 
 
 import com.cloudstore.entity.CustomerEntity;
+import com.cloudstore.model.AddressModel;
 import com.cloudstore.model.EditCustomerModel;
 
 
@@ -12,5 +13,7 @@ public interface CustomerServiceInterface {
 	CustomerEntity disableCustomer(String email);
 
 	CustomerEntity editCustomer(EditCustomerModel editModel);
+
+	String storeDeliveryAddress(AddressModel address);
 
 }

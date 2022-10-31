@@ -66,6 +66,10 @@ export default {
       .then((response) => {
         this.customersDetails = response.data;
 
+
+
+  // ------------------What is responseDetails below? ----------------------------
+
         this.$store.commit("setAdminCustomerDetails", responseDetails);
 
         // const toPath = this.$route.query.to || '/cart'

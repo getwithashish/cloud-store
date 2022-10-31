@@ -62,8 +62,20 @@ export default {
       .delete("/user/customer")
       .then((response) => {
         console.log(response)
+        this.logout();
       })
-    }
+    },
+    logout() {
+            axios.defaults.headers.common["Authorization"] = ""
+
+            localStorage.removeItem("token")
+            localStorage.removeItem("username")
+            localStorage.removeItem("userid")
+
+            this.$store.commit('removeToken')
+
+            this.$router.push('/')
+        },
   }
 }
 </script>

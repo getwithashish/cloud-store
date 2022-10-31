@@ -12,7 +12,10 @@ export default createStore({
     adminCustomersDetails: [],
     adminShopsDetails: [],
     userRole: '',
-    userId: ''
+    userId: '',
+
+    addressId: "",
+    txnToken: ""
 
   },
   mutations: {
@@ -80,6 +83,14 @@ export default createStore({
     setUserId(state, id) {
       state.userId = id
       localStorage.setItem("userid", id);
+    },
+
+    setAddressId(state, addressId) {
+      state.addressId = addressId
+    },
+
+    setTxnToken(state, txnToken) {
+      state.txnToken = txnToken
     }
 
   },

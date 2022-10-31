@@ -4,10 +4,13 @@ package com.cloudstore.service;
 import java.util.List;
 
 import com.cloudstore.Model.ProductStockUpdateModel;
+import com.cloudstore.entity.CustomerEntity;
 import com.cloudstore.entity.ProductCategoryEntity;
 import com.cloudstore.entity.ProductEntity;
 import com.cloudstore.entity.ShopEntity;
 import com.cloudstore.model.EditShopModel;
+import com.cloudstore.model.OrderModel;
+import com.cloudstore.model.OrderProductListModel;
 import com.cloudstore.model.ProductModel;
 import com.cloudstore.model.ShopIdsModel;
 
@@ -47,5 +50,7 @@ public interface ShopServiceInterface {
 	public void deleteProduct(String prodId);
 
 	public List<ProductEntity> findAllProductsByPincode(String pincode);
+
+	public String[] createOrder(CustomerEntity customer, OrderModel orderModel);
 
 }
