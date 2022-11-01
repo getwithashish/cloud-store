@@ -39,6 +39,7 @@ export default {
             .post(`/admin/product/category?category=${this.categoryName}`)
             .then((response) => {
                 console.log(response);
+                alert("Successfully added the category")
             })
         }
     }
