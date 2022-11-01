@@ -2,7 +2,7 @@
     <div class="page-category">
         <div class="columns is-multiline">
             <div class="column is-12">
-                <h2 class="is-size-2 has-text-centered">{{ category.name }}</h2>
+                <h2 class="is-size-2 has-text-centered">{{ categoryName }}</h2>
             </div>
 
             <ProductBox 
@@ -28,7 +28,8 @@ export default {
         return {
             category: {
                 products: []
-            }
+            },
+            categoryName: ""
         }
     },
     mounted() {
@@ -43,16 +44,16 @@ export default {
     },
     methods: {
         async getCategory() {
-            const categorySlug = this.$route.params.category_slug
+            this.categoryName = this.$route.query.category
 
             this.$store.commit('setIsLoading', true)
 
             axios
-                .get(`/api/v1/products/${categorySlug}/`)
+                .get(`/productsbycategory?category=${this.categoryName}`)
                 .then(response => {
-                    this.category = response.data
+                    this.category.products = response.data
 
-                    document.title = this.category.name + ' | Djackets'
+                    document.title = this.categoryName + ' | Djackets'
                 })
                 .catch(error => {
                     console.log(error)

@@ -22,6 +22,9 @@ public interface ProductRepository extends MongoRepository<ProductEntity, String
 
 	@Query("{pincode: {$in: ?0}}")
 	List<ProductEntity> findAllByPincode(String pincode);
+
+	@Query("{category: ?0}")
+	List<ProductEntity> findAllByCategory(String category);
 	
 //	@Query("{pincode: {}}")
 //	List<ProductEntity> findProductByPincode(String pincode);

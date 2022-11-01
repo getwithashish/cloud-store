@@ -1,10 +1,13 @@
 <template>
     <tr>
-        <td><router-link :to="item.product.imageUrl">{{ item.product.prodName }}</router-link></td>
+        <!-- <td><router-link :to="item.product.imageUrl">{{ item.product.prodName }}</router-link></td> -->
+                <td>{{ item.product.prodName }}</td>
+
         <td>₹{{ item.product.price }}</td>
         <td>
-            {{ item.quantity }}
             <a @click="decrementQuantity(item)">-</a>
+            {{ item.quantity }}
+            
             <a @click="incrementQuantity(item)">+</a>
         </td>
         <td>₹{{ getItemTotal(item).toFixed(2) }}</td>

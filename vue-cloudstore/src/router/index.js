@@ -77,8 +77,15 @@ const routes = [
   //   name: "Product",
   //   component: Product,
   // },
+  
+  // {
+  //   path: "/:category_slug",
+  //   name: "Category",
+  //   component: Category,
+  // },
+
   {
-    path: "/:category_slug",
+    path: "/category",
     name: "Category",
     component: Category,
   },

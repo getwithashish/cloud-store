@@ -15,7 +15,10 @@ export default createStore({
     userId: '',
 
     addressId: "",
-    txnToken: ""
+    txnToken: "",
+
+    shopIdsForProduct: [],
+    selectedProduct: {}
 
   },
   mutations: {
@@ -91,6 +94,14 @@ export default createStore({
 
     setTxnToken(state, txnToken) {
       state.txnToken = txnToken
+    },
+
+    setShopIdsForProduct(state, shopIds) {
+      state.shopIdsForProduct = shopIds
+    },
+
+    setSelectedProduct(state, selectedProduct) {
+      state.selectedProduct = selectedProduct
     }
 
   },

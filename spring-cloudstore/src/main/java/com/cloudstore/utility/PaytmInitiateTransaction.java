@@ -42,7 +42,8 @@ public class PaytmInitiateTransaction {
 		//TODO ORDERID should be unique. Use id of the order document in mongodb
 		body.put("orderId", orderId);
 		//TODO Update the callbackUrl
-		body.put("callbackUrl", "http://localhost:3000/cart/success");
+//		body.put("callbackUrl", "http://localhost:3000/cart/success");
+		body.put("callbackUrl", "http://localhost:8080/user/customer/paymentResponse");
 		
 		JSONObject txnAmount = new JSONObject();
 		//TODO Update the amount
