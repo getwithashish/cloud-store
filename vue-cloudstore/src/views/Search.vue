@@ -31,7 +31,7 @@ export default {
         }
     },
     mounted() {
-        document.title = 'Search | Djackets'
+        document.title = 'Search | CloudStore'
 
         let uri = window.location.search.substring(1)
         let params = new URLSearchParams(uri)
@@ -47,7 +47,7 @@ export default {
             this.$store.commit('setIsLoading', true)
 
             await axios
-                .post('/api/v1/products/search/', {'query': this.query})
+                .get(`/productsbyquery?query=${this.query}`)
                 .then(response => {
                     this.products = response.data
                 })

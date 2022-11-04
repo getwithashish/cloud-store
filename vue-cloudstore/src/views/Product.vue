@@ -76,7 +76,8 @@ export default {
   methods: {
 
       stockUpdate(item){
-          var tempProduct = JSON.parse(localStorage.getItem('product'))
+          var tempProduct = this.$store.state.selectedProduct;
+          // var tempProduct = JSON.parse(localStorage.getItem('product'))
           this.currProdId = tempProduct.id
           this.currShopId = item.id
           var tempShops = tempProduct.shops
@@ -90,22 +91,24 @@ export default {
           console.log(this.stock)
       },
 
-    getProduct() {
+    async getProduct() {
       this.$store.commit("setIsLoading", true);
 
       // const category_slug = this.$route.params.category_slug
       // const product_slug = this.$route.params.product_slug
-      axios
+      await axios
         .get(`/product?prodId=${this.prodId}`)
         .then((response) => {
           this.product = response.data;
-          localStorage.setItem('product', JSON.stringify(this.product))
+          this.$store.commit("setSelectedProduct", this.product)
+          // localStorage.setItem('product', JSON.stringify(this.product))
           this.shopList = response.data.shops;
 
           for (var item in this.shopList) {
               this.shopIds.push(this.shopList[item].shopId)
           }
-          localStorage.setItem('shopIds', JSON.stringify(this.shopIds))
+          this.$store.commit("setShopIdsForProduct", this.shopIds)
+          // localStorage.setItem('shopIds', JSON.stringify(this.shopIds))
 
           document.title = this.product.prodName + " | CloudStore";
         })
@@ -117,12 +120,13 @@ export default {
 
       console.log(this.product)
 
-      this.getShops();
+      await this.getShops();
     },
 
-    getShops() {
-        var tempIds = JSON.parse(localStorage.getItem('shopIds'))
-        localStorage.removeItem('shopIds')
+    async getShops() {
+        var tempIds = this.$store.state.shopIdsForProduct
+        // var tempIds = JSON.parse(localStorage.getItem('shopIds'))
+        // localStorage.removeItem('shopIds')
         console.log(tempIds)
       var sendData = {
         shopIds: tempIds,

@@ -12,6 +12,7 @@ import MyAccount from '../views/MyAccount.vue'
 import Checkout from '../views/Checkout.vue'
 import Success from '../views/Success.vue'
 import Failure from '../views/Failure.vue'
+import UserVerificationFailed from '../views/UserVerificationFailed.vue'
 
 import Location from '../LocationTest.vue'
 
@@ -65,6 +66,11 @@ const routes = [
     component: Failure,
   },
   {
+    path: "/verification/failure",
+    name: "userVerificationFailed",
+    component: UserVerificationFailed,
+  },
+  {
     path: "/cart/checkout",
     name: "Checkout",
     component: Checkout,
@@ -77,8 +83,15 @@ const routes = [
   //   name: "Product",
   //   component: Product,
   // },
+
+  // {
+  //   path: "/:category_slug",
+  //   name: "Category",
+  //   component: Category,
+  // },
+
   {
-    path: "/:category_slug",
+    path: "/category",
     name: "Category",
     component: Category,
   },

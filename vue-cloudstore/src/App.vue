@@ -26,6 +26,21 @@
       >
         <div class="navbar-end mx-auto">
           <div class="navbar-item">
+            <div class="select is-success">
+              <select v-model="selectedCategory">
+                <option selected>Category</option>
+                <option
+                  v-for="item in categories"
+                  v-bind:key="item.id"
+                  @click="getProductsByCategory(item)"
+                >
+                  {{ item.category }}
+                </option>
+              </select>
+            </div>
+
+            
+
             <form method="get" action="/search">
               <div class="field has-addons">
                 <div class="control searchBox">
@@ -56,27 +71,30 @@
           <div class="navbar-item">
             <div class="buttons">
               <template v-if="$store.state.isAuthenticated">
-                <router-link to="/admin" class="button is-light"
-                 v-if="$store.state.userRole == 'ADMIN'"
+                <router-link
+                  to="/admin"
+                  class="button is-light"
+                  v-if="$store.state.userRole == 'ADMIN'"
                   >My account</router-link
                 >
 
-                <router-link class="button is-light"
-                v-if="$store.state.userRole == 'SHOP'"
-                to="/shop"
+                <router-link
+                  class="button is-light"
+                  v-if="$store.state.userRole == 'SHOP'"
+                  to="/shop"
                   >My account</router-link
                 >
 
-                <router-link class="button is-light"
-                v-if="$store.state.userRole == 'CUSTOMER'"
-                to="/customer"
+                <router-link
+                  class="button is-light"
+                  v-if="$store.state.userRole == 'CUSTOMER'"
+                  to="/customer"
                   >My account</router-link
                 >
 
-                <button @click="logout()" class="button is-danger">Log out</button>
-              
-                
-
+                <button @click="logout()" class="button is-danger">
+                  Log out
+                </button>
               </template>
 
               <template v-else>
@@ -86,7 +104,6 @@
                 <router-link to="/signup" class="button is-light"
                   >Sign up</router-link
                 >
-
               </template>
 
               <router-link to="/cart" class="button is-success">
@@ -95,14 +112,13 @@
               </router-link>
 
               <template v-if="$store.state.isAuthenticated">
-                  <div class="profile-dp-div">
-              <img
-                class="profile-dp"
-                src="http://www.thegurughantal.com/uploads/7/5/8/2/75825867/delhinightclubs-5-bwxyimsnzqm_orig.jpg"
-              />
-            </div>
+                <div class="profile-dp-div">
+                  <img
+                    class="profile-dp"
+                    src="http://www.thegurughantal.com/uploads/7/5/8/2/75825867/delhinightclubs-5-bwxyimsnzqm_orig.jpg"
+                  />
+                </div>
               </template>
-
             </div>
           </div>
         </div>
@@ -126,7 +142,6 @@
       <p class="has-text-centered">CloudStore</p>
     </footer>
   </div>
-  
 </template>
 
 <script>
@@ -144,12 +159,14 @@ export default {
         items: [],
       },
       userLoc: {
-        city: '',
-        region: '',
-        country: '',
-        latitude: '',
-        longitude: ''
-      }
+        city: "",
+        region: "",
+        country: "",
+        latitude: "",
+        longitude: "",
+      },
+      categories: [],
+      selectedCategory: "Category",
     };
   },
 
@@ -167,7 +184,7 @@ export default {
   mounted() {
     this.cart = this.$store.state.cart;
     this.getGeolocationInformation();
-
+    this.getCategories();
   },
   computed: {
     cartTotalLength() {
@@ -182,34 +199,52 @@ export default {
   },
 
   methods: {
+    getCategories() {
+      axios.get(`/user/shop/product/category`).then((response) => {
+        console.log(response);
+        this.categories = response.data;
+      });
+    },
+
+    getProductsByCategory(item) {
+      this.$router.push(`/category?category=${item.category}`)
+    },
+
     logout() {
-            axios.defaults.headers.common["Authorization"] = ""
+      axios.defaults.headers.common["Authorization"] = "";
 
-            localStorage.removeItem("token")
-            localStorage.removeItem("username")
-            localStorage.removeItem("userid")
+      localStorage.removeItem("token");
+      localStorage.removeItem("username");
+      localStorage.removeItem("userid");
 
-            this.$store.commit('removeToken')
+      this.$store.commit("removeToken");
 
-            this.$router.push('/')
-        },
-    
+      this.$router.push("/");
+    },
+
     async getGeolocationInformation() {
-     const API_KEY = 'ab5a99eb2c834bd5846f191401c2cfab';
-     const API_URL = 'https://ipgeolocation.abstractapi.com/v1/?api_key=' + API_KEY;
-     const apiResponse = await fetch(API_URL);
-     const data = await apiResponse.json();
-     const {city, country, region, latitude, longitude} = data;
-     this.city = city;
-     this.region = region;
-     this.country = country;
-     this.latitude = latitude;
-     this.longitude = longitude;
-     console.log(data);
-     console.log("City: "+this.city + " Latitude: "+this.latitude+ " Longitude: "+this.longitude);
-    }
-  }
-
+      const API_KEY = "ab5a99eb2c834bd5846f191401c2cfab";
+      const API_URL =
+        "https://ipgeolocation.abstractapi.com/v1/?api_key=" + API_KEY;
+      const apiResponse = await fetch(API_URL);
+      const data = await apiResponse.json();
+      const { city, country, region, latitude, longitude } = data;
+      this.city = city;
+      this.region = region;
+      this.country = country;
+      this.latitude = latitude;
+      this.longitude = longitude;
+      console.log(data);
+      console.log(
+        "City: " +
+          this.city +
+          " Latitude: " +
+          this.latitude +
+          " Longitude: " +
+          this.longitude
+      );
+    },
+  },
 };
 </script>
 

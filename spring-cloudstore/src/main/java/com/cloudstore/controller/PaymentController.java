@@ -1,7 +1,11 @@
 package com.cloudstore.controller;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -24,6 +28,8 @@ import com.cloudstore.service.CustomerServiceInterface;
 import com.cloudstore.service.ShopServiceInterface;
 import com.cloudstore.utility.PaytmInitiateTransaction;
 
+import io.jsonwebtoken.io.IOException;
+
 @RestController
 public class PaymentController {
 	
@@ -36,32 +42,6 @@ public class PaymentController {
 	@Autowired
 	private PaytmInitiateTransaction paytmInitiate;
 	
-	/* 
-	 * Receive:
-	 * [
-		 * prodId
-		 * shopId
-		 * quantity
-		 * price
-	 * ]
-	 * 
-	 * SaveToDB:
-		 * id
-		 * custID
-		 * product
-		 * [
-			 * 	prodId
-			 * 	shopId
-			 * 	quantity
-			 * 	price
-		 * ]
-		 * totalAmt
-		 * time
-		 * status
-		 * txnToken
-		 * 
-		 * addressId
-	 * */
 	
 	@CrossOrigin("http://localhost:3000")
 	@PostMapping("/user/customer/payment")
@@ -90,6 +70,21 @@ public class PaymentController {
 		
 		String addressId = customerService.storeDeliveryAddress(address);
 		return addressId;
+	}
+	
+	@CrossOrigin("http://localhost:3000")
+	@PostMapping("/user/customer/paymentResponse")
+	public void paymentResponse(HttpServletRequest request, HttpServletResponse response) throws java.io.IOException {
+		String responseMsg = request.getParameter("RESPMSG");
+		String responseCode = request.getParameter("RESPCODE");
+		String orderId = request.getParameter("ORDERID");
+		
+		if(responseCode.equalsIgnoreCase("01")) {
+			response.sendRedirect("http://localhost:3000/cart/success?orderId=" + orderId);
+		}
+		else {
+			response.sendRedirect("http://localhost:3000/cart/failure?errorMessage=" + responseMsg);
+		}
 	}
 
 }

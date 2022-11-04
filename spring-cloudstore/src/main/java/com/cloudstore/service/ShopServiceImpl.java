@@ -293,4 +293,10 @@ public class ShopServiceImpl implements ShopServiceInterface {
 		 return orderIdAndAmount;
 	}
 
+	@Override
+	public List<ProductEntity> findAllProductsByCategory(String category) {
+		List<ProductEntity> products = productRepository.findAllByCategory(category);
+		return products;
+	}
+
 }

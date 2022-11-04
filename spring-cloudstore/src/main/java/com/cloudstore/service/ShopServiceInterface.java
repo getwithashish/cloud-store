@@ -53,4 +53,6 @@ public interface ShopServiceInterface {
 
 	public String[] createOrder(CustomerEntity customer, OrderModel orderModel);
 
+	public List<ProductEntity> findAllProductsByCategory(String category);
+
 }

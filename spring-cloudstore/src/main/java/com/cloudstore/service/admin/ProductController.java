@@ -31,9 +31,23 @@ public class ProductController {
 	}
 	
 	@CrossOrigin("http://localhost:3000")
+	@GetMapping("/productsbyquery")
+	public List<ProductEntity> listProductsByQuery(@RequestParam String query){
+		List<ProductEntity> products = shopService.similarProducts(query);
+		return products;
+	}
+	
+	@CrossOrigin("http://localhost:3000")
 	@GetMapping("/productsbypin")
 	public List<ProductEntity> listProductsByPincode(@RequestParam String pincode){
 		List<ProductEntity> products = shopService.findAllProductsByPincode(pincode);
+		return products;
+	}
+	
+	@CrossOrigin("http://localhost:3000")
+	@GetMapping("/productsbycategory")
+	public List<ProductEntity> listProductsByCategory(@RequestParam String category){
+		List<ProductEntity> products = shopService.findAllProductsByCategory(category);
 		return products;
 	}
 	

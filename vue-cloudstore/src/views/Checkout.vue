@@ -484,7 +484,7 @@ export default {
         this.$store.commit("setIsLoading", false);
 
         this.$store.commit("clearCart");
-          this.$router.push("/cart/success");
+          // this.$router.push("/cart/success");
     },
 
     // async stripeTokenHandler(token) {
