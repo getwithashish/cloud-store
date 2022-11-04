@@ -15,5 +15,15 @@ public interface ProductRepository extends MongoRepository<ProductEntity, String
 	
 	@Query("{prodName: ?0}")
 	Optional<ProductEntity> findByName(String prodName);
+	
+//	@Query("{prodName: /.*?0.*/i}")
+	@Query("{prodName: {$regex: /?0/, $options: i}}")
+	List<ProductEntity> findSimilarProducts(String prodName);
+
+	@Query("{pincode: {$in: ?0}}")
+	List<ProductEntity> findAllByPincode(String pincode);
+	
+//	@Query("{pincode: {}}")
+//	List<ProductEntity> findProductByPincode(String pincode);
 
 }

@@ -35,24 +35,26 @@ public class AdminCustomerServiceImpl implements AdminCustomerServiceInterface {
 	}
 
 	@Override
-	public void disableCustomers(String[] emails) {
-		List<CustomerEntity> customers = customerRepository.findAllByEmails(emails);
-		for (CustomerEntity customer : customers) {
-			customer.setEnableStatus(EnableStatusEnum.ADMIN_DISABLED);;
-		}
-		customerRepository.saveAll(customers);
+	public void disableCustomers(String emails) {
+		CustomerEntity customers = customerRepository.findByEmail(emails);
+//		for (CustomerEntity customer : customers) {
+//			customer.setEnableStatus(EnableStatusEnum.ADMIN_DISABLED);
+//		}
+		customers.setEnableStatus(EnableStatusEnum.ADMIN_DISABLED);
+		customerRepository.save(customers);
 
 		userLoginService.disableUsers(emails);
 
 	}
 
 	@Override
-	public void enableCustomers(String[] emails) {
-		List<CustomerEntity> customers = customerRepository.findAllByEmails(emails);
-		for (CustomerEntity customer : customers) {
-			customer.setEnableStatus(EnableStatusEnum.ENABLED);;
-		}
-		customerRepository.saveAll(customers);
+	public void enableCustomers(String emails) {
+		CustomerEntity customers = customerRepository.findByEmail(emails);
+//		for (CustomerEntity customer : customers) {
+//			customer.setEnableStatus(EnableStatusEnum.ENABLED);
+//		}
+		customers.setEnableStatus(EnableStatusEnum.ENABLED);
+		customerRepository.save(customers);
 
 		userLoginService.enableUsers(emails);
 		

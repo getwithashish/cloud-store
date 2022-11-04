@@ -1,7 +1,7 @@
 <template>
   <aside class="menu left-panel">
     <ul class="menu-list">
-      <li>
+      <!-- <li>
         <router-link
           to="/admin"
           v-bind:class="{
@@ -9,7 +9,7 @@
           }"
           >Dashboard</router-link
         >
-      </li>
+      </li> -->
       <li>
         <router-link
           to="/admin/profile"
@@ -34,7 +34,7 @@
         >
       </li>
       <!-- <li><a v-bind:class="{'is-active': ('shop-view' == this.$route.name)}">Search for all Shops</a></li> -->
-      <li>
+      <!-- <li>
         <router-link
           to="/admin/products/add"
           v-bind:class="{
@@ -42,8 +42,8 @@
           }"
           >Add Product</router-link
         >
-      </li>
-      <li>
+      </li> -->
+      <!-- <li>
         <router-link
           to="/admin/products/edit"
           v-bind:class="{
@@ -51,8 +51,8 @@
           }"
           >Edit Product</router-link
         >
-      </li>
-      <li>
+      </li> -->
+      <!-- <li>
         <router-link
           to="/admin/products/disable"
           v-bind:class="{
@@ -60,8 +60,8 @@
           }"
           >Disable Product</router-link
         >
-      </li>
-      <li>
+      </li> -->
+      <!-- <li>
         <router-link
           to="/admin/products/enable"
           v-bind:class="{
@@ -69,7 +69,7 @@
           }"
           >Enable Product</router-link
         >
-      </li>
+      </li> -->
       <li>
         <router-link
           to="/admin/products/category"
@@ -102,7 +102,7 @@
           >Add Shop</router-link
         >
       </li>
-      <li>
+      <!-- <li>
         <router-link
           to="/admin/shops/edit"
           v-bind:class="{
@@ -110,8 +110,8 @@
           }"
           >Edit Shop</router-link
         >
-      </li>
-      <li>
+      </li> -->
+      <!-- <li>
         <router-link
           to="/admin/shops/disable"
           v-bind:class="{
@@ -119,8 +119,8 @@
           }"
           >Disable Shop</router-link
         >
-      </li>
-      <li>
+      </li> -->
+      <!-- <li>
         <router-link
           to="/admin/shops/enable"
           v-bind:class="{
@@ -128,7 +128,7 @@
           }"
           >Enable Shop</router-link
         >
-      </li>
+      </li> -->
     </ul>
 
     <p class="menu-label">Customers</p>
@@ -151,7 +151,7 @@
           >Add Customer</router-link
         >
       </li>
-      <li>
+      <!-- <li>
         <router-link
           to="/admin/customers/edit"
           v-bind:class="{
@@ -159,8 +159,8 @@
           }"
           >Edit Customer</router-link
         >
-      </li>
-      <li>
+      </li> -->
+      <!-- <li>
         <router-link
           to="/admin/customers/disable"
           v-bind:class="{
@@ -168,8 +168,8 @@
           }"
           >Disable Customer</router-link
         >
-      </li>
-      <li>
+      </li> -->
+      <!-- <li>
         <router-link
           to="/admin/customers/enable"
           v-bind:class="{
@@ -177,13 +177,13 @@
           }"
           >Enable Customer</router-link
         >
-      </li>
+      </li> -->
     </ul>
 
-    <p class="menu-label">Transactions</p>
+    <!-- <p class="menu-label">Transacti  ons</p>
     <ul class="menu-list">
       <li><a>Search Transaction</a></li>
-    </ul>
+    </ul> -->
 
     <!-- <p class="menu-label">Administration</p>
     <ul class="menu-list">

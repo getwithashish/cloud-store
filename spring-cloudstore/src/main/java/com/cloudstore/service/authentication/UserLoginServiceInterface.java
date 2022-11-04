@@ -10,8 +10,8 @@ public interface UserLoginServiceInterface {
 
 	void disableUser(String email);
 
-	void disableUsers(String[] emails);
+	void disableUsers(String emails);
 
-	void enableUsers(String[] emails);
+	void enableUsers(String emails);
 
 }

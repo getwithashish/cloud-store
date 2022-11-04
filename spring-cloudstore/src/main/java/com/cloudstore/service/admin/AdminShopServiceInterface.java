@@ -11,9 +11,9 @@ public interface AdminShopServiceInterface {
 
 	List<ShopEntity> findAllShops();
 
-	void disableShops(String[] emails);
+	void disableShops(String deleteModel);
 
-	void enableShops(String[] emails);
+	void enableShops(String enableModel);
 
 	ShopEntity editShops(EditShopModel editModel);
 

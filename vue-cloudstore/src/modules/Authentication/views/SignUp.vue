@@ -191,6 +191,8 @@ export default {
           role: this.state.role,
         };
 
+        this.$store.commit("setIsLoading", true);
+
         axios
           .post("/user/register", formData)
           .then((response) => {
@@ -215,6 +217,7 @@ export default {
               position: "bottom-right",
             });
           });
+          this.$store.commit("setIsLoading", false);
       }
     },
   },

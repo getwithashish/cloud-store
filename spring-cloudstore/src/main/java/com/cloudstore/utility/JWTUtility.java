@@ -12,9 +12,14 @@ import java.util.function.Function;
 
 import javax.crypto.SecretKey;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.cloudstore.entity.CustomerEntity;
+import com.cloudstore.entity.ShopEntity;
 import com.cloudstore.entity.UserAuthenticationEntity;
+import com.cloudstore.service.CustomerServiceInterface;
+import com.cloudstore.service.ShopServiceInterface;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -23,6 +28,12 @@ import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JWTUtility implements Serializable {
+	
+	@Autowired
+	private ShopServiceInterface shopService;
+	
+	@Autowired
+	private CustomerServiceInterface customerService;
 
 	private static final long serialVersionUID = 55L;
 
@@ -56,6 +67,16 @@ public class JWTUtility implements Serializable {
 	
 	private String doGenerateToken(UserAuthenticationEntity user, String subject) {
 		Map<String, Object> claimsMap = new HashMap<>();
+		
+		if(user.getRole().equalsIgnoreCase("SHOP")){
+			ShopEntity shop = shopService.shopInfo(subject);
+			claimsMap.put("id", shop.getId());
+		}
+		else if(user.getRole().equalsIgnoreCase("CUSTOMER")) {
+			CustomerEntity customer = customerService.customerInfo(subject);
+			claimsMap.put("id", customer.getId());
+		}
+		
 		claimsMap.put("authorities", user.getAuthorities(List.of(user.getRole())));
 		Claims claims = Jwts.claims(claimsMap);
 		return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))

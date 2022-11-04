@@ -1,7 +1,8 @@
 <template>
   <aside class="menu left-panel">
     <ul class="menu-list">
-      <li>
+
+      <!-- <li>
         <router-link
           to="/shop"
           v-bind:class="{
@@ -9,7 +10,8 @@
           }"
           >Dashboard</router-link
         >
-      </li>
+      </li> -->
+
       <li>
         <router-link
           to="/shop/profile"
@@ -34,7 +36,7 @@
               >Add Product</router-link
             >
           </li>
-          <li>
+          <!-- <li>
             <router-link
               to="/shop/products/edit"
               v-bind:class="{
@@ -42,17 +44,17 @@
               }"
               >Edit Product</router-link
             >
-          </li>
+          </li> -->
           <li>
             <router-link
               to="/shop/products/view"
               v-bind:class="{
                 'is-active': 'shop-product-view' == this.$route.name,
               }"
-              >Search Product</router-link
+              >View Products</router-link
             >
           </li>
-          <li>
+          <!-- <li>
             <router-link
               to="/shop/products/delete"
               v-bind:class="{
@@ -60,7 +62,7 @@
               }"
               >Delete Product</router-link
             >
-          </li>
+          </li> -->
 
           <!-- <li>
             <router-link
@@ -75,7 +77,7 @@
         </ul>
       </li>
 
-      <li>
+      <!-- <li>
         <router-link
           to="/shop/transactions"
           v-bind:class="{
@@ -83,8 +85,8 @@
           }"
           >Transactions</router-link
         >
-      </li>
-      <li>
+      </li> -->
+      <!-- <li>
         <router-link
           to="/shop/log"
           v-bind:class="{
@@ -92,8 +94,8 @@
           }"
           >Log</router-link
         >
-      </li>
-      <li>
+      </li> -->
+      <!-- <li>
         <router-link
           to="/shop/settings"
           v-bind:class="{
@@ -101,10 +103,28 @@
           }"
           >Settings</router-link
         >
+      </li> -->
+      <li><a @click="disableAccount()">Disable Account</a>
       </li>
     </ul>
   </aside>
 </template>
+
+<script>
+import axios from 'axios';
+export default {
+  
+  methods: {
+    disableAccount(){
+      axios
+      .delete("/user/shop")
+      .then((response) => {
+        console.log(response)
+      })
+    }
+  }
+}
+</script>
 
 <style>
 .section-contents {

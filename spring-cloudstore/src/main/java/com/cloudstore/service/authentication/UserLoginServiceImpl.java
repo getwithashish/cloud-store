@@ -32,22 +32,24 @@ public class UserLoginServiceImpl implements UserLoginServiceInterface {
 	}
 
 	@Override
-	public void disableUsers(String[] emails) {
-		List<UserAuthenticationEntity> users = userAuthenticationRepository.findAllByEmails(emails);
+	public void disableUsers(String emails) {
+		UserAuthenticationEntity users = userAuthenticationRepository.findByEmail(emails);
 		// By admin
-		for (UserAuthenticationEntity user : users) {
-			user.setEnableStatus(EnableStatusEnum.ADMIN_DISABLED);
-		}
-		userAuthenticationRepository.saveAll(users);
+//		for (UserAuthenticationEntity user : users) {
+//			user.setEnableStatus(EnableStatusEnum.ADMIN_DISABLED);
+//		}
+		users.setEnableStatus(EnableStatusEnum.ADMIN_DISABLED);
+		userAuthenticationRepository.save(users);
 	}
 
 	@Override
-	public void enableUsers(String[] emails) {
-		List<UserAuthenticationEntity> users = userAuthenticationRepository.findAllByEmails(emails);
-		for (UserAuthenticationEntity user : users) {
-			user.setEnableStatus(EnableStatusEnum.ENABLED);
-		}
-		userAuthenticationRepository.saveAll(users);
+	public void enableUsers(String emails) {
+		UserAuthenticationEntity users = userAuthenticationRepository.findByEmail(emails);
+//		for (UserAuthenticationEntity user : users) {
+//			user.setEnableStatus(EnableStatusEnum.ENABLED);
+//		}
+		users.setEnableStatus(EnableStatusEnum.ENABLED);
+		userAuthenticationRepository.save(users);
 		
 	}
 

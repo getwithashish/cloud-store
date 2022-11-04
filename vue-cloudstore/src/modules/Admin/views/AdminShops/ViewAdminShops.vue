@@ -5,20 +5,28 @@
         <th>Name</th>
         <th>Email</th>
         <th>Role</th>
+        <th>Document</th>
         <th>Enabled</th>
-        <th>Address</th>
+        <!-- <th>Address</th> -->
         <th>Mobile Number</th>
+        <th>Disable Account</th>
+        <th>Enable Account</th>
       </tr>
     </thead>
 
     <tbody>
       <tr v-for="shop in shopsDetails" v-bind:key="shop">
-        <td>{{ shop.fullName }}</td>
+        <td>{{ shop.shopName }}</td>
         <td>{{ shop.email }}</td>
         <td>{{ shop.role }}</td>
-        <td>{{ shop.enabled }}</td>
-        <td>{{ shop.houseName }}</td>
-        <td>{{ shop.mobileNumber }}</td>
+        <td> <a v-bind:href="shop.documentUrl" target="_blank">View Document</a> </td>
+        <td>{{ shop.enableStatus }}</td>
+        <!-- <td>{{ shop.houseName }}</td> -->
+        <td>{{ shop.mobile }}</td>
+        <td><button class="delete" @click="disableAccount(shop)"></button></td>
+        <td>
+          <button class="button is-primary" @click="enableAccount(shop)">Enable</button>
+        </td>
       </tr>
     </tbody>
   </table>
@@ -34,6 +42,24 @@ export default {
       shopsDetails: [],
       errors: [],
     };
+  },
+  methods: {
+    disableAccount(item){
+      axios
+      .delete(`/admin/shops?deleteModel=${item.email}`)
+      .then((response) => {
+        console.log(response);
+        window.location.reload();
+      })
+    },
+    enableAccount(item){
+      axios
+      .patch(`/admin/shops?enableModel=${item.email}`)
+      .then((response) => {
+        console.log(response);
+        window.location.reload();
+      })
+    }
   },
   mounted() {
     console.log("hi");

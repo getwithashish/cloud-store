@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -30,10 +31,31 @@ public class ProductController {
 	}
 	
 	@CrossOrigin("http://localhost:3000")
+	@GetMapping("/productsbypin")
+	public List<ProductEntity> listProductsByPincode(@RequestParam String pincode){
+		List<ProductEntity> products = shopService.findAllProductsByPincode(pincode);
+		return products;
+	}
+	
+	@CrossOrigin("http://localhost:3000")
 	@GetMapping("/product")
 	public ProductEntity listProducts(@RequestParam String prodId) {
 		ProductEntity product = shopService.findProductById(prodId);
 		return product;
+	}
+	
+//	@CrossOrigin("http://localhost:3000")
+//	@GetMapping("/product")
+//	public List<ProductEntity> listProductsByPincode(@RequestParam String pincode){
+//		List<ProductEntity> products = shopService.findAllProductsByPincode(pincode);
+//		return products;
+//	}
+	
+	@CrossOrigin("http://localhost:3000")
+	@DeleteMapping("/product")
+	public String deleteProduct(@RequestParam String prodId) {
+		shopService.deleteProduct(prodId);
+		return "SUCCESSFULLY DELETED";
 	}
 	
 	@CrossOrigin("http://localhost:3000")

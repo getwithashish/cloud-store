@@ -98,6 +98,7 @@ public class JWTFilter extends OncePerRequestFilter {
 		excludeUrlPatterns.add("/products");
 		excludeUrlPatterns.add("/product");
 		excludeUrlPatterns.add("/user/shop/product/category");
+		excludeUrlPatterns.add("/user/shops");
 
 		AntPathMatcher pathMatcher = new AntPathMatcher();
 		return excludeUrlPatterns.stream().anyMatch(p -> pathMatcher.match(p, request.getServletPath()));

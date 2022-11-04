@@ -15,14 +15,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cloudstore.Model.ProductStockUpdateModel;
 import com.cloudstore.entity.ProductCategoryEntity;
 import com.cloudstore.entity.ProductEntity;
+import com.cloudstore.entity.ProductShopEntryEntity;
 import com.cloudstore.entity.ShopEntity;
 import com.cloudstore.model.EditShopModel;
 import com.cloudstore.model.ProductDeleteModel;
 import com.cloudstore.model.ProductModel;
+import com.cloudstore.model.ShopIdsModel;
 import com.cloudstore.repository.ProductRepository;
 import com.cloudstore.service.ShopServiceInterface;
 import com.cloudstore.utility.JWTExtractor;
@@ -51,6 +55,13 @@ public class ShopController {
 		return shop;
 	}
 	
+	@CrossOrigin("http://localhost:3000")
+	@PutMapping("/user/shops")
+	public List<ShopEntity> getShopList(@RequestBody ShopIdsModel shopIds){
+		List<ShopEntity> shops = shopService.getShopList(shopIds);
+		return shops;
+	}
+	
 	
 //	TODO Later, maybe add API for adding multiple products at the same time
 	@CrossOrigin("http://localhost:3000")
@@ -61,11 +72,23 @@ public class ShopController {
 	}
 	
 	@CrossOrigin("http://localhost:3000")
+	@GetMapping("/user/shop/products")
+	public List<ProductEntity> getShopProducts(){
+		Authentication usernamePasswordAuthenticationToken = 
+				SecurityContextHolder.getContext().getAuthentication();
+		String email = usernamePasswordAuthenticationToken.getName();
+		ShopEntity shop = shopService.shopInfo(email);
+		List<ProductEntity> products = shopService.findProductsByShop(shop);
+		return products;
+	}
+	
+	@CrossOrigin("http://localhost:3000")
 	@DeleteMapping("/user/shop/product")
-	public String disableProduct(@RequestBody ProductDeleteModel productDeleteModel) {
-		String[] prodNames = productDeleteModel.getProdNames();
-		shopService.disableProducts(prodNames);
-		return "SUCCESSFULLY DISABLED: \n" + prodNames;
+//	public String disableProduct(@RequestBody ProductDeleteModel productDeleteModel) {
+	public String disableProduct(@RequestParam String productName) {
+//		String[] prodNames = productDeleteModel.getProdNames();
+		shopService.disableProducts(productName);
+		return "SUCCESSFULLY DISABLED: \n" + productName;
 	}
 
 	@CrossOrigin("http://localhost:3000")
@@ -89,6 +112,30 @@ public class ShopController {
 	public List<ProductCategoryEntity> viewCategories(){
 		List<ProductCategoryEntity> categories = shopService.viewCategories();
 		return categories;
+	}
+	
+	@CrossOrigin("http://localhost:3000")
+	@PostMapping("/user/shop/product/stock")
+	public ProductEntity updateStock(@RequestBody ProductStockUpdateModel productStock) {
+		Authentication usernamePasswordAuthenticationToken = 
+				SecurityContextHolder.getContext().getAuthentication();
+		String shopEmail = usernamePasswordAuthenticationToken.getName();
+		ProductEntity product = shopService.updateStock(shopEmail, productStock);
+		return product;
+	}
+	
+	@CrossOrigin("http://localhost:3000")
+	@GetMapping("/user/shop/product/similar")
+	public List<ProductEntity> similarProducts(@RequestParam String prodName){
+		List<ProductEntity> products = shopService.similarProducts(prodName);
+		return products;
+	}
+	
+	@CrossOrigin("http://localhost:3000")
+	@PostMapping("/user/shop/product/similar")
+	public ProductEntity addSimilarProducts(@RequestParam String prodId){
+		ProductEntity product = shopService.addSimilarProducts(prodId);
+		return product;
 	}
 
 }

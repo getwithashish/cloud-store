@@ -6,8 +6,10 @@
         <th>Email</th>
         <th>Role</th>
         <th>Enabled</th>
-        <th>Address</th>
+        <th>House Name</th>
         <th>Mobile Number</th>
+        <th>Disable Account</th>
+        <th>Enable Account</th>
       </tr>
     </thead>
 
@@ -16,9 +18,15 @@
         <td>{{ customer.fullName }}</td>
         <td>{{ customer.email }}</td>
         <td>{{ customer.role }}</td>
-        <td>{{ customer.enabled }}</td>
+        <td>{{ customer.enableStatus }}</td>
         <td>{{ customer.houseName }}</td>
-        <td>{{ customer.mobileNumber }}</td>
+        <td>{{ customer.mobile }}</td>
+        <td>
+          <button class="delete" @click="disableAccount(customer)"></button>
+        </td>
+        <td>
+          <button class="button is-primary" @click="enableAccount(customer)">Enable</button>
+        </td>
       </tr>
     </tbody>
   </table>
@@ -35,12 +43,32 @@ export default {
       errors: [],
     };
   },
+  methods: {
+    disableAccount(item) {
+      axios
+        .delete(`/admin/customers?deleteModel=${item.email}`)
+        .then((response) => {
+          console.log(response);
+        });
+    },
+    enableAccount(item){
+      axios
+      .patch(`/admin/customers?enableModel=${item.email}`)
+      .then((response) => {
+        console.log(response);
+      })
+    }
+  },
   mounted() {
     console.log("hi");
     axios
       .get("/admin/customers")
       .then((response) => {
         this.customersDetails = response.data;
+
+
+
+  // ------------------What is responseDetails below? ----------------------------
 
         this.$store.commit("setAdminCustomerDetails", responseDetails);
 

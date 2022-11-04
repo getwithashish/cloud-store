@@ -4,9 +4,12 @@ package com.cloudstore.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cloudstore.entity.AddressEntity;
 import com.cloudstore.entity.CustomerEntity;
 import com.cloudstore.entity.EnableStatusEnum;
+import com.cloudstore.model.AddressModel;
 import com.cloudstore.model.EditCustomerModel;
+import com.cloudstore.repository.AddressRepository;
 import com.cloudstore.repository.CustomerRepository;
 import com.cloudstore.service.authentication.UserLoginServiceInterface;
 
@@ -16,6 +19,9 @@ public class CustomerServiceImpl implements CustomerServiceInterface {
 
 	@Autowired
 	private CustomerRepository customerRepository;
+	
+	@Autowired
+	private AddressRepository addressRepository;
 
 	@Autowired
 	private UserLoginServiceInterface userLoginService;
@@ -50,6 +56,20 @@ public class CustomerServiceImpl implements CustomerServiceInterface {
 		
 		customerRepository.save(customer);
 		return customer;
+	}
+
+	@Override
+	public String storeDeliveryAddress(AddressModel address) {
+		AddressEntity addressEntity = new AddressEntity();
+		addressEntity.setFullName(address.getFullName());
+		addressEntity.setEmail(address.getEmail());
+		addressEntity.setMobile(address.getMobile());
+		addressEntity.setHouseName(address.getHouseName());
+		addressEntity.setPlace(address.getPlace());
+		addressEntity.setPincode(address.getPincode());
+		
+		AddressEntity savedAddress = addressRepository.save(addressEntity);
+		return savedAddress.getId();
 	}
 
 }
