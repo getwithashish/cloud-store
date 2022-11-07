@@ -26,7 +26,7 @@ public class WebSecurityConfig {
 	
 	private static final String[] WHITE_LIST_URLS = { "/user/register", "/user/login", "/user/verifyRegistration",
 			"/user/customer", "/user/shop", "/user/shop/product/category", "/products", "/product", "/user/shops", 
-			"/productsbycategory", "/productsbyquery", "/user/customer/paymentResponse"};
+			"/productsbycategory", "/productsbyquery", "/productsbypin", "/user/customer/paymentResponse"};
 
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

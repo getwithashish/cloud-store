@@ -8,7 +8,7 @@
           <div class="field">
             <label>Email</label>
             <div class="control">
-              <input type="text" class="input" v-model="state.email" />
+              <input type="text" class="input" v-model="state.email" id="emailLogin" />
               <span v-if="v$.email.$error" class="has-text-danger">
                 {{ v$.email.$errors[0].$message }}
               </span>
@@ -18,7 +18,7 @@
           <div class="field">
             <label>Password</label>
             <div class="control">
-              <input type="password" class="input" v-model="state.password" />
+              <input type="password" class="input" v-model="state.password" id="passLogin" />
               <span v-if="v$.password.$error" class="has-text-danger">
                 {{ v$.password.$errors[0].$message }}
               </span>
@@ -31,7 +31,7 @@
 
           <div class="field">
             <div class="control">
-              <button class="button is-dark">Log in</button>
+              <button class="button is-dark" id="submitLogin">Log in</button>
             </div>
           </div>
 

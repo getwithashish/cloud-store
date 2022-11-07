@@ -18,7 +18,9 @@ export default createStore({
     txnToken: "",
 
     shopIdsForProduct: [],
-    selectedProduct: {}
+    selectedProduct: {},
+    
+    custPincode: ""
 
   },
   mutations: {
@@ -102,6 +104,10 @@ export default createStore({
 
     setSelectedProduct(state, selectedProduct) {
       state.selectedProduct = selectedProduct
+    },
+
+    setCustPincode(state, pincode) {
+      state.custPincode = pincode
     }
 
   },

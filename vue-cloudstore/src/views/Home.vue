@@ -32,27 +32,62 @@ import axios from 'axios'
 
 import ProductBox from '@/components/ProductBox'
 
+import * as locationService from '@/views/location'
+
 export default {
   name: 'Home',
   data() {
     return {
-      latestProducts: []
+      latestProducts: [],
+      address: ""
     }
   },
   components: {
     ProductBox
   },
   mounted() {
+    
+
+    // this.getLocationAddress()
+
+    // this.getLatestProductsByPincode()
+
     this.getLatestProducts()
 
-    document.title = 'Home | Djackets'
+    
+
+    document.title = 'Home | CloudStore'
+
+    
   },
   methods: {
     async getLatestProducts() {
       this.$store.commit('setIsLoading', true)
 
+      // axios
+      //   .get('/products')
+      //   .then(response => {
+      //     this.latestProducts = response.data
+      //   })
+      //   .catch(error => {
+      //     console.log(error)
+      //   })
+
+      // this.$store.commit('setIsLoading', false)
+
+
+      await this.getLocationAddress()
+
+      // await this.getLatestProductsByPincode()
+
+    },
+
+    getLatestProductsByPincode(pincode) {
+      
+
+      // var pincode = await this.$store.state.pincode
       axios
-        .get('/products')
+        .get(`/productsbypin?pincode=${pincode}`)
         .then(response => {
           this.latestProducts = response.data
         })
@@ -60,8 +95,20 @@ export default {
           console.log(error)
         })
 
+      
+    },
+
+    async getLocationAddress(){
+      this.address = await locationService.currentAddress();
+      await this.$store.commit("setCustPincode", this.address)
+      console.log("Address: " + this.address)
+
+      this.getLatestProductsByPincode(this.address)
       this.$store.commit('setIsLoading', false)
-    }
   }
+
+
+  },
+
 }
 </script>
