@@ -2,7 +2,7 @@
   <div id="wrapper">
     <nav class="navbar is-dark">
       <div class="navbar-brand">
-        <router-link to="/" class="navbar-item"
+        <router-link to="/" class="navbar-item" id="logoText"
           ><strong>Cloud Store</strong></router-link
         >
 
@@ -92,7 +92,7 @@
                   >My account</router-link
                 >
 
-                <button @click="logout()" class="button is-danger">
+                <button @click="logout()" class="button is-danger" id="logoutButton">
                   Log out
                 </button>
               </template>
@@ -106,7 +106,9 @@
                 >
               </template>
 
-              <router-link to="/cart" class="button is-success">
+              <router-link to="/cart" class="button is-success" id="cartButton"
+                v-if="$store.state.userRole !== 'SHOP' && $store.state.userRole !== 'ADMIN'"
+              >
                 <span class="icon"><i class="fas fa-shopping-cart"></i></span>
                 <span>Cart ({{ cartTotalLength }})</span>
               </router-link>
@@ -218,6 +220,8 @@ export default {
       localStorage.removeItem("userid");
 
       this.$store.commit("removeToken");
+
+      this.$store.commit("setUserRole", "");
 
       this.$router.push("/");
     },

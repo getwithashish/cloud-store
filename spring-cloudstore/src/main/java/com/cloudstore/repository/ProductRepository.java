@@ -20,7 +20,7 @@ public interface ProductRepository extends MongoRepository<ProductEntity, String
 	@Query("{prodName: {$regex: /?0/, $options: i}}")
 	List<ProductEntity> findSimilarProducts(String prodName);
 
-	@Query("{pincode: {$in: ?0}}")
+	@Query("{pincode: ?0}")
 	List<ProductEntity> findAllByPincode(String pincode);
 
 	@Query("{category: ?0}")
